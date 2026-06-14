@@ -15,9 +15,10 @@ export function Navigation() {
   }, []);
 
   const navItems = [
+    { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
-    { name: 'Sponsors', path: '/sponsors' },
-    { name: 'Judges', path: '/judges' },
+    //{ name: 'Sponsors', path: '/sponsors' },
+    //{ name: 'Judges', path: '/judges' },
     { name: 'Team', path: '/team' },
     { name: 'Contact', path: '/contact' },
   ];

@@ -6,17 +6,17 @@ export function AboutPage() {
     {
       icon: Code2,
       title: 'Learn & Build',
-      description: "We've got workshops, mentors who actually care, and resources to help you ship something real.",
+      description: "Join a team with people you want to work with or just present an idea you have been thinking about for a while.",
     },
     {
       icon: Users,
       title: 'Connect',
-      description: 'Meet people who get it. Teammates, mentors, friends—the kind of network that sticks around.',
+      description: 'Meet new people and make friends by making or joining new teams. It is the kind of network that sticks around.',
     },
     {
       icon: Trophy,
       title: 'Compete',
-      description: "$10K in prizes for the best projects. Yeah, you read that right.",
+      description: "Free Trials, Premium Subscriptions and more for winners of the hackathon.",
     },
     {
       icon: Rocket,
@@ -26,7 +26,7 @@ export function AboutPage() {
     {
       icon: Heart,
       title: 'Community First',
-      description: 'This is more than a competition—it\'s a movement. We\'re building a family of makers.',
+      description: 'This is more than a competition—we\'re building a family of makers.',
     },
     {
       icon: Lightbulb,
@@ -46,7 +46,7 @@ export function AboutPage() {
         >
           <h1 className="text-6xl md:text-7xl font-bold mb-6">About ReverieHacks</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            We're building the hackathon we always wanted to attend. No BS, just pure creation.
+            We're building the hackathon we always wanted to attend, one that accomodates for people of diverse interests.
           </p>
         </motion.div>
 
@@ -61,13 +61,13 @@ export function AboutPage() {
               ReverieHacks started with a simple question: what if we built a hackathon that felt less like a competition and more like a creative playground?
             </p>
             <p>
-              We're talking two weeks of virtual chaos where you can build whatever your brain can dream up. From AI experiments to games to tools that solve problems you've been thinking about for months—if you can code it, you can submit it.
+              Join ReverieHacks to engage in two weeks of virtual chaos where you can build whatever your brain can dream. From AI experiments to games or even tools that solve problems you've been thinking about for months, we invite participants explore our several tracks and submit their best work.
             </p>
             <p>
-              The best part? You're not alone. We've assembled a crew of mentors, sponsors, and fellow hackers who are all in this together. Whether you're a seasoned dev or writing your first function, there's a place for you here.
+              The best part? You're not alone. You are allowed to create teams with fellow hackers who are all in this together. Whether you're a seasoned dev or writing your first function, there's a place for you here.
             </p>
             <p>
-              This isn't about cramming features at 3 AM (though let's be real, that'll probably happen). It's about taking risks, learning new things, and maybe—just maybe—building something that changes everything.
+              And best of all, this hackathon is all about taking risks, learning new things, and just building something that you think will change everything.
             </p>
           </div>
         </motion.div>

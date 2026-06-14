@@ -5,8 +5,8 @@ import { Calendar, MapPin, Users, Trophy, Zap, Code2, Sparkles, Rocket } from 'l
 export function HomePage() {
   const stats = [
     { icon: Users, value: '500+', label: 'Participants' },
-    { icon: Trophy, value: '$10K', label: 'In Prizes' },
-    { icon: Code2, value: '48hrs', label: 'Of Hacking' },
+    { icon: Trophy, value: '$TBD', label: 'In Prizes' },
+    { icon: Code2, value: '16 Days', label: 'Of Hacking' },
     { icon: Zap, value: '100+', label: 'Projects' },
   ];
 
@@ -14,17 +14,17 @@ export function HomePage() {
     {
       icon: Sparkles,
       title: 'Build Something Amazing',
-      description: 'Got an idea? Make it real. We give you the tools, mentors, and caffeine to turn your wildest concepts into working projects.',
+      description: 'Have a cool project idea you wanted to build? Create it with a team or by yourself through one of our many tracks and get feedback from industry judges.',
     },
     {
       icon: Users,
       title: 'Meet Cool People',
-      description: 'Team up with other creators, swap ideas with mentors who actually get it, and make friends who speak your language.',
+      description: 'Team up with other creators, swap ideas with mentors who actually get it, and make friends from around the world through competing.',
     },
     {
       icon: Trophy,
       title: 'Win Big',
-      description: "We're talking serious prizes here. Up to $10,000 in cash and swag for the teams that blow our minds.",
+      description: "We're talking serious prizes here. Get premium subscriptions, free trials and gifts from sponsors to celebrate your win.",
     },
     {
       icon: Rocket,
@@ -128,7 +128,7 @@ export function HomePage() {
           >
             <div className="flex items-center gap-3 px-6 py-3 bg-card/50 border border-border rounded-full backdrop-blur-sm">
               <Calendar className="w-5 h-5 text-primary" />
-              <span className="text-lg">August 10th - 24th, 2025</span>
+              <span className="text-lg">August 2nd - 17th, 2026</span>
             </div>
             <div className="flex items-center gap-3 px-6 py-3 bg-card/50 border border-border rounded-full backdrop-blur-sm">
               <MapPin className="w-5 h-5 text-primary" />
@@ -142,12 +142,19 @@ export function HomePage() {
             transition={{ duration: 0.8, delay: 0.8 }}
             className="flex flex-wrap items-center justify-center gap-4"
           >
-            <button className="px-10 py-4 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-all text-lg font-medium shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105">
-              Join Discord
-            </button>
-            <button className="px-10 py-4 bg-card/50 border border-border rounded-xl hover:border-primary transition-all text-lg font-medium backdrop-blur-sm hover:scale-105">
-              View Devpost
-            </button>
+          <button
+            onClick={() => window.open("https://discord.gg/gDQGYSQKrH", "_blank")}
+            className="px-10 py-4 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-all text-lg font-medium shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105"
+          >
+            Join Discord
+          </button>
+
+          <button
+            onClick={() => window.open("https://reverie-hacks-2026.devpost.com/", "_blank")}
+            className="px-10 py-4 bg-card/50 border border-border rounded-xl hover:border-primary transition-all text-lg font-medium backdrop-blur-sm hover:scale-105"
+          >
+            View Devpost
+          </button>
           </motion.div>
         </div>
       </section>
@@ -228,7 +235,7 @@ export function HomePage() {
           >
             <h2 className="text-5xl md:text-6xl font-bold mb-6">Ready to build?</h2>
             <p className="text-xl text-gray-300 mb-10">
-              Applications open soon. Don't miss your shot at joining one of the most exciting hackathons of the year.
+              Join ReverieHacks through our Devpost to bring your ideas to life!
             </p>
             <Link
               to="/contact"

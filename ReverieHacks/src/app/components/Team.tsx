@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
-import img1 from '../../imports/image.png';
-import img2 from '../../imports/image-1.png';
 
 interface TeamMember {
   name: string;
@@ -23,53 +21,47 @@ export function Team() {
 
   const teamMembers: TeamMember[] = [
     {
-      name: 'Aditya Raypeddi',
-      role: 'Chief Executive Officer',
-      bio: 'Passionate about creating opportunities for young developers and fostering innovation in the tech community.',
-      skills: ['Leadership', 'Strategy', 'Community Building'],
-    },
-    {
-      name: 'Aarush Srivastava',
-      role: 'Chief Technical Officer',
-      bio: 'Full-stack developer with expertise in modern web technologies and cloud infrastructure.',
-      skills: ['React', 'Node.js', 'AWS', 'DevOps'],
-    },
-    {
       name: 'Ritvij Sharma',
-      role: 'Chief Operating Officer',
+      role: 'Chief Executive Officer',
+      bio: 'I am a founding member of Reverie Hacks with strong background in Java and Python. I am also a boy scout who enjoys hiking and camping in the wilderness.',
+      skills: ['Python', 'Java', 'Marketing', 'CAD', 'Fundraising'],
+    },
+    {
+      name: 'Ishaan Singh',
+      role: 'Staff Member',
+      bio: 'NBA Fanatic with a strong background in computer science, robotics, and engineering as well.',
+      skills: ['Java', 'Python', 'Fusion', 'Onshape', 'Web Development'],
+    },
+    {
+      name: 'Arjun Averineni',
+      role: 'Staff Member',
       bio: 'Expert in operations management and ensuring smooth execution of large-scale events.',
       skills: ['Operations', 'Project Management', 'Logistics'],
     },
     {
+      name: 'Krishiv Piduri',
+      role: 'Staff Member',
+      bio: 'I am an AWS Certified DevOps Professional who built several web apps with 30,000 users and hosted hackathons with 150 participants prior to ReverieHacks.',
+      skills: ['Cloud Infrastructure', 'Full-Stack Development'],
+    },
+    {
+      name: 'Arnav Desmukh',
+      role: 'Staff Member',
+      bio: 'I have been coding since I was 11, working on frontend projects and teams. I have also been an avid musician for 12 years playing instruments such as the Cello.',
+      skills: ['HTML/CSS', 'JavaScript', 'Vibe Coding', 'Music', 'CAD'],
+    },
+    {
+      name: 'Alexander Skaff',
+      role: 'Staff Member',
+      bio: 'An aspiring medical and robotics student, I also have the ability to code in Python and Java.',
+      skills: ['Python', 'Java', 'Robotics', 'Medcine/Bio', 'Social Media'],
+    },
+    /*{
       name: 'Aarush Tulsyan',
-      role: 'Founder, Alumni & Mentor',
-      bio: 'Founding member bringing years of hackathon experience and mentorship to guide participants.',
-      skills: ['Mentorship', 'Public Speaking', 'Product Development'],
-    },
-    {
-      name: 'James Tam',
-      role: 'Documentation & Reach Lead',
-      bio: 'Focused on creating comprehensive documentation and expanding our community reach.',
-      skills: ['Technical Writing', 'Marketing', 'Community Outreach'],
-    },
-    {
-      name: 'Viktor Nguyen',
-      role: 'Events Lead',
-      bio: 'Orchestrating memorable hackathon experiences and managing all event logistics.',
-      skills: ['Event Planning', 'Coordination', 'Engagement'],
-    },
-    {
-      name: 'Theo Wong',
-      role: 'Finance Lead',
-      bio: 'Managing finances, budgets, and ensuring sustainable growth for the organization.',
-      skills: ['Finance', 'Budgeting', 'Fundraising'],
-    },
-    {
-      name: 'Nag Vardhineedi',
-      role: 'Design Lead',
+      role: 'Founder/Alumni',
       bio: 'Crafting beautiful and intuitive designs that enhance the hackathon experience.',
       skills: ['UI/UX Design', 'Branding', 'Visual Design'],
-    },
+    },*/
   ];
 
   return (
