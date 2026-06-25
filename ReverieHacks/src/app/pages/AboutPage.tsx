@@ -96,21 +96,31 @@ export function AboutPage() {
   return (
     <div className="min-h-screen pt-32 pb-24 px-6">
       <div className="max-w-7xl mx-auto">
-
-        {/* Hero */}
+        {/* Statement (moved up) */}
         <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="text-center py-12 mb-14"
         >
-          <h1 className="text-6xl md:text-7xl font-bold mb-6">
-            About ReverieHacks
-          </h1>
+          <p className="text-primary uppercase tracking-[0.35em] text-sm mb-5">
+            ReverieHacks
+          </p>
 
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            A virtual hackathon built for dreamers, builders, engineers,
-            entrepreneurs, and innovators from every corner of technology.
+          <h2 className="text-5xl md:text-7xl font-black leading-none">
+            WHERE
+            <span className="block text-primary">
+              EVERY BUILDER
+            </span>
+            BELONGS
+          </h2>
+
+          <p className="mt-8 text-xl text-gray-400 max-w-3xl mx-auto">
+            Whether you're creating hardware, training AI models,
+            launching mobile apps, uncovering insights from data,
+            or simply turning an idea into reality,
+            ReverieHacks gives you a place to build.
           </p>
         </motion.div>
 
@@ -119,33 +129,16 @@ export function AboutPage() {
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="max-w-4xl mx-auto mb-28"
+          className="max-w-3xl mx-auto mb-20 text-center"
         >
-          <div className="text-lg text-gray-300 space-y-6 leading-relaxed">
+          <div className="text-lg text-gray-300 leading-relaxed">
             <p>
-              ReverieHacks started with a simple question:
-              what if a hackathon could feel less like a competition
-              and more like a creative playground?
-            </p>
-
-            <p>
-              For two weeks, participants from around the world come together
-              to build projects they genuinely care about. Whether that means
-              launching an app, training an AI system, designing hardware,
-              analyzing data, or developing the next big idea, ReverieHacks
-              gives builders the freedom to create.
-            </p>
-
-            <p>
-              We believe innovation happens when people from different
-              backgrounds collaborate. That is why our event welcomes
-              developers, designers, engineers, entrepreneurs, researchers,
-              and curious beginners alike.
-            </p>
-
-            <p>
-              No matter your experience level, if you are excited about
-              creating something meaningful, you belong here.
+              ReverieHacks started with a simple question: what if a hackathon felt more like a 
+              creative playground than a competition? For two weeks, builders from around the world come 
+              together to create ideas they actually care about—apps, AI, hardware, or data-driven solutions.
+              We welcome developers, designers, engineers, and beginners alike, because innovation happens 
+              best when different minds build together. If you’re excited to create something meaningful, 
+              you belong here.
             </p>
           </div>
         </motion.div>
@@ -210,35 +203,7 @@ export function AboutPage() {
           </div>
         </motion.section>
 
-        {/* Statement */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="text-center py-12 mb-24"
-        >
-          <p className="text-primary uppercase tracking-[0.35em] text-sm mb-5">
-            ReverieHacks
-          </p>
-
-          <h2 className="text-5xl md:text-7xl font-black leading-none">
-            WHERE
-            <span className="block text-primary">
-              EVERY BUILDER
-            </span>
-            BELONGS
-          </h2>
-
-          <p className="mt-8 text-xl text-gray-400 max-w-3xl mx-auto">
-            Whether you're creating hardware, training AI models,
-            launching mobile apps, uncovering insights from data,
-            or simply turning an idea into reality,
-            ReverieHacks gives you a place to build.
-          </p>
-        </motion.div>
-
-        {/* Features */}
+        {/* Features (Why Join) */}
         <div className="text-center mb-12">
           <h2 className="text-5xl font-bold mb-4">
             Why Join?
