@@ -2,10 +2,12 @@ import { motion } from 'motion/react';
 
 export function Judges() {
   const judges = [
-    { name: 'Judge 1', role: 'Senior Software Engineer', company: 'Tech Co' },
-    { name: 'Judge 2', role: 'Product Manager', company: 'Startup Inc' },
-    { name: 'Judge 3', role: 'UX Designer', company: 'Design Studio' },
-    { name: 'Judge 4', role: 'Tech Lead', company: 'BigTech' },
+    { name: 'Mahendran Chinnaiah', role: 'Healthcare Software Architect', company: 'CVS' },
+    { name: 'Vaibhav Patel', role: 'AI Engineer', company: 'Abu Dhabi Investment Authority' },
+    { name: 'Mantas Eringis', role: 'Software Engineer', company: 'Blockdaemon' },
+    { name: 'Sandeep Shivam', role: 'Associate Director of Product Management', company: 'Tavant' },
+    { name: 'Pulkit Arya', role: 'Founding Engineer', company: 'Pointer' },
+    { name: 'Dmitrii Timoshenko', role: 'Applied Scientist', company: 'Amazon' },
   ];
 
   return (

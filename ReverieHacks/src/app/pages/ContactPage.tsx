@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Mail, MessageSquare, Globe, Send } from 'lucide-react';
+import { Mail, MessageSquare, Globe } from 'lucide-react';
 
 export function ContactPage() {
   return (
