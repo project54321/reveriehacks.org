@@ -1,17 +1,24 @@
-name: Deploy to reveriehacks.org
+name: Deploy to GitHub Pages
 
-# Build the site and upload it to GoDaddy over FTP on every push to main.
+# Build the Vite app and publish it to GitHub Pages on every push to main.
 on:
   push:
     branches: [main]
-  workflow_dispatch: # lets you trigger a deploy manually from the Actions tab
+  workflow_dispatch: # allow manual runs from the Actions tab
 
+# Permissions required by the Pages deployment.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one Pages deploy at a time; newer pushes supersede in-flight ones.
 concurrency:
-  group: deploy-production
+  group: pages
   cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -32,15 +39,24 @@ jobs:
         working-directory: ReverieHacks
         run: npm run build
 
-      - name: Deploy to GoDaddy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      # GitHub Pages has no server rewrites, so a direct hit on /team etc.
+      # would 404. Serving a copy of index.html as 404.html lets the SPA
+      # boot and route client-side for any deep link.
+      - name: Add SPA fallback
+        run: cp ReverieHacks/dist/index.html ReverieHacks/dist/404.html
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          # The built site to upload (note the trailing slash).
-          local-dir: ReverieHacks/dist/
-          # The web root on GoDaddy. Adjust if your files live elsewhere
-          # (e.g. ./ if FTP already lands you inside public_html).
-          server-dir: ./public_html/
+          path: ReverieHacks/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
