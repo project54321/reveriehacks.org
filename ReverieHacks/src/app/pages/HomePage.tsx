@@ -1,12 +1,20 @@
 import { motion } from 'motion/react';
 import { Link } from 'react-router';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Banknote, Briefcase, Cpu, Crown, Globe } from 'lucide-react';
 
 const stats = [
   { value: '500+', label: 'Builders' },
-  { value: '$10K+', label: 'In prizes' },
+  { value: '$650', label: 'In cash' },
   { value: '6', label: 'Tracks' },
   { value: '16', label: 'Days' },
+];
+
+const prizes = [
+  { icon: Banknote, title: '$650 in cash', body: 'Prize money for the standout projects.' },
+  { icon: Briefcase, title: '6 internships', body: 'At Learner Labs, an emerging AI startup.' },
+  { icon: Cpu, title: '$300 in Featherless credits', body: 'AI inference credits from Featherless.' },
+  { icon: Crown, title: '6 Code Crafters memberships', body: 'VIP access to Code Crafters.' },
+  { icon: Globe, title: '36 .xyz domains', body: 'A domain for your project, from XYZ.' },
 ];
 
 const points = [
@@ -139,6 +147,47 @@ export function HomePage() {
               <p className="mt-3 leading-relaxed text-muted-foreground">{p.body}</p>
             </motion.div>
           ))}
+        </div>
+      </section>
+
+      {/* Prizes */}
+      <section className="mx-auto max-w-5xl px-6 py-20">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-10"
+        >
+          <p className="eyebrow text-primary">Prizes</p>
+          <h2 className="mt-4" style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
+            What you can win
+          </h2>
+          <p className="mt-4 max-w-xl text-muted-foreground">
+            This year&apos;s pool, backed by our sponsors and partner teams.
+          </p>
+        </motion.div>
+
+        <div className="grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+          {prizes.map((prize, i) => (
+            <motion.div
+              key={prize.title}
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.45, delay: (i % 3) * 0.06 }}
+              className="group bg-background p-8"
+            >
+              <prize.icon
+                className="h-6 w-6 text-muted-foreground transition-colors group-hover:text-primary"
+                strokeWidth={1.5}
+              />
+              <h3 className="mt-6 text-xl">{prize.title}</h3>
+              <p className="mt-2 leading-relaxed text-muted-foreground">{prize.body}</p>
+            </motion.div>
+          ))}
+          {/* Fill the trailing cell so the grid border stays clean (5 items + 1 = even) */}
+          <div className="bg-background" aria-hidden />
         </div>
       </section>
 

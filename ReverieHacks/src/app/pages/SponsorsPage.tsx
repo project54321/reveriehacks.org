@@ -5,35 +5,96 @@ interface Sponsor {
   id: string;
   name: string;
   tier: string;
-  logo: string;
   url: string;
   description: string;
   x: number;
   y: number;
+  /** Logo image path. If omitted, the node shows `short` text instead. */
+  logo?: string;
+  /** How a logo sits in its node. */
+  fit?: 'cover' | 'contain';
+  /** Text shown in the node when there is no logo yet (placeholder). */
+  short?: string;
+  /** Small initials used in the hover card when there is no logo. */
+  monogram?: string;
 }
 
-const sponsors: Sponsor[] = [
+// Company sponsors — the constellation. XYZ and Code Crafters are text
+// placeholders until their logo PNGs arrive.
+const companySponsors: Sponsor[] = [
   {
     id: 'featherless',
     name: 'Featherless',
     tier: 'Compute Partner',
     logo: '/sponsorLogos/fM.svg',
+    fit: 'cover',
     url: 'https://featherless.ai',
-    description: 'Seamless inference APIs, plus $300 in credits for developers building with AI.',
-    x: 24,
-    y: 28,
+    description: 'Seamless inference APIs, plus $300 in AI credits for participants.',
+    x: 27,
+    y: 30,
+  },
+  {
+    id: 'xyz',
+    name: 'XYZ',
+    tier: 'Domains Partner',
+    short: '.xyz',
+    monogram: 'XYZ',
+    url: '#',
+    description: 'Domains for every project — including 36 free .xyz domains for participants.',
+    x: 73,
+    y: 30,
   },
   {
     id: 'wolfram',
     name: 'Wolfram',
     tier: 'Technology Partner',
     logo: '/sponsorLogos/wolfram.png',
+    fit: 'cover',
     url: 'https://www.wolfram.com',
     description: 'Computational access for the next generation of innovators, via Wolfram|One.',
-    x: 76,
-    y: 70,
+    x: 73,
+    y: 72,
+  },
+  {
+    id: 'codecrafters',
+    name: 'Code Crafters',
+    tier: 'Learning Partner',
+    short: 'Code Crafters',
+    monogram: 'CC',
+    url: '#',
+    description: 'Hands-on programming challenges, plus 6 VIP memberships for winners.',
+    x: 27,
+    y: 72,
   },
 ];
+
+// Financial team sponsors — names only. Luminary leads; the rest follow by contribution.
+const teamSponsors: { name: string; monogram?: string; logo?: string; wordmark?: boolean }[] = [
+  { name: 'Luminary', logo: '/sponsorLogos/LuminaryRobotics.png', wordmark: true },
+  { name: 'Spectre', monogram: 'S' },
+  { name: 'Gearchaeologists', monogram: 'G' },
+  { name: 'Cosmobotics', monogram: 'C' },
+  { name: 'Eclipse', monogram: 'E' },
+  { name: 'Roboplayers', monogram: 'R' },
+  { name: 'Learning Labs', monogram: 'LL' },
+];
+
+function NodeLogo({ s }: { s: Sponsor }) {
+  if (s.logo) {
+    return (
+      <img
+        src={s.logo}
+        alt={`${s.name} logo`}
+        className={`h-full w-full ${s.fit === 'contain' ? 'object-contain' : 'object-cover'}`}
+      />
+    );
+  }
+  return (
+    <span className="px-2 text-center font-display text-sm uppercase leading-tight tracking-wide text-foreground">
+      {s.short ?? s.name}
+    </span>
+  );
+}
 
 export function SponsorsPage() {
   const [hovered, setHovered] = useState<string | null>(null);
@@ -53,15 +114,14 @@ export function SponsorsPage() {
             Our Network
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-            ReverieHacks is made possible by the organizations that back young builders.
+            ReverieHacks is made possible by the companies and teams that back young builders.
           </p>
         </motion.div>
 
-        {/* Constellation */}
+        {/* Company constellation */}
         <div className="relative mx-auto mt-16 h-[520px] w-full max-w-[900px] border border-border md:h-[600px]">
-          {/* Connecting lines */}
           <svg className="pointer-events-none absolute inset-0 h-full w-full">
-            {sponsors.map((s) => (
+            {companySponsors.map((s) => (
               <line
                 key={`line-${s.id}`}
                 x1="50%"
@@ -79,7 +139,7 @@ export function SponsorsPage() {
           {/* Center node */}
           <div className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
             <div className="flex h-32 w-32 flex-col items-center justify-center rounded-full border border-primary/40 bg-background text-center md:h-36 md:w-36">
-              <span className="font-display text-base uppercase leading-[0.95] tracking-[0.08em]">
+              <span className="font-wordmark text-base uppercase leading-[0.9] tracking-[0.08em]">
                 Reverie
                 <br />
                 <span className="text-primary">Hacks</span>
@@ -88,8 +148,9 @@ export function SponsorsPage() {
           </div>
 
           {/* Sponsor nodes */}
-          {sponsors.map((s, i) => {
+          {companySponsors.map((s, i) => {
             const isHovered = hovered === s.id;
+            const external = s.url !== '#';
             return (
               <motion.div
                 key={s.id}
@@ -110,35 +171,39 @@ export function SponsorsPage() {
                       <motion.a
                         key="node"
                         layoutId={`node-${s.id}`}
-                        href={s.url}
-                        target="_blank"
-                        rel="noreferrer"
+                        href={external ? s.url : undefined}
+                        target={external ? '_blank' : undefined}
+                        rel={external ? 'noreferrer' : undefined}
                         transition={{ type: 'spring', stiffness: 320, damping: 30 }}
                         className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border border-border bg-card transition-colors hover:border-primary/50"
                       >
-                        <img
-                          src={s.logo}
-                          alt={`${s.name} logo`}
-                          className="h-full w-full object-cover"
-                        />
+                        <NodeLogo s={s} />
                       </motion.a>
                     ) : (
                       <motion.a
                         key="card"
                         layoutId={`node-${s.id}`}
-                        href={s.url}
-                        target="_blank"
-                        rel="noreferrer"
+                        href={external ? s.url : undefined}
+                        target={external ? '_blank' : undefined}
+                        rel={external ? 'noreferrer' : undefined}
                         transition={{ type: 'spring', stiffness: 320, damping: 30 }}
                         className="absolute flex w-72 flex-col border border-primary/50 bg-popover p-5 text-left"
                       >
                         <div className="flex items-center gap-3">
-                          <span className="h-10 w-10 shrink-0 overflow-hidden rounded-full border border-border">
-                            <img
-                              src={s.logo}
-                              alt={`${s.name} logo`}
-                              className="h-full w-full object-cover"
-                            />
+                          <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-card">
+                            {s.logo ? (
+                              <img
+                                src={s.logo}
+                                alt={`${s.name} logo`}
+                                className={`h-full w-full ${
+                                  s.fit === 'contain' ? 'object-contain' : 'object-cover'
+                                }`}
+                              />
+                            ) : (
+                              <span className="text-[0.65rem] font-display uppercase text-muted-foreground">
+                                {s.monogram ?? s.name.slice(0, 2)}
+                              </span>
+                            )}
                           </span>
                           <span>
                             <span className="eyebrow block text-primary/80">{s.tier}</span>
@@ -162,13 +227,60 @@ export function SponsorsPage() {
           })}
         </div>
 
+        {/* Team sponsors */}
+        <section className="mt-28">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center"
+          >
+            <p className="eyebrow text-primary">Team Sponsors</p>
+            <h2 className="mt-4" style={{ fontSize: 'clamp(1.75rem, 4.5vw, 3rem)' }}>
+              Backed by teams
+            </h2>
+            <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
+              Robotics teams whose contributions power this year&apos;s cash prize pool.
+            </p>
+          </motion.div>
+
+          <div className="mt-14 flex flex-wrap justify-center gap-x-10 gap-y-10">
+            {teamSponsors.map((t, i) => (
+              <motion.div
+                key={t.name}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.4, delay: (i % 4) * 0.05 }}
+                className="flex w-28 flex-col items-center text-center"
+              >
+                {t.wordmark && t.logo ? (
+                  <div className="flex h-16 w-28 items-center justify-center overflow-hidden rounded-md border border-border bg-white p-2">
+                    <img src={t.logo} alt={`${t.name} logo`} className="h-full w-full object-contain" />
+                  </div>
+                ) : (
+                  <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border border-border bg-card">
+                    {t.logo ? (
+                      <img src={t.logo} alt={`${t.name} logo`} className="h-full w-full object-cover" />
+                    ) : (
+                      <span className="font-display text-lg text-muted-foreground">{t.monogram}</span>
+                    )}
+                  </div>
+                )}
+                <span className="mt-3 text-sm leading-snug">{t.name}</span>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
         {/* Become a sponsor */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mt-16 border-t border-border pt-10 text-center"
+          className="mt-24 border-t border-border pt-10 text-center"
         >
           <p className="text-muted-foreground">
             Interested in joining the network?{' '}
