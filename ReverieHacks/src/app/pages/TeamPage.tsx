@@ -9,116 +9,111 @@ interface TeamMember {
   role: string;
   bio: string;
   skills: string[];
-  funFact?: string;
 }
+
+const teamMembers: TeamMember[] = [
+  {
+    name: 'Ritvij Sharma',
+    img: '/team/ritvij.jpg',
+    role: 'Chief Executive Officer',
+    bio: 'A founding member of ReverieHacks with a strong background in Java and Python. I am also a boy scout who enjoys hiking and camping in the wilderness.',
+    skills: ['Python', 'Java', 'Marketing', 'CAD', 'Fundraising'],
+  },
+  {
+    name: 'Ishaan Singh',
+    img: '/team/ishaan.jpg',
+    role: 'Chief Operating Officer',
+    bio: 'NBA fanatic with a strong background in computer science, robotics, and engineering.',
+    skills: ['Java', 'Python', 'Fusion', 'Onshape', 'Web Development'],
+  },
+  {
+    name: 'Arjun Averineni',
+    img: '/team/arjun.jpg',
+    role: 'Staff Member',
+    bio: 'A committed full-stack web developer who is also passionate about robotics. I play the violin and love to spread STEM education throughout my community.',
+    skills: ['Java', 'Robotics', 'Python', 'Full-Stack Development', 'Violin'],
+  },
+  {
+    name: 'Krishiv Piduri',
+    img: '/team/krishiv.jpg',
+    role: 'Staff Member',
+    bio: 'An AWS Certified DevOps Professional who has built several web apps with 30,000 users and hosted hackathons with 150 participants prior to ReverieHacks.',
+    skills: ['Cloud Infrastructure', 'Full-Stack Development'],
+  },
+  {
+    name: 'Arnav Deshmukh',
+    img: '/team/arnav.jpg',
+    role: 'Staff Member',
+    bio: 'I have been coding since I was 11, working on frontend projects and teams. I have also been an avid musician for 12 years, playing instruments such as the cello.',
+    skills: ['HTML/CSS', 'JavaScript', 'Frontend', 'Music', 'CAD'],
+  },
+  {
+    name: 'Alexander Skaff',
+    img: '/team/alexander.jpg',
+    role: 'Staff Member',
+    bio: 'An aspiring medical and robotics student with the ability to code in Python and Java.',
+    skills: ['Python', 'Java', 'Robotics', 'Medicine/Bio', 'Social Media'],
+  },
+  {
+    name: 'Aarush Tulsyan',
+    img: '/team/aarush.jpg',
+    role: 'Founder / Alumnus',
+    bio: 'An undergraduate at UT Austin majoring in Electrical and Computer Engineering. I am passionate about hardware design, semiconductor research, embedded systems, and PCB design.',
+    skills: ['Research', 'Semiconductors', 'Embedded Systems', 'PCBs'],
+  },
+  {
+    name: 'Aditya Rayapedi',
+    img: '/team/aditya.jpg',
+    role: 'Former CEO',
+    bio: 'A robotics and ML researcher, and a beloved fan of Tottenham Hotspur.',
+    skills: ['Web Development', 'App Development', 'Machine Learning', 'CAD', 'Cloud', 'Databases'],
+  },
+];
 
 export function TeamPage() {
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
 
-  const teamMembers: TeamMember[] = [
-    {
-      name: 'Ritvij Sharma',
-      img: './team/ritvij.jpg',
-      role: 'Chief Executive Officer',
-      bio: 'I am a founding member of Reverie Hacks with strong background in Java and Python. I am also a boy scout who enjoys hiking and camping in the wilderness.',
-      skills: ['Python', 'Java', 'Marketing', 'CAD', 'Fundraising'],
-    },
-    {
-      name: 'Ishaan Singh',
-      img: './team/ishaan.jpg',
-      role: 'Chief Operating Officer',
-      bio: 'NBA Fanatic with a strong background in computer science, robotics, and engineering as well.',
-      skills: ['Java', 'Python', 'Fusion', 'Onshape', 'Web Development'],
-    },
-    {
-      name: 'Arjun Averineni',
-      img: './team/arjun.jpg',
-      role: 'Staff Member',
-      bio: 'I am a committed Full-Stack Web Developer who is also passionate about Robotics. I also play the violin and love to spread STEM Education throughout my community.',
-      skills: ['Java', 'Robotics', 'Python', 'Full-Stack Development', 'Music/Violin'],
-    },
-    {
-      name: 'Krishiv Piduri',
-      img: './team/krishiv.jpg',
-      role: 'Staff Member',
-      bio: 'I am an AWS Certified DevOps Professional who built several web apps with 30,000 users and hosted hackathons with 150 participants prior to ReverieHacks.',
-      skills: ['Cloud Infrastructure', 'Full-Stack Development'],
-    },
-    {
-      name: 'Arnav Desmukh',
-      img: './team/arnav.jpg',
-      role: 'Staff Member',
-      bio: 'I have been coding since I was 11, working on frontend projects and teams. I have also been an avid musician for 12 years playing instruments such as the Cello.',
-      skills: ['HTML/CSS', 'JavaScript', 'Vibe Coding', 'Music', 'CAD'],
-    },
-    {
-      name: 'Alexander Skaff',
-      img: './team/alexander.jpg',
-      role: 'Staff Member',
-      bio: 'An aspiring medical and robotics student, I also have the ability to code in Python and Java.',
-      skills: ['Python', 'Java', 'Robotics', 'Medcine/Bio', 'Social Media'],
-    },
-    {
-      name: 'Aarush Tulsyan',
-      img: './team/aarush.jpg',
-      role: 'Alumi/Founder',
-      bio: 'I am an undergraduate at UT Austin, majoring in Electrical and Computer Engineering. I am passionate about hardware design, semiconductor research, embedded systems, and PCB design.',
-      skills: ['Research', 'Semiconductors', 'Embedded Systems', 'PCBs'],
-    },
-    {
-      name: 'Aditya Rayapedi',
-      img: './team/aditya.jpg',
-      role: 'Ex. Reverie Hacks CEO',
-      bio: 'I am a robotics and ML researcher who is also a beloved fan of Tottenhan Hotspurs. ',
-      skills: ['Web Development', 'App Development', 'Machine Learning', 'CAD', 'Cloud', 'Databases'],
-    },
-  ];
-
   return (
-    <div className="min-h-screen pt-32 pb-24 px-6">
-      <div className="max-w-7xl mx-auto">
-
+    <div className="min-h-screen px-6 pb-28 pt-36">
+      <div className="mx-auto max-w-6xl">
         {/* Header */}
         <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-20"
         >
-          <h1 className="text-6xl md:text-7xl font-bold mb-6">Our Team</h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            The humans behind the hackathon. We're students, creators, and dreamers who believe in the power of building together.
+          <p className="eyebrow text-muted-foreground">The people behind it</p>
+          <h1 className="mt-6" style={{ fontSize: 'clamp(2.5rem, 7vw, 5.5rem)' }}>
+            Our <span className="text-primary">Team</span>
+          </h1>
+          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+            Students, creators, and dreamers who believe in the power of building together.
           </p>
         </motion.div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="mt-16 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
           {teamMembers.map((member, index) => (
             <motion.button
               key={member.name}
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: index * 0.05 }}
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.45, delay: (index % 4) * 0.06 }}
               onClick={() => setSelectedMember(member)}
-              className="group p-6 bg-card border border-border rounded-2xl hover:border-primary transition-all h-full text-left cursor-pointer relative overflow-hidden"
+              className="group bg-background text-left"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-600/0 via-purple-500/0 to-violet-600/0 group-hover:from-purple-600/10 group-hover:via-purple-500/5 group-hover:to-violet-600/10 transition-all duration-500" />
-
-              <div className="relative z-10">
-
-                {/* Image */}
-                <div className="w-full aspect-square rounded-xl mb-4 overflow-hidden bg-muted/30 relative">
-                  <img
-                    src={member.img || '/placeholder.png'}
-                    alt={member.name}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
-                </div>
-
-                <h3 className="text-xl font-bold mb-2">{member.name}</h3>
-                <p className="text-sm text-primary mb-2">{member.role}</p>
-                <p className="text-xs text-muted-foreground">Click to learn more</p>
+              <div className="aspect-[4/5] overflow-hidden">
+                <img
+                  src={member.img}
+                  alt={member.name}
+                  loading="lazy"
+                  className="h-full w-full object-cover grayscale transition-all duration-500 group-hover:scale-[1.03] group-hover:grayscale-0"
+                />
+              </div>
+              <div className="p-5">
+                <h3 className="text-lg">{member.name}</h3>
+                <p className="mt-1 text-sm text-primary">{member.role}</p>
               </div>
             </motion.button>
           ))}
@@ -134,58 +129,49 @@ export function TeamPage() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
+                    className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm"
                   />
                 </Dialog.Overlay>
 
                 <Dialog.Content asChild>
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                    initial={{ opacity: 0, scale: 0.97, y: 16 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                    exit={{ opacity: 0, scale: 0.97, y: 16 }}
                     transition={{ duration: 0.2 }}
-                    className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+                    className="fixed left-1/2 top-1/2 z-50 max-h-[90vh] w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-y-auto"
                   >
-                    <div className="bg-card border border-primary/30 rounded-2xl p-8 m-4 shadow-2xl shadow-purple-500/20">
-
-                      <Dialog.Close className="absolute top-6 right-6 p-2 hover:bg-muted rounded-lg transition-colors">
-                        <X className="w-5 h-5" />
+                    <div className="m-4 border border-border bg-card p-8">
+                      <Dialog.Close className="absolute right-6 top-6 p-2 text-muted-foreground transition-colors hover:text-foreground">
+                        <X className="h-5 w-5" />
                       </Dialog.Close>
 
-                      <div className="flex flex-col md:flex-row gap-8">
-
-                        {/* Modal Image */}
-                        <div className="flex-shrink-0">
-                          <div className="w-48 h-48 rounded-2xl overflow-hidden bg-muted/30">
+                      <div className="flex flex-col gap-8 md:flex-row">
+                        <div className="shrink-0">
+                          <div className="h-44 w-44 overflow-hidden border border-border">
                             <img
-                              src={selectedMember.img || '/placeholder.png'}
+                              src={selectedMember.img}
                               alt={selectedMember.name}
-                              className="w-full h-full object-cover"
+                              className="h-full w-full object-cover"
                             />
                           </div>
                         </div>
 
-                        {/* Content */}
                         <div className="flex-1">
-                          <Dialog.Title className="text-4xl font-bold mb-2">
-                            {selectedMember.name}
-                          </Dialog.Title>
+                          <Dialog.Title className="text-3xl">{selectedMember.name}</Dialog.Title>
+                          <p className="mb-6 mt-1 text-primary">{selectedMember.role}</p>
 
-                          <p className="text-primary text-lg mb-6">
-                            {selectedMember.role}
-                          </p>
-
-                          <Dialog.Description className="text-gray-300 mb-6 text-lg leading-relaxed">
+                          <Dialog.Description className="mb-6 leading-relaxed text-muted-foreground">
                             {selectedMember.bio}
                           </Dialog.Description>
 
                           <div>
-                            <h4 className="font-semibold mb-3 text-lg">Skills & Expertise</h4>
+                            <h4 className="eyebrow mb-3 text-muted-foreground">Skills</h4>
                             <div className="flex flex-wrap gap-2">
                               {selectedMember.skills.map((skill) => (
                                 <span
                                   key={skill}
-                                  className="px-4 py-2 bg-primary/10 text-primary rounded-lg text-sm border border-primary/20 hover:bg-primary/20 transition-colors"
+                                  className="border border-border px-3 py-1.5 text-sm text-foreground"
                                 >
                                   {skill}
                                 </span>
@@ -193,7 +179,6 @@ export function TeamPage() {
                             </div>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </motion.div>
@@ -202,7 +187,6 @@ export function TeamPage() {
             )}
           </AnimatePresence>
         </Dialog.Root>
-
       </div>
     </div>
   );

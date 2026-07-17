@@ -1,0 +1,12 @@
+{
+  "name": "reveriehacks-root",
+  "private": true,
+  "description": "Convenience wrapper: forwards commands to the app in ./ReverieHacks",
+  "scripts": {
+    "dev": "npm --prefix ReverieHacks run dev",
+    "build": "npm --prefix ReverieHacks run build",
+    "lint": "npm --prefix ReverieHacks run lint",
+    "preview": "npm --prefix ReverieHacks run preview",
+    "install:app": "npm --prefix ReverieHacks install"
+  }
+}

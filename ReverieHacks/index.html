@@ -2,9 +2,37 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/image.png" />
+    <link rel="icon" type="image/png" href="/image.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ReverieHacks</title>
+    <meta name="theme-color" content="#0a0a0f" />
+    <meta
+      name="description"
+      content="ReverieHacks is a two-week virtual hackathon for young builders: design, code, and ship real projects across six tracks. August 2-17, 2026."
+    />
+    <meta property="og:title" content="ReverieHacks - Let's change the world, together." />
+    <meta
+      property="og:description"
+      content="A two-week virtual hackathon for the next generation of builders. August 2-17, 2026."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/image.png" />
+    <link rel="preload" href="/fonts/CreatoDisplay-Regular.otf" as="font" type="font/otf" crossorigin />
+    <link rel="preload" href="/fonts/Apollo.otf" as="font" type="font/otf" crossorigin />
+    <title>ReverieHacks - A Virtual Hackathon for Young Builders</title>
+    <script>
+      // Set the theme before first paint to avoid a flash of the wrong mode.
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var prefersLight =
+            window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+          var theme = stored || (prefersLight ? 'light' : 'dark');
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

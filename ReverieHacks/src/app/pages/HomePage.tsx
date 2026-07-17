@@ -1,250 +1,175 @@
 import { motion } from 'motion/react';
 import { Link } from 'react-router';
-import { Calendar, MapPin, Users, Trophy, Zap, Code2, Sparkles, Rocket } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+
+const stats = [
+  { value: '500+', label: 'Builders' },
+  { value: '$10K+', label: 'In prizes' },
+  { value: '6', label: 'Tracks' },
+  { value: '16', label: 'Days' },
+];
+
+const points = [
+  {
+    n: '01',
+    title: 'Build',
+    body: 'Bring an idea to life on your own or with a team, across six tracks spanning software, data, and hardware.',
+  },
+  {
+    n: '02',
+    title: 'Learn',
+    body: 'Get honest feedback from judges and mentors who have shipped real work in the industry.',
+  },
+  {
+    n: '03',
+    title: 'Win',
+    body: 'Compete for prizes, subscriptions, and gifts from the sponsors backing this year’s event.',
+  },
+];
+
+const DISCORD_URL = 'https://discord.gg/gDQGYSQKrH';
+const DEVPOST_URL = 'https://reverie-hacks-2026.devpost.com/';
+
+const fade = {
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0 },
+};
 
 export function HomePage() {
-  const stats = [
-    { icon: Users, value: '500+', label: 'Participants' },
-    { icon: Trophy, value: '$TBD', label: 'In Prizes' },
-    { icon: Code2, value: '16 Days', label: 'Of Hacking' },
-    { icon: Zap, value: '100+', label: 'Projects' },
-  ];
-
-  const highlights = [
-    {
-      icon: Sparkles,
-      title: 'Build Something Amazing',
-      description: 'Have a cool project idea you wanted to build? Create it with a team or by yourself through one of our many tracks and get feedback from industry judges.',
-    },
-    {
-      icon: Users,
-      title: 'Meet Cool People',
-      description: 'Team up with other creators, swap ideas with mentors who actually get it, and make friends from around the world through competing.',
-    },
-    {
-      icon: Trophy,
-      title: 'Win Big',
-      description: "We're talking serious prizes here. Get premium subscriptions, free trials and gifts from sponsors to celebrate your win.",
-    },
-    {
-      icon: Rocket,
-      title: 'Level Up',
-      description: 'Walk away with new skills, portfolio projects, and maybe even your next startup idea. No cap.',
-    },
-  ];
-
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-6 pt-20 pb-24">
-        {/* Animated background gradients */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <motion.div
-            animate={{
-              x: [0, 100, 0],
-              y: [0, 50, 0],
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: 'linear',
-            }}
-            className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-700/30 rounded-full blur-[128px]"
-          />
-          <motion.div
-            animate={{
-              x: [0, -100, 0],
-              y: [0, 100, 0],
-              scale: [1, 1.3, 1],
-            }}
-            transition={{
-              duration: 25,
-              repeat: Infinity,
-              ease: 'linear',
-            }}
-            className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-violet-700/20 rounded-full blur-[128px]"
-          />
-          <motion.div
-            animate={{
-              x: [0, 50, 0],
-              y: [0, -50, 0],
-              scale: [1, 1.1, 1],
-            }}
-            transition={{
-              duration: 15,
-              repeat: Infinity,
-              ease: 'linear',
-            }}
-            className="absolute top-1/2 left-1/2 w-96 h-96 bg-purple-600/20 rounded-full blur-[128px]"
-          />
-        </div>
+      {/* Hero */}
+      <section className="mx-auto flex min-h-[92vh] max-w-5xl flex-col justify-center px-6 pt-28">
+        <motion.p
+          {...fade}
+          transition={{ duration: 0.5 }}
+          className="eyebrow text-muted-foreground"
+        >
+          Virtual Hackathon
+        </motion.p>
 
-        <div className="relative z-10 max-w-6xl mx-auto text-center">
-          {/* Logo with gradient */}
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="mb-12 inline-block"
-          >
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-600 via-violet-600 to-purple-700 rounded-full blur-2xl opacity-50 scale-150" />
+        <motion.h1
+          {...fade}
+          transition={{ duration: 0.6, delay: 0.08 }}
+          className="mt-6 font-display leading-[0.98] tracking-tight"
+          style={{ fontSize: 'clamp(2.75rem, 9vw, 7rem)' }}
+        >
+          Let’s change the world,
+          <br />
+          <span className="text-primary">together.</span>
+        </motion.h1>
 
-              <img
-                src="/image.png"
-                alt="ReverieHacks Logo"
-                className="relative w-32 h-32 rounded-full object-cover"
-              />
-            </div>
-          </motion.div>
+        <motion.p
+          {...fade}
+          transition={{ duration: 0.6, delay: 0.16 }}
+          className="mt-8 max-w-xl text-lg text-muted-foreground md:text-xl"
+        >
+          A two-week hackathon for young builders. Pick a track, form a team, and ship something
+          real.
+        </motion.p>
 
-          <motion.h1
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-6xl md:text-8xl font-bold mb-8 leading-tight"
-          >
-            Let's change the world,{' '}
-            <span className="bg-gradient-to-r from-purple-400 via-violet-400 to-purple-500 bg-clip-text text-transparent">
-              together.
-            </span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto mb-12 leading-relaxed"
-          >
-            Two weeks. One mission. Unlimited possibilities. Join hundreds of young creators building the future, one line of code at a time.
-          </motion.p>
-
-          <motion.div
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16"
-          >
-            <div className="flex items-center gap-3 px-6 py-3 bg-card/50 border border-border rounded-full backdrop-blur-sm">
-              <Calendar className="w-5 h-5 text-primary" />
-              <span className="text-lg">August 2nd - 17th, 2026</span>
-            </div>
-            <div className="flex items-center gap-3 px-6 py-3 bg-card/50 border border-border rounded-full backdrop-blur-sm">
-              <MapPin className="w-5 h-5 text-primary" />
-              <span className="text-lg">Virtual • Worldwide</span>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="flex flex-wrap items-center justify-center gap-4"
-          >
-          <button
-            onClick={() => window.open("https://discord.gg/gDQGYSQKrH", "_blank")}
-            className="px-10 py-4 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-all text-lg font-medium shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105"
+        <motion.div
+          {...fade}
+          transition={{ duration: 0.6, delay: 0.24 }}
+          className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center"
+        >
+          <a
+            href={DISCORD_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="group inline-flex items-center gap-2 bg-primary px-7 py-3.5 text-primary-foreground transition-colors hover:bg-accent"
           >
             Join Discord
-          </button>
-
-          <button
-            onClick={() => window.open("https://reverie-hacks-2026.devpost.com/", "_blank")}
-            className="px-10 py-4 bg-card/50 border border-border rounded-xl hover:border-primary transition-all text-lg font-medium backdrop-blur-sm hover:scale-105"
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </a>
+          <a
+            href={DEVPOST_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 px-1 py-3.5 text-muted-foreground transition-colors hover:text-foreground"
           >
             View Devpost
-          </button>
-          </motion.div>
+          </a>
+        </motion.div>
+
+        <motion.p
+          {...fade}
+          transition={{ duration: 0.6, delay: 0.32 }}
+          className="mt-14 text-sm tracking-wide text-muted-foreground"
+        >
+          August 2&ndash;17, 2026&nbsp;&nbsp;/&nbsp;&nbsp;Online&nbsp;&nbsp;/&nbsp;&nbsp;Open worldwide
+        </motion.p>
+      </section>
+
+      {/* Stat strip */}
+      <section className="mx-auto max-w-5xl px-6 py-20">
+        <div className="grid grid-cols-2 border-y border-border md:grid-cols-4">
+          {stats.map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.06 }}
+              className={`px-2 py-8 ${
+                i !== 0 ? 'border-l border-border' : ''
+              } ${i === 2 ? 'border-l-0 md:border-l' : ''}`}
+            >
+              <div className="font-display text-4xl md:text-5xl">{stat.value}</div>
+              <div className="mt-2 text-sm text-muted-foreground">{stat.label}</div>
+            </motion.div>
+          ))}
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-24 px-6 relative">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ y: 30, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="p-8 bg-card/50 border border-border rounded-2xl backdrop-blur-sm text-center hover:border-primary transition-all group"
-              >
-                <stat.icon className="w-8 h-8 text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-violet-400 bg-clip-text text-transparent">
-                  {stat.value}
-                </div>
-                <div className="text-muted-foreground">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
+      {/* Three points */}
+      <section className="mx-auto max-w-5xl px-6 py-20">
+        <div className="grid gap-px overflow-hidden border border-border bg-border md:grid-cols-3">
+          {points.map((p, i) => (
+            <motion.div
+              key={p.n}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+              className="bg-background p-9"
+            >
+              <div className="eyebrow text-primary">{p.n}</div>
+              <h3 className="mt-5 text-2xl">{p.title}</h3>
+              <p className="mt-3 leading-relaxed text-muted-foreground">{p.body}</p>
+            </motion.div>
+          ))}
         </div>
       </section>
 
-      {/* Highlights Section */}
-      <section className="py-24 px-6 bg-card/30">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ y: 30, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-5xl md:text-6xl font-bold mb-4">Why ReverieHacks?</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              This isn't your average hackathon. We're doing things differently.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {highlights.map((highlight, index) => (
-              <motion.div
-                key={highlight.title}
-                initial={{ y: 30, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="p-8 bg-card border border-border rounded-2xl hover:border-primary transition-all group"
-              >
-                <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
-                  <highlight.icon className="w-7 h-7 text-primary" />
-                </div>
-                <h3 className="text-2xl font-bold mb-3">{highlight.title}</h3>
-                <p className="text-gray-400 text-lg leading-relaxed">{highlight.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-32 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-700/30 rounded-full blur-[150px]" />
-        </div>
-
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <motion.div
-            initial={{ y: 30, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-5xl md:text-6xl font-bold mb-6">Ready to build?</h2>
-            <p className="text-xl text-gray-300 mb-10">
-              Join ReverieHacks through our Devpost to bring your ideas to life!
-            </p>
+      {/* Closing */}
+      <section className="mx-auto max-w-5xl px-6 py-28">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="border-t border-border pt-16"
+        >
+          <h2 className="max-w-2xl leading-[1.02]" style={{ fontSize: 'clamp(2rem, 5vw, 3.75rem)' }}>
+            Applications for 2026 are open.
+          </h2>
+          <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
             <Link
               to="/contact"
-              className="inline-block px-12 py-5 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-all text-lg font-medium shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105"
+              className="group inline-flex items-center gap-2 bg-primary px-7 py-3.5 text-primary-foreground transition-colors hover:bg-accent"
             >
-              Get Notified
+              Get notified
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
-          </motion.div>
-        </div>
+            <Link
+              to="/about"
+              className="inline-flex items-center gap-2 px-1 py-3.5 text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Learn more
+            </Link>
+          </div>
+        </motion.div>
       </section>
     </div>
   );
