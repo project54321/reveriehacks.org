@@ -220,7 +220,7 @@ export function SponsorsPage() {
                         <div key={team.name} className="flex items-center gap-2.5">
                           <TeamTile team={team} size={size} />
                           <div className="leading-tight">
-                            {!team.wide && <span className="block text-sm">{team.name}</span>}
+                            <span className="block text-sm">{team.name}</span>
                             {team.number && (
                               <span className="block text-xs text-muted-foreground">
                                 #{team.number}
