@@ -74,24 +74,27 @@ interface TeamSponsor {
   url?: string;
   /** Render in a wide rectangular tile (for horizontal wordmark logos). */
   wide?: boolean;
+  /** FTC team number. */
+  number?: string;
 }
 
 const teamSponsors: TeamSponsor[] = [
-  { name: 'Spectre', tier: 'main', logo: '/sponsorLogos/spectre.png', fit: 'cover' },
-  { name: 'Banana Bots', tier: 'gold', logo: '/sponsorLogos/bananabots.png', fit: 'cover' },
-  { name: 'Cosmobotics', tier: 'gold', monogram: 'C' },
+  { name: 'Spectre', tier: 'main', logo: '/sponsorLogos/spectre.png', fit: 'cover', number: '36363' },
   { name: 'Learner Labs', tier: 'gold', monogram: 'LL', url: 'https://learnerlabs.app' },
+  { name: 'Banana Bots', tier: 'silver', logo: '/sponsorLogos/bananabots.png', fit: 'cover' },
+  { name: 'Cosmobotics', tier: 'silver', monogram: 'C', number: '23361' },
+  { name: 'Eclipse', tier: 'bronze', logo: '/sponsorLogos/eclipse.png', fit: 'cover' },
   {
     name: 'Luminary',
-    tier: 'silver',
+    tier: 'bronze',
     logo: '/sponsorLogos/LuminaryRobotics.png',
     fit: 'contain',
     light: true,
     wide: true,
     url: 'https://luminaryrobotics.org',
+    number: '36633',
   },
-  { name: 'Eclipse', tier: 'silver', logo: '/sponsorLogos/eclipse.png', fit: 'cover' },
-  { name: 'Roboplayers', tier: 'silver', logo: '/sponsorLogos/roboplayers.png', fit: 'cover' },
+  { name: 'Roboplayers', tier: 'bronze', logo: '/sponsorLogos/roboplayers.png', fit: 'cover', number: '18270' },
 ];
 
 const tiers = [
@@ -196,9 +199,14 @@ export function SponsorsPage() {
                       return (
                         <div key={team.name} className="flex items-center gap-2.5">
                           <TeamTile team={team} size={size} />
-                          {!team.wide && (
-                            <span className="text-sm text-muted-foreground">{team.name}</span>
-                          )}
+                          <div className="leading-tight">
+                            {!team.wide && <span className="block text-sm">{team.name}</span>}
+                            {team.number && (
+                              <span className="block text-xs text-muted-foreground">
+                                #{team.number}
+                              </span>
+                            )}
+                          </div>
                         </div>
                       );
                     })}
