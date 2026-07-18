@@ -74,12 +74,14 @@ interface TeamSponsor {
   url?: string;
   /** Render in a wide rectangular tile (for horizontal wordmark logos). */
   wide?: boolean;
+  /** Render the transparent logo with no tile/box around it. */
+  bare?: boolean;
   /** FTC team number. */
   number?: string;
 }
 
 const teamSponsors: TeamSponsor[] = [
-  { name: 'Spectre', tier: 'main', logo: '/sponsorLogos/spectre.png', fit: 'cover', number: '36363' },
+  { name: 'Spectre', tier: 'main', logo: '/sponsorLogos/spectre.png', fit: 'contain', bare: true, number: '36363' },
   { name: 'Learner Labs', tier: 'gold', monogram: 'LL', url: 'https://learnerlabs.app' },
   { name: 'Banana Bots', tier: 'silver', logo: '/sponsorLogos/bananabots.png', fit: 'cover', number: '30358' },
   { name: 'Cosmobotics', tier: 'silver', monogram: 'C', number: '23361' },
@@ -105,6 +107,24 @@ const tiers = [
 ] as const;
 
 function TeamTile({ team, size }: { team: TeamSponsor; size: string }) {
+  // Bare: transparent logo with no tile/box (e.g. Spectre's ghost).
+  if (team.bare && team.logo) {
+    const img = (
+      <img
+        src={team.logo}
+        alt={`${team.name} logo`}
+        className={`shrink-0 object-contain ${size}`}
+      />
+    );
+    return team.url ? (
+      <a href={team.url} target="_blank" rel="noreferrer" title={team.name}>
+        {img}
+      </a>
+    ) : (
+      img
+    );
+  }
+
   const inner = team.logo ? (
     <img
       src={team.logo}
