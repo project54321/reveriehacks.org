@@ -19,8 +19,8 @@ interface Sponsor {
   monogram?: string;
 }
 
-// Company sponsors — the constellation. XYZ and Code Crafters are text
-// placeholders until their logo PNGs arrive.
+// Company sponsors — the constellation. Code Crafters is a text
+// placeholder until its logo PNG arrives.
 const companySponsors: Sponsor[] = [
   {
     id: 'featherless',
@@ -37,8 +37,8 @@ const companySponsors: Sponsor[] = [
     id: 'xyz',
     name: 'XYZ',
     tier: 'Domains Partner',
-    short: '.xyz',
-    monogram: 'XYZ',
+    logo: '/sponsorLogos/xyz.png',
+    fit: 'contain',
     url: '#',
     description: 'Domains for every project — including 36 free .xyz domains for participants.',
     x: 73,
@@ -70,8 +70,8 @@ const companySponsors: Sponsor[] = [
 
 // Financial team sponsors — names only. Luminary leads; the rest follow by contribution.
 const teamSponsors: { name: string; monogram?: string; logo?: string; wordmark?: boolean }[] = [
-  { name: 'Luminary', logo: '/sponsorLogos/LuminaryRobotics.png', wordmark: true },
   { name: 'Spectre', monogram: 'S' },
+  { name: 'Luminary', logo: '/sponsorLogos/LuminaryRobotics.png', wordmark: true },
   { name: 'Gearchaeologists', monogram: 'G' },
   { name: 'Cosmobotics', monogram: 'C' },
   { name: 'Eclipse', monogram: 'E' },
@@ -85,7 +85,7 @@ function NodeLogo({ s }: { s: Sponsor }) {
       <img
         src={s.logo}
         alt={`${s.name} logo`}
-        className={`h-full w-full ${s.fit === 'contain' ? 'object-contain' : 'object-cover'}`}
+        className={`h-full w-full ${s.fit === 'contain' ? 'object-contain p-3.5' : 'object-cover'}`}
       />
     );
   }
