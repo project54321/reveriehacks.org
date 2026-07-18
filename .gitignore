@@ -1,3 +1,8 @@
 
 # Local Claude skills (installed, not part of the app)
 .claude/skills/
+
+# Build artifacts / OS files (never commit)
+reveriehacks-dist/
+reveriehacks-dist*.zip
+.DS_Store
