@@ -80,7 +80,7 @@ const teamSponsors: TeamSponsor[] = [
   { name: 'Cosmobotics', tier: 'gold', monogram: 'C' },
   { name: 'Learner Labs', tier: 'gold', monogram: 'LL', url: 'https://learnerlabs.app' },
   { name: 'Luminary', tier: 'silver', logo: '/sponsorLogos/LuminaryRobotics.png', fit: 'contain', light: true },
-  { name: 'Eclipse', tier: 'silver', monogram: 'E' },
+  { name: 'Eclipse', tier: 'silver', logo: '/sponsorLogos/eclipse.png', fit: 'cover' },
   { name: 'Roboplayers', tier: 'silver', logo: '/sponsorLogos/roboplayers.png', fit: 'cover' },
 ];
 
