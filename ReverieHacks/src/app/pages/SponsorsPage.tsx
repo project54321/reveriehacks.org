@@ -77,7 +77,7 @@ interface TeamSponsor {
 }
 
 const teamSponsors: TeamSponsor[] = [
-  { name: 'Spectre', tier: 'gold', logo: '/sponsorLogos/spectre.png', fit: 'contain' },
+  { name: 'Spectre', tier: 'main', logo: '/sponsorLogos/spectre.png', fit: 'cover' },
   { name: 'Banana Bots', tier: 'gold', logo: '/sponsorLogos/bananabots.png', fit: 'cover' },
   { name: 'Cosmobotics', tier: 'gold', monogram: 'C' },
   { name: 'Learner Labs', tier: 'gold', monogram: 'LL', url: 'https://learnerlabs.app' },
@@ -101,18 +101,17 @@ const tiers = [
   { key: 'bronze', label: 'Bronze', color: 'text-[#c58a58]' },
 ] as const;
 
-function TeamTile({ team }: { team: TeamSponsor }) {
+function TeamTile({ team, size }: { team: TeamSponsor; size: string }) {
   const inner = team.logo ? (
     <img
       src={team.logo}
       alt={`${team.name} logo`}
-      className={`h-full w-full ${team.fit === 'contain' ? 'object-contain p-1.5' : 'object-cover'}`}
+      className={`h-full w-full ${team.fit === 'contain' ? 'object-contain p-1' : 'object-cover'}`}
     />
   ) : (
     <span className="font-display text-lg text-muted-foreground">{team.monogram}</span>
   );
 
-  const size = team.wide ? 'h-14 w-40' : 'h-14 w-14';
   const cls = `flex shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border ${size} ${
     team.light ? 'bg-white' : 'bg-card'
   } ${team.url ? 'transition-colors hover:border-primary/50' : ''}`;
@@ -184,18 +183,25 @@ export function SponsorsPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-40px' }}
                   transition={{ duration: 0.4 }}
-                  className="flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:gap-8"
+                  className="flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:gap-8"
                 >
                   <span className={`eyebrow shrink-0 sm:w-14 ${tier.color}`}>{tier.label}</span>
-                  <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
-                    {teams.map((team) => (
-                      <div key={team.name} className="flex items-center gap-2.5">
-                        <TeamTile team={team} />
-                        {!team.wide && (
-                          <span className="text-sm text-muted-foreground">{team.name}</span>
-                        )}
-                      </div>
-                    ))}
+                  <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
+                    {teams.map((team) => {
+                      const size = team.wide
+                        ? 'h-16 w-44'
+                        : tier.key === 'main'
+                          ? 'h-20 w-20'
+                          : 'h-16 w-16';
+                      return (
+                        <div key={team.name} className="flex items-center gap-2.5">
+                          <TeamTile team={team} size={size} />
+                          {!team.wide && (
+                            <span className="text-sm text-muted-foreground">{team.name}</span>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </motion.div>
               );
