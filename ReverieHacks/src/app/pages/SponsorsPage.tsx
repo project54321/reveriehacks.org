@@ -13,6 +13,8 @@ interface Sponsor {
   fit?: 'cover' | 'contain';
   short?: string;
   monogram?: string;
+  /** Put the logo on a white chip (for dark/gradient logos). */
+  light?: boolean;
 }
 
 // Company sponsors — the constellation (in-kind partners).
@@ -54,8 +56,9 @@ const companySponsors: Sponsor[] = [
     id: 'codecrafters',
     name: 'Code Crafters',
     tier: 'Learning Partner',
-    short: 'Code Crafters',
-    monogram: 'CC',
+    logo: '/sponsorLogos/codecrafters.svg',
+    fit: 'contain',
+    light: true,
     url: 'https://codecrafters.io',
     description: 'Hands-on programming challenges, plus 6 VIP memberships for winners.',
     x: 27,
@@ -81,7 +84,7 @@ interface TeamSponsor {
 }
 
 const teamSponsors: TeamSponsor[] = [
-  { name: 'Spectre', tier: 'main', logo: '/sponsorLogos/spectre.png', fit: 'contain', bare: true, number: '36363' },
+  { name: 'Spectre', tier: 'gold', logo: '/sponsorLogos/spectre.png', fit: 'contain', bare: true, number: '36363' },
   { name: 'Learner Labs', tier: 'gold', monogram: 'LL', url: 'https://learnerlabs.app' },
   { name: 'Banana Bots', tier: 'silver', logo: '/sponsorLogos/bananabots.png', fit: 'cover', number: '30358' },
   { name: 'Cosmobotics', tier: 'silver', monogram: 'C', number: '23361' },
@@ -303,7 +306,9 @@ export function SponsorsPage() {
                           target={external ? '_blank' : undefined}
                           rel={external ? 'noreferrer' : undefined}
                           transition={{ type: 'spring', stiffness: 320, damping: 30 }}
-                          className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border border-border bg-card transition-colors hover:border-primary/50"
+                          className={`flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border border-border transition-colors hover:border-primary/50 ${
+                            s.light ? 'bg-white' : 'bg-card'
+                          }`}
                         >
                           <NodeLogo s={s} />
                         </motion.a>
@@ -318,7 +323,11 @@ export function SponsorsPage() {
                           className="absolute flex w-72 flex-col border border-primary/50 bg-popover p-5 text-left"
                         >
                           <div className="flex items-center gap-3">
-                            <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-card">
+                            <span
+                              className={`flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border ${
+                                s.light ? 'bg-white' : 'bg-card'
+                              }`}
+                            >
                               {s.logo ? (
                                 <img
                                   src={s.logo}
