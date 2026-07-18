@@ -1,22 +1,17 @@
-name: Deploy to GitHub Pages
+name: Deploy to GoDaddy
 
-# Build the Vite app and publish it to GitHub Pages on every push to main.
+# Build the site and upload it to GoDaddy over FTP on every push to main.
 on:
   push:
     branches: [main]
-  workflow_dispatch: # allow manual runs from the Actions tab
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+  workflow_dispatch: # lets you trigger a deploy manually from the Actions tab
 
 concurrency:
-  group: pages
+  group: deploy-production
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -37,24 +32,14 @@ jobs:
         working-directory: ReverieHacks
         run: npm run build
 
-      # GitHub Pages has no server rewrites, so a direct hit on /team etc.
-      # would 404. Serving a copy of index.html as 404.html lets the SPA
-      # boot and route client-side for any deep link.
-      - name: Add SPA fallback
-        run: cp ReverieHacks/dist/index.html ReverieHacks/dist/404.html
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy to GoDaddy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          path: ReverieHacks/dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ReverieHacks/dist/
+          # The web root on GoDaddy. Adjust if your files live elsewhere
+          # (e.g. ./ if FTP already lands you inside public_html).
+          server-dir: ./public_html/
