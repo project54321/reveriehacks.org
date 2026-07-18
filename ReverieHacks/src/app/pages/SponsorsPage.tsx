@@ -72,46 +72,59 @@ interface TeamSponsor {
   light?: boolean;
   monogram?: string;
   url?: string;
+  /** Render in a wide rectangular tile (for horizontal wordmark logos). */
+  wide?: boolean;
 }
 
 const teamSponsors: TeamSponsor[] = [
-  { name: 'Spectre', tier: 'main', logo: '/sponsorLogos/spectre.png', fit: 'contain' },
+  { name: 'Spectre', tier: 'gold', logo: '/sponsorLogos/spectre.png', fit: 'contain' },
   { name: 'Banana Bots', tier: 'gold', logo: '/sponsorLogos/bananabots.png', fit: 'cover' },
   { name: 'Cosmobotics', tier: 'gold', monogram: 'C' },
   { name: 'Learner Labs', tier: 'gold', monogram: 'LL', url: 'https://learnerlabs.app' },
-  { name: 'Luminary', tier: 'silver', logo: '/sponsorLogos/LuminaryRobotics.png', fit: 'contain', light: true },
+  {
+    name: 'Luminary',
+    tier: 'silver',
+    logo: '/sponsorLogos/LuminaryRobotics.png',
+    fit: 'contain',
+    light: true,
+    wide: true,
+    url: 'https://luminaryrobotics.org',
+  },
   { name: 'Eclipse', tier: 'silver', logo: '/sponsorLogos/eclipse.png', fit: 'cover' },
   { name: 'Roboplayers', tier: 'silver', logo: '/sponsorLogos/roboplayers.png', fit: 'cover' },
 ];
 
 const tiers = [
-  { key: 'main', label: 'Main Sponsor', color: 'text-primary', tile: 'h-28 w-28 md:h-32 md:w-32', name: 'text-base' },
-  { key: 'gold', label: 'Gold', color: 'text-[#e0b83a]', tile: 'h-24 w-24', name: 'text-sm' },
-  { key: 'silver', label: 'Silver', color: 'text-[#aeb6c2]', tile: 'h-20 w-20', name: 'text-sm' },
-  { key: 'bronze', label: 'Bronze', color: 'text-[#c58a58]', tile: 'h-16 w-16', name: 'text-xs' },
+  { key: 'main', label: 'Main', color: 'text-primary' },
+  { key: 'gold', label: 'Gold', color: 'text-[#e0b83a]' },
+  { key: 'silver', label: 'Silver', color: 'text-[#aeb6c2]' },
+  { key: 'bronze', label: 'Bronze', color: 'text-[#c58a58]' },
 ] as const;
 
-function TeamTile({ team, tileClass }: { team: TeamSponsor; tileClass: string }) {
+function TeamTile({ team }: { team: TeamSponsor }) {
   const inner = team.logo ? (
     <img
       src={team.logo}
       alt={`${team.name} logo`}
-      className={`h-full w-full ${team.fit === 'contain' ? 'object-contain p-2.5' : 'object-cover'}`}
+      className={`h-full w-full ${team.fit === 'contain' ? 'object-contain p-1.5' : 'object-cover'}`}
     />
   ) : (
-    <span className="font-display text-xl text-muted-foreground">{team.monogram}</span>
+    <span className="font-display text-lg text-muted-foreground">{team.monogram}</span>
   );
 
-  const cls = `flex items-center justify-center overflow-hidden rounded-2xl border border-border ${tileClass} ${
+  const size = team.wide ? 'h-14 w-40' : 'h-14 w-14';
+  const cls = `flex shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border ${size} ${
     team.light ? 'bg-white' : 'bg-card'
   } ${team.url ? 'transition-colors hover:border-primary/50' : ''}`;
 
   return team.url ? (
-    <a href={team.url} target="_blank" rel="noreferrer" className={cls}>
+    <a href={team.url} target="_blank" rel="noreferrer" className={cls} title={team.name}>
       {inner}
     </a>
   ) : (
-    <div className={cls}>{inner}</div>
+    <div className={cls} title={team.name}>
+      {inner}
+    </div>
   );
 }
 
@@ -138,63 +151,49 @@ export function SponsorsPage() {
   return (
     <div className="min-h-screen px-6 pb-24 pt-36">
       <div className="mx-auto max-w-5xl">
-        {/* Header */}
+        {/* Header — left aligned to match the rest of the site */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center"
         >
           <p className="eyebrow text-muted-foreground">Partners &amp; Sponsors</p>
-          <h1 className="mt-5" style={{ fontSize: 'clamp(2.5rem, 7vw, 5.5rem)' }}>
-            Our Network
+          <h1 className="mt-6" style={{ fontSize: 'clamp(2.5rem, 7vw, 5.5rem)' }}>
+            Our <span className="text-primary">Network</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-            ReverieHacks is made possible by the teams and companies that back young builders.
+          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+            The teams and companies that make ReverieHacks possible.
           </p>
         </motion.div>
 
-        {/* Team sponsors — tiered by contribution, shown first */}
-        <section className="mt-20">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center"
-          >
-            <p className="eyebrow text-primary">Sponsors</p>
-            <h2 className="mt-4" style={{ fontSize: 'clamp(1.75rem, 4.5vw, 3rem)' }}>
-              Powered by teams and partners
-            </h2>
-            <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-              Ranked by their contribution to this year&apos;s prize pool.
-            </p>
-          </motion.div>
+        {/* Sponsors — tiered, compact divided rows */}
+        <section className="mt-16">
+          <div className="flex items-baseline justify-between border-b border-border pb-3">
+            <h2 className="text-2xl">Sponsors</h2>
+            <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">By tier</span>
+          </div>
 
-          <div className="mt-14 space-y-14">
+          <div className="divide-y divide-border">
             {tiers.map((tier) => {
               const teams = teamSponsors.filter((t) => t.tier === tier.key);
               if (!teams.length) return null;
               return (
                 <motion.div
                   key={tier.key}
-                  initial={{ opacity: 0, y: 14 }}
+                  initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-40px' }}
-                  transition={{ duration: 0.5 }}
+                  transition={{ duration: 0.4 }}
+                  className="flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:gap-8"
                 >
-                  <div className="flex items-center justify-center gap-4">
-                    <span className="h-px w-8 bg-border sm:w-16" />
-                    <span className={`eyebrow ${tier.color}`}>{tier.label}</span>
-                    <span className="h-px w-8 bg-border sm:w-16" />
-                  </div>
-
-                  <div className="mt-7 flex flex-wrap items-start justify-center gap-x-10 gap-y-8 md:gap-x-16">
+                  <span className={`eyebrow shrink-0 sm:w-14 ${tier.color}`}>{tier.label}</span>
+                  <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
                     {teams.map((team) => (
-                      <div key={team.name} className="flex flex-col items-center gap-3">
-                        <TeamTile team={team} tileClass={tier.tile} />
-                        <span className={`${tier.name} leading-snug`}>{team.name}</span>
+                      <div key={team.name} className="flex items-center gap-2.5">
+                        <TeamTile team={team} />
+                        {!team.wide && (
+                          <span className="text-sm text-muted-foreground">{team.name}</span>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -204,25 +203,17 @@ export function SponsorsPage() {
           </div>
         </section>
 
-        {/* Company sponsors — the constellation */}
-        <section className="mt-28">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center"
-          >
-            <p className="eyebrow text-primary">Company Partners</p>
-            <h2 className="mt-4" style={{ fontSize: 'clamp(1.75rem, 4.5vw, 3rem)' }}>
-              Backed by industry
-            </h2>
-            <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-              Companies powering the prizes, tools, and credits. Hover a node to learn more.
-            </p>
-          </motion.div>
+        {/* Company partners — the constellation */}
+        <section className="mt-20">
+          <div className="flex items-baseline justify-between border-b border-border pb-3">
+            <h2 className="text-2xl">Partners</h2>
+            <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">In-kind</span>
+          </div>
+          <p className="mt-4 max-w-xl text-sm text-muted-foreground">
+            Companies providing the tools, credits, and prizes.
+          </p>
 
-          <div className="relative mx-auto mt-12 h-[520px] w-full max-w-[900px] border border-border md:h-[600px]">
+          <div className="relative mx-auto mt-8 h-[440px] w-full max-w-[900px] border border-border md:h-[520px]">
             <svg className="pointer-events-none absolute inset-0 h-full w-full">
               {companySponsors.map((s) => (
                 <line
