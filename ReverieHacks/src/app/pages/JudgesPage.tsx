@@ -17,7 +17,7 @@ const judges: Judge[] = [
   { name: 'Dimitrii Timoshenko', role: 'Applied Scientist', company: 'Amazon', img: '/judges/dimitrii.png', track: 'AI/ML' },
   { name: 'Khush Patel', img: '/judges/khush.png', track: 'ML Prompt Engineering' },
   { name: 'Sunil Kumar', img: '/judges/sunil.png', track: 'Ideathon' },
-  { name: 'Fahad Mehfooz', img: '/judges/fahaz.png', track: 'Datathon' },
+  { name: 'Fahad Mehfooz', role: 'Founding AI Engineer', company: 'MenuData', img: '/judges/fahaz.png', track: 'Datathon' },
   { name: 'Kurnal Patel', img: '/judges/krunal.png', track: 'Embedded Systems' },
   { name: 'Jyoti Shah', img: '/judges/jyoti.png' },
   { name: 'Anindita Bhowmick', img: '/judges/anindita.png' },
@@ -59,11 +59,11 @@ export function JudgesPage() {
               <img
                 src={judge.img}
                 alt={judge.name}
-                width={104}
-                height={104}
+                width={128}
+                height={128}
                 loading="lazy"
                 className="rounded-full object-cover ring-1 ring-border transition-all duration-300 group-hover:ring-primary/60"
-                style={{ height: '6.5rem', width: '6.5rem' }}
+                style={{ height: '8rem', width: '8rem' }}
               />
               <h3 className="mt-5 text-lg leading-snug">{judge.name}</h3>
               {judge.role && <p className="mt-1 text-sm text-muted-foreground">{judge.role}</p>}

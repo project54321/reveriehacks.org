@@ -34,13 +34,6 @@ const teamMembers: TeamMember[] = [
     skills: ['Java', 'Robotics', 'Python', 'Full-Stack Development', 'Violin'],
   },
   {
-    name: 'Krishiv Piduri',
-    img: '/team/krishiv.jpg',
-    role: 'Staff Member',
-    bio: 'An AWS Certified DevOps Professional who has built several web apps with 30,000 users and hosted hackathons with 150 participants prior to ReverieHacks.',
-    skills: ['Cloud Infrastructure', 'Full-Stack Development'],
-  },
-  {
     name: 'Arnav Deshmukh',
     img: '/team/arnav.jpg',
     role: 'Staff Member',
