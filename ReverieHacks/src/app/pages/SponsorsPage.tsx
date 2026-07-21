@@ -376,7 +376,7 @@ export function SponsorsPage() {
           <p className="text-muted-foreground">
             Interested in joining the network?{' '}
             <a
-              href="mailto:team@reveriehacks.com"
+              href="mailto:info@reveriehacks.org"
               className="text-primary underline-offset-4 transition-colors hover:underline"
             >
               Request the info pack

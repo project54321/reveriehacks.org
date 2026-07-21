@@ -14,8 +14,8 @@ const channels: Channel[] = [
     icon: Mail,
     title: 'Email',
     blurb: 'For general inquiries',
-    value: 'team@reveriehacks.com',
-    href: 'mailto:team@reveriehacks.com',
+    value: 'info@reveriehacks.org',
+    href: 'mailto:info@reveriehacks.org',
   },
   {
     icon: MessageSquare,
