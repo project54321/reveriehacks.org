@@ -23,6 +23,12 @@ const judges: Judge[] = [
   { name: 'Anindita Bhowmick', role: 'Founder & CEO', company: 'Anibotix Robotics', img: '/judges/anindita.png' },
   { name: 'Jasmit Kaur', role: 'Technology Leader', company: 'ADP', img: '/judges/jasmit.png' },
   { name: 'Mayur Jain', role: 'Senior Software Engineer', company: 'Bridgestone Americas', img: '/judges/mayur.png' },
+  { name: 'Baron', role: 'Founder', company: 'Pedro Pathing', img: '/judges/baron.png' },
+  { name: 'Vidyasagar Palla', role: 'Senior Security Consultant', company: 'Ernst & Young', img: '/judges/vidyasagar.png' },
+  { name: 'Anisha Yarlapati', role: 'Product Manager', company: 'Adobe', img: '/judges/anisha.png' },
+  { name: 'Hung Truong', role: 'Incoming Software Engineer', company: 'HubSpot', img: '/judges/hung.png', track: 'App Development' },
+  { name: 'Udaya Bhaskar Vemuri', role: 'Application Security & DevSecOps', img: '/judges/udaya.png' },
+  { name: 'Frank Chu', img: '/judges/frank.png' },
 ];
 
 export function JudgesPage() {
