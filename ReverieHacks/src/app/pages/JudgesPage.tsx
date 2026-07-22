@@ -15,7 +15,7 @@ const judges: Judge[] = [
   { name: 'Sandeep Shivam', role: 'Associate Director, Product', company: 'Tavant', img: '/judges/sandeep.png', track: 'App Development' },
   { name: 'Pulkit Arya', role: 'Founding Engineer', company: 'Pointer', img: '/judges/pulkit.png', track: 'ML Prompt Engineering' },
   { name: 'Dmitrii Timoshenko', role: 'Applied Scientist', company: 'Amazon', img: '/judges/dimitrii.png', track: 'ML Prompt Engineering' },
-  { name: 'Khush Patel', img: '/judges/khush.png', track: 'Datathon' },
+  { name: 'Khush Patel', role: 'Founding Architect', company: 'Lyzr AI', img: '/judges/khush.png', track: 'Datathon' },
   { name: 'Sunil Kumar', role: 'Principal Agile Practitioner', company: 'Bank of America', img: '/judges/sunil.png', track: 'Ideathon' },
   { name: 'Fahad Mehfooz', role: 'Founding AI Engineer', company: 'MenuData', img: '/judges/fahaz.png', track: 'Datathon' },
   { name: 'Krunal Patel', role: 'Senior Technical Program Manager', company: 'Applied Materials', img: '/judges/krunal.png', track: 'Embedded Systems' },
