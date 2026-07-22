@@ -26,7 +26,8 @@ const companySponsors: Sponsor[] = [
     logo: '/sponsorLogos/fM.svg',
     fit: 'cover',
     url: 'https://featherless.ai',
-    description: 'Seamless inference APIs, plus $300 in AI credits for participants.',
+    description:
+      'Seamless inference APIs — $300 in credits for the ML Prompt Engineering winner, plus a month of subscription for every participant.',
     x: 27,
     y: 30,
   },
@@ -37,7 +38,7 @@ const companySponsors: Sponsor[] = [
     logo: '/sponsorLogos/xyz.png',
     fit: 'contain',
     url: 'https://gen.xyz',
-    description: 'Domains for every project — including 36 free .xyz domains for participants.',
+    description: 'Domains for every project — free .xyz domains for everyone who places.',
     x: 73,
     y: 30,
   },
@@ -60,7 +61,8 @@ const companySponsors: Sponsor[] = [
     fit: 'contain',
     light: true,
     url: 'https://codecrafters.io',
-    description: 'Hands-on programming challenges, plus 6 VIP memberships for winners.',
+    description:
+      'Hands-on programming challenges — VIP memberships for the Software Development podium: 2 years ($720) for 1st, 1 year ($360) for 2nd, and 6 months for 3rd.',
     x: 27,
     y: 72,
   },
