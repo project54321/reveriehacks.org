@@ -19,7 +19,7 @@ interface Sponsor {
 
 // Company sponsors — the constellation (in-kind partners).
 const companySponsors: Sponsor[] = [
-  {
+{
     id: 'featherless',
     name: 'Featherless',
     tier: 'Compute Partner',
@@ -27,8 +27,8 @@ const companySponsors: Sponsor[] = [
     fit: 'cover',
     url: 'https://featherless.ai',
     description: 'Seamless inference APIs, plus $300 in AI credits for participants.',
-    x: 27,
-    y: 30,
+    x: 15,
+    y: 20,
   },
   {
     id: 'xyz',
@@ -38,19 +38,30 @@ const companySponsors: Sponsor[] = [
     fit: 'contain',
     url: 'https://gen.xyz',
     description: 'Domains for every project — including 36 free .xyz domains for participants.',
-    x: 73,
-    y: 30,
+    x: 85,
+    y: 20,
   },
   {
-    id: 'wolfram',
-    name: 'Wolfram',
-    tier: 'Technology Partner',
-    logo: '/sponsorLogos/wolfram.png',
-    fit: 'cover',
-    url: 'https://www.wolfram.com',
-    description: 'Computational access for the next generation of innovators, via Wolfram|One.',
-    x: 73,
-    y: 72,
+    id: 'render',
+    name: 'Render',
+    tier: 'Cloud Partner',
+    logo: '/sponsorLogos/render.png',
+    fit: 'contain',
+    url: 'https://render.com',
+    description: '$50 in building credits for general attendees, plus up to $500 for Best Use of Render track winners.',
+    x: 15,
+    y: 50,
+  },
+  {
+    id: 'tin-computer',
+    name: 'Tin Computer',
+    tier: 'Growth Partner',
+    logo: '/sponsorLogos/tincomputers.png',
+    fit: 'contain',
+    url: 'https://tincomputer.com',
+    description: '$299 in credits (one month of Growth plan) for up to 100 eligible development teams.',
+    x: 85,
+    y: 50,
   },
   {
     id: 'codecrafters',
@@ -61,8 +72,19 @@ const companySponsors: Sponsor[] = [
     light: true,
     url: 'https://codecrafters.io',
     description: 'Hands-on programming challenges, plus 6 VIP memberships for winners.',
-    x: 27,
-    y: 72,
+    x: 30,
+    y: 82,
+  },
+  {
+    id: 'wolfram',
+    name: 'Wolfram',
+    tier: 'Technology Partner',
+    logo: '/sponsorLogos/wolfram.png',
+    fit: 'cover',
+    url: 'https://www.wolfram.com',
+    description: 'Computational access for the next generation of innovators, via Wolfram|One.',
+    x: 70,
+    y: 82,
   },
 ];
 

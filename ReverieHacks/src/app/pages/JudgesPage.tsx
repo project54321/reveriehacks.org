@@ -30,6 +30,8 @@ const judges: Judge[] = [
   { name: 'Hung Truong', role: 'Incoming Software Engineer', company: 'HubSpot', img: '/judges/hung.png', track: 'App Development', linkedin: 'https://www.linkedin.com/in/hungtk04' },
   { name: 'Udaya Bhaskar Vemuri', role: 'Application Security & DevSecOps', img: '/judges/udaya.png', track: 'Software Development', linkedin: 'https://www.linkedin.com/in/udayabhaskarv' },
   { name: 'Frank Chu', role: 'ML Engineering Manager', company: 'Meta', img: '/judges/frank.png', track: 'ML Prompt Engineering' },
+  { name: 'Sai Kishan Naraparaju', role: 'Founder and CEO', company: 'TreeThirty', img: '/judges/sai.png', track: 'App Development', linkedin: 'https://www.linkedin.com/in/sai-kishannaraparaju' },
+  { name: 'Volodymyr Lopukhovych', role: 'Lead Software Engineer', company: 'Disney Streaming', img: '/judges/volodymyr.png', track: 'Embedded Systems', linkedin: 'https://www.linkedin.com/in/lopukhovych/' },
 ];
 
 export function JudgesPage() {
