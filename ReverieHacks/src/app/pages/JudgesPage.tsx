@@ -33,6 +33,7 @@ const judges: Judge[] = [
   { name: 'Volodymyr Lopukhovych', role: 'Lead Software Engineer', company: 'Disney Streaming', img: '/judges/volodymyr.png', track: 'Embedded Systems', linkedin: 'https://www.linkedin.com/in/lopukhovych/' },
   { name: 'Vasuki Vudathala', role:'Staff Performance Engineer', company: 'ServiceNow', img: '/judges/vasuki.png', track: 'Embedded Systems' },
   { name: 'Gayathri Chilukala', role: 'Software Engineer', company: 'Microsoft', img: '/judges/gayathri.png', track: 'App Development', linkedin: 'https://www.linkedin.com/in/gayathrichilukala/'},
+  { name: 'Rishik Boddeti', role: 'CEO and Co-founder at Protoflow', company: 'Protoflow', img: '/judges/rishik.png', track: 'Embedded Systems', linkedin: 'https://www.linkedin.com/in/rishik-boddeti/' },
 ];
 
 export function JudgesPage() {
