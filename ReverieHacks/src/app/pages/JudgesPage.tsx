@@ -19,7 +19,6 @@ const judges: Judge[] = [
   { name: 'Khush Patel', role: 'Founding Architect', company: 'Lyzr AI', img: '/judges/khush.png', track: 'Datathon', linkedin: 'https://patelkhush.com' },
   { name: 'Sunil Kumar', role: 'Principal Agile Practitioner', company: 'Bank of America', img: '/judges/sunil.png', track: 'Ideathon' },
   { name: 'Fahad Mehfooz', role: 'Founding AI Engineer', company: 'MenuData', img: '/judges/fahaz.png', track: 'Datathon' },
-  { name: 'Krunal Patel', role: 'Senior Technical Program Manager', company: 'Applied Materials', img: '/judges/krunal.png', track: 'Embedded Systems', linkedin: 'https://linkedin.com/in/krunalpatel1860' },
   { name: 'Jyoti Shah', role: 'Director of Application Development', company: 'ADP', img: '/judges/jyoti.png', track: 'Datathon' },
   { name: 'Anindita Bhowmick', role: 'Founder & CEO', company: 'Anibotix Robotics', img: '/judges/anindita.png', track: 'Ideathon' },
   { name: 'Jasmit Kaur', role: 'Technology Leader', company: 'ADP', img: '/judges/jasmit.png', track: 'Software Development' },
@@ -32,6 +31,8 @@ const judges: Judge[] = [
   { name: 'Frank Chu', role: 'ML Engineering Manager', company: 'Meta', img: '/judges/frank.png', track: 'ML Prompt Engineering' },
   { name: 'Sai Kishan Naraparaju', role: 'Founder and CEO', company: 'TreeThirty', img: '/judges/sai.png', track: 'App Development', linkedin: 'https://www.linkedin.com/in/sai-kishannaraparaju' },
   { name: 'Volodymyr Lopukhovych', role: 'Lead Software Engineer', company: 'Disney Streaming', img: '/judges/volodymyr.png', track: 'Embedded Systems', linkedin: 'https://www.linkedin.com/in/lopukhovych/' },
+  { name: 'Vasuki Vudathala', role:'Staff Performance Engineer', company: 'ServiceNow', img: '/judges/vasuki.png', track: 'Embedded Systems' },
+  { name: 'Gayathri Chilukala', role: 'Software Engineer', company: 'Microsoft', img: '/judges/gayathri.png', track: 'App Development', linkedin: 'https://www.linkedin.com/in/gayathrichilukala/'},
 ];
 
 export function JudgesPage() {

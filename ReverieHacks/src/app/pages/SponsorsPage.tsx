@@ -107,9 +107,9 @@ interface TeamSponsor {
 
 const teamSponsors: TeamSponsor[] = [
   { name: 'Spectre', tier: 'gold', logo: '/sponsorLogos/spectre.png', fit: 'contain', bare: true, number: '36363' },
-  { name: 'Learner Labs', tier: 'gold', monogram: 'LL', url: 'https://learnerlabs.app' },
+  { name: 'Learner Labs', tier: 'gold', logo: '/sponsorLogos/ll.png', url: 'https://learnerlabs.app' },
   { name: 'Banana Bots', tier: 'silver', logo: '/sponsorLogos/bananabots.png', fit: 'cover', number: '30358' },
-  { name: 'Cosmobotics', tier: 'silver', monogram: 'C', number: '23361' },
+  { name: 'Cosmobotics', tier: 'silver', logo: '/sponsorLogos/cosmo.png', number: '23361' },
   { name: 'Eclipse', tier: 'bronze', logo: '/sponsorLogos/eclipse.png', fit: 'cover', number: '12670' },
   {
     name: 'Luminary',
