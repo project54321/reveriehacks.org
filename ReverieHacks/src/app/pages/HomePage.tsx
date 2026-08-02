@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { Link } from 'react-router';
-import { ArrowRight, Banknote, Briefcase, Cpu, Crown, Globe } from 'lucide-react';
+import { ArrowRight, Banknote, Briefcase, Cpu, Crown, FlaskConical, Globe } from 'lucide-react';
 
 const stats = [
   { value: '500+', label: 'Builders' },
@@ -15,6 +15,7 @@ const prizes = [
   { icon: Cpu, title: '$300 in Featherless credits', body: 'AI inference credits from Featherless.' },
   { icon: Crown, title: '6 Code Crafters memberships', body: 'VIP access to Code Crafters.' },
   { icon: Globe, title: '36 .xyz domains', body: 'A domain for your project, from XYZ.' },
+  { icon: FlaskConical, title: '20% off RISE Research', body: 'A discount on the RISE Research program for the winning track.' },
 ];
 
 const points = [

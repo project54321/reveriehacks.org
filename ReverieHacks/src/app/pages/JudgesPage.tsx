@@ -21,7 +21,7 @@ const judges: Judge[] = [
   { name: 'Fahad Mehfooz', role: 'Founding AI Engineer', company: 'MenuData', img: '/judges/fahaz.png', track: 'Datathon' },
   { name: 'Jyoti Shah', role: 'Director of Application Development', company: 'ADP', img: '/judges/jyoti.png', track: 'Datathon' },
   { name: 'Anindita Bhowmick', role: 'Founder & CEO', company: 'Anibotix Robotics', img: '/judges/anindita.png', track: 'Ideathon' },
-  { name: 'Jasmit Kaur', role: 'Technology Leader', company: 'ADP', img: '/judges/jasmit.png', track: 'Software Development' },
+  { name: 'Jasmit Kaur', role: 'Technology Leader', company: 'Meta', img: '/judges/jasmit.png', track: 'Software Development' },
   { name: 'Mayur Jain', role: 'Senior Software Engineer', company: 'Bridgestone Americas', img: '/judges/mayur.png', track: 'Software Development', linkedin: 'https://www.linkedin.com/in/maayurjaain' },
   { name: 'Baron Henderson', role: 'Founder', company: 'Pedro Pathing', img: '/judges/baron.png', track: 'Software Development' },
   { name: 'Vidyasagar Palla', role: 'Senior Security Consultant', company: 'Ernst & Young', img: '/judges/vidyasagar.png', track: 'Ideathon' },

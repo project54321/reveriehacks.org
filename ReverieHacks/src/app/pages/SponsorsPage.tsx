@@ -93,7 +93,7 @@ const companySponsors: Sponsor[] = [
 // Financial team sponsors, grouped by contribution tier.
 interface TeamSponsor {
   name: string;
-  tier: 'main' | 'gold' | 'silver' | 'bronze';
+  tier: 'diamond' | 'main' | 'gold' | 'silver' | 'bronze';
   logo?: string;
   fit?: 'cover' | 'contain';
   light?: boolean;
@@ -108,11 +108,13 @@ interface TeamSponsor {
 }
 
 const teamSponsors: TeamSponsor[] = [
-  { name: 'Spectre', tier: 'gold', logo: '/sponsorLogos/spectre.png', fit: 'contain', bare: true, number: '36363' },
+  { name: 'Spectre', tier: 'diamond', logo: '/sponsorLogos/spectre.png', fit: 'contain', bare: true, number: '36363' },
   { name: 'Learner Labs', tier: 'gold', logo: '/sponsorLogos/ll.png', url: 'https://learnerlabs.app' },
   { name: 'Banana Bots', tier: 'silver', logo: '/sponsorLogos/bananabots.png', fit: 'cover', number: '30358' },
   { name: 'Cosmobotics', tier: 'silver', logo: '/sponsorLogos/cosmo.png', number: '23361' },
+  { name: 'ViperBots Recoil', tier: 'silver', logo: '/sponsorLogos/recoil.png', fit: 'contain', light: true, number: '16311' },
   { name: 'Eclipse', tier: 'bronze', logo: '/sponsorLogos/eclipse.png', fit: 'cover', number: '12670' },
+  { name: 'Quantum Coders', tier: 'bronze', logo: '/sponsorLogos/QuantamCoders.png', fit: 'cover', number: '32001' },
   {
     name: 'Luminary',
     tier: 'bronze',
@@ -127,6 +129,7 @@ const teamSponsors: TeamSponsor[] = [
 ];
 
 const tiers = [
+  { key: 'diamond', label: 'Diamond', color: 'text-[#7fd8e8]' },
   { key: 'main', label: 'Main', color: 'text-primary' },
   { key: 'gold', label: 'Gold', color: 'text-[#e0b83a]' },
   { key: 'silver', label: 'Silver', color: 'text-[#aeb6c2]' },
