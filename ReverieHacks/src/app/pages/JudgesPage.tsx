@@ -49,6 +49,7 @@ const judges: Judge[] = [
 const bountyPanel: Judge[] = [
   { name: 'Michael Chinaloy', role: 'Engineering Manager', company: 'Coinbase', linkedin: 'https://www.linkedin.com/in/michael-chinaloy/' },
   { name: 'Sanket Rege', role: 'Software Engineering Manager', company: 'EchoStar', linkedin: 'https://www.linkedin.com/in/sanketrege' },
+  { name: 'Ruide Zhu', role: 'Founding Engineer, Infrastructure & Research', company: 'Andromede AI', linkedin: 'https://www.linkedin.com/in/ruide-zhu-8136b4192/' },
 ];
 
 function PersonCard({ person, index }: { person: Judge; index: number }) {
