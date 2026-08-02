@@ -114,7 +114,6 @@ const teamSponsors: TeamSponsor[] = [
   { name: 'Cosmobotics', tier: 'silver', logo: '/sponsorLogos/cosmo.png', number: '23361' },
   { name: 'ViperBots Recoil', tier: 'silver', logo: '/sponsorLogos/recoil.png', fit: 'contain', light: true, number: '16311' },
   { name: 'Eclipse', tier: 'bronze', logo: '/sponsorLogos/eclipse.png', fit: 'cover', number: '12670' },
-  { name: 'Quantum Coders', tier: 'bronze', logo: '/sponsorLogos/QuantamCoders.png', fit: 'cover', number: '32001' },
   {
     name: 'Luminary',
     tier: 'bronze',
@@ -125,6 +124,7 @@ const teamSponsors: TeamSponsor[] = [
     url: 'https://luminaryrobotics.org',
     number: '36633',
   },
+  { name: 'Quantum Coders', tier: 'bronze', logo: '/sponsorLogos/QuantamCoders.png', fit: 'cover', number: '32001' },
   { name: 'Roboplayers', tier: 'bronze', logo: '/sponsorLogos/roboplayers.png', fit: 'cover', number: '18270' },
 ];
 
