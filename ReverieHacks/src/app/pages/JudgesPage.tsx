@@ -45,6 +45,16 @@ const judges: Judge[] = [
   { name: 'Rishik Boddeti', role: 'CEO and Co-founder at Protoflow', company: 'Protoflow', img: '/judges/rishik.png', track: 'Embedded Systems', linkedin: 'https://www.linkedin.com/in/rishik-boddeti/' },
 ];
 
+// Order the track sections follow on the page (mirrors the tracks on the About page).
+const trackOrder = [
+  'Ideathon',
+  'ML Prompt Engineering',
+  'Software Development',
+  'Datathon',
+  'Embedded Systems',
+  'App Development',
+];
+
 // Bounty System Panel: assess cross-track bounty submissions for bonus points.
 const bountyPanel: Judge[] = [
   { name: 'Michael Chinaloy', role: 'Engineering Manager', company: 'Coinbase', img: '/judges/micheal.png', linkedin: 'https://www.linkedin.com/in/michael-chinaloy/' },
@@ -78,11 +88,6 @@ function PersonCard({ person, index }: { person: Judge; index: number }) {
       </h3>
       {person.role && <p className="mt-1 text-sm text-muted-foreground">{person.role}</p>}
       {person.company && <p className="text-sm text-muted-foreground">{person.company}</p>}
-      {person.track && (
-        <span className="mt-3 inline-block rounded-full border border-primary/30 px-3 py-1 text-xs text-primary">
-          {person.track}
-        </span>
-      )}
     </>
   );
   const props = {
@@ -128,11 +133,27 @@ export function JudgesPage() {
           </p>
         </motion.div>
 
-        {/* Judge grid */}
-        <div className="mt-16 grid grid-cols-2 gap-x-6 gap-y-14 sm:grid-cols-3 lg:grid-cols-4">
-          {judges.map((judge, index) => (
-            <PersonCard key={judge.name} person={judge} index={index} />
-          ))}
+        {/* Judges, grouped by track */}
+        <div className="mt-16 space-y-16">
+          {trackOrder.map((track) => {
+            const group = judges.filter((judge) => judge.track === track);
+            if (!group.length) return null;
+            return (
+              <div key={track}>
+                <div className="flex items-baseline justify-between border-b border-border pb-3">
+                  <h2 className="text-2xl">{track}</h2>
+                  <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                    {group.length} {group.length === 1 ? 'judge' : 'judges'}
+                  </span>
+                </div>
+                <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-14 sm:grid-cols-3 lg:grid-cols-4">
+                  {group.map((judge, index) => (
+                    <PersonCard key={judge.name} person={judge} index={index} />
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         {/* Bounty System Panel */}
