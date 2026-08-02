@@ -17,7 +17,7 @@ interface Sponsor {
   light?: boolean;
 }
 
-// Company sponsors — the constellation (in-kind partners).
+// Company sponsors: the constellation (in-kind partners).
 const companySponsors: Sponsor[] = [
 {
     id: 'featherless',
@@ -27,7 +27,7 @@ const companySponsors: Sponsor[] = [
     fit: 'cover',
     url: 'https://featherless.ai',
     description:
-      'Seamless inference APIs — $300 in credits for the ML Prompt Engineering winner, plus a month of subscription for every participant.',
+      'Seamless inference APIs, with $300 in credits for the ML Prompt Engineering winner plus a month of subscription for every participant.',
     x: 15,
     y: 20,
   },
@@ -38,7 +38,7 @@ const companySponsors: Sponsor[] = [
     logo: '/sponsorLogos/xyz.png',
     fit: 'contain',
     url: 'https://gen.xyz',
-    description: 'Domains for every project — free .xyz domains for everyone who places.',
+    description: 'Domains for every project, with free .xyz domains for everyone who places.',
     x: 85,
     y: 20,
   },
@@ -73,7 +73,7 @@ const companySponsors: Sponsor[] = [
     light: true,
     url: 'https://codecrafters.io',
     description:
-      'Hands-on programming challenges — VIP memberships for the Software Development podium: 2 years ($720) for 1st, 1 year ($360) for 2nd, and 6 months for 3rd.',
+      'Hands-on programming challenges, with VIP memberships for the Software Development podium: 2 years ($720) for 1st, 1 year ($360) for 2nd, and 6 months for 3rd.',
     x: 30,
     y: 82,
   },
@@ -203,7 +203,7 @@ export function SponsorsPage() {
   return (
     <div className="min-h-screen px-6 pb-24 pt-36">
       <div className="mx-auto max-w-5xl">
-        {/* Header — left aligned to match the rest of the site */}
+        {/* Header: left aligned to match the rest of the site */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -218,7 +218,7 @@ export function SponsorsPage() {
           </p>
         </motion.div>
 
-        {/* Sponsors — tiered, compact divided rows */}
+        {/* Sponsors: tiered, compact divided rows */}
         <section className="mt-16">
           <div className="flex items-baseline justify-between border-b border-border pb-3">
             <h2 className="text-2xl">Sponsors</h2>
@@ -267,7 +267,7 @@ export function SponsorsPage() {
           </div>
         </section>
 
-        {/* Company partners — the constellation */}
+        {/* Company partners: the constellation */}
         <section className="mt-20">
           <div className="flex items-baseline justify-between border-b border-border pb-3">
             <h2 className="text-2xl">Partners</h2>

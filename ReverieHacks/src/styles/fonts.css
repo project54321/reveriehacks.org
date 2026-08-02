@@ -1,6 +1,6 @@
 /* Self-hosted fonts (served from /public/fonts) */
 
-/* Apollo — reserved for the top-left wordmark logo only */
+/* Apollo: reserved for the top-left wordmark logo only */
 @font-face {
   font-family: 'Apollo';
   src: url('/fonts/Apollo.otf') format('opentype');
@@ -9,7 +9,7 @@
   font-display: swap;
 }
 
-/* Creato Display — primary typeface for the whole site */
+/* Creato Display: primary typeface for the whole site */
 @font-face {
   font-family: 'Creato Display';
   src: url('/fonts/CreatoDisplay-Light.otf') format('opentype');

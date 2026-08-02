@@ -7,6 +7,7 @@ interface Judge {
   company?: string;
   track?: string;
   linkedin?: string;
+  email?: string;
 }
 
 function initials(name: string) {
@@ -45,11 +46,11 @@ const judges: Judge[] = [
   { name: 'Rishik Boddeti', role: 'CEO and Co-founder at Protoflow', company: 'Protoflow', img: '/judges/rishik.png', track: 'Embedded Systems', linkedin: 'https://www.linkedin.com/in/rishik-boddeti/' },
 ];
 
-// Bounty System Panel — assess cross-track bounty submissions for bonus points.
+// Bounty System Panel: assess cross-track bounty submissions for bonus points.
 const bountyPanel: Judge[] = [
-  { name: 'Michael Chinaloy', role: 'Engineering Manager', company: 'Coinbase', linkedin: 'https://www.linkedin.com/in/michael-chinaloy/' },
-  { name: 'Sanket Rege', role: 'Software Engineering Manager', company: 'EchoStar', linkedin: 'https://www.linkedin.com/in/sanketrege' },
-  { name: 'Ruide Zhu', role: 'Founding Engineer, Infrastructure & Research', company: 'Andromede AI', linkedin: 'https://www.linkedin.com/in/ruide-zhu-8136b4192/' },
+  { name: 'Michael Chinaloy', role: 'Engineering Manager', company: 'Coinbase', img: '/judges/micheal.png', linkedin: 'https://www.linkedin.com/in/michael-chinaloy/' },
+  { name: 'Sanket Rege', role: 'Software Engineering Manager', company: 'EchoStar', img: '/judges/sanket.png', linkedin: 'https://www.linkedin.com/in/sanketrege' },
+  { name: 'Ruide Zhu', role: 'Founding Engineer, Infrastructure & Research', company: 'Andromede AI', img: '/judges/ruide.png' },
 ];
 
 function PersonCard({ person, index }: { person: Judge; index: number }) {
@@ -91,12 +92,13 @@ function PersonCard({ person, index }: { person: Judge; index: number }) {
     viewport: { once: true, margin: '-40px' },
     transition: { duration: 0.4, delay: (index % 4) * 0.05 },
   };
-  return person.linkedin ? (
+  const link = person.linkedin ?? (person.email ? `mailto:${person.email}` : undefined);
+  return link ? (
     <motion.a
       {...props}
-      href={person.linkedin}
-      target="_blank"
-      rel="noreferrer"
+      href={link}
+      target={person.linkedin ? '_blank' : undefined}
+      rel={person.linkedin ? 'noreferrer' : undefined}
       className="group flex cursor-pointer flex-col items-center text-center"
     >
       {inner}
@@ -148,8 +150,8 @@ export function JudgesPage() {
             Bounty System <span className="text-primary">Panel</span>
           </h2>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            This panel reviews bounty submissions — optional add-ons contestants can build for bonus
-            points — across every track, and awards points accordingly.
+            This panel reviews bounty submissions, the optional add-ons contestants can build for
+            bonus points, across every track and awards points accordingly.
           </p>
         </motion.div>
 
