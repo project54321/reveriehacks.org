@@ -2,11 +2,20 @@ import { motion } from 'motion/react';
 
 interface Judge {
   name: string;
-  img: string;
+  img?: string;
   role?: string;
   company?: string;
   track?: string;
   linkedin?: string;
+}
+
+function initials(name: string) {
+  return name
+    .split(' ')
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase();
 }
 
 const judges: Judge[] = [
@@ -36,6 +45,68 @@ const judges: Judge[] = [
   { name: 'Rishik Boddeti', role: 'CEO and Co-founder at Protoflow', company: 'Protoflow', img: '/judges/rishik.png', track: 'Embedded Systems', linkedin: 'https://www.linkedin.com/in/rishik-boddeti/' },
 ];
 
+// Bounty System Panel — assess cross-track bounty submissions for bonus points.
+const bountyPanel: Judge[] = [
+  { name: 'Michael Chinaloy', role: 'Engineering Manager', company: 'Coinbase', linkedin: 'https://www.linkedin.com/in/michael-chinaloy/' },
+  { name: 'Sanket Rege', role: 'Software Engineering Manager', company: 'EchoStar', linkedin: 'https://www.linkedin.com/in/sanketrege' },
+];
+
+function PersonCard({ person, index }: { person: Judge; index: number }) {
+  const inner = (
+    <>
+      {person.img ? (
+        <img
+          src={person.img}
+          alt={person.name}
+          width={128}
+          height={128}
+          loading="lazy"
+          className="rounded-full object-cover ring-1 ring-border transition-all duration-300 group-hover:ring-primary/60"
+          style={{ height: '8rem', width: '8rem' }}
+        />
+      ) : (
+        <span
+          className="flex items-center justify-center rounded-full bg-card font-display text-2xl text-muted-foreground ring-1 ring-border transition-all duration-300 group-hover:ring-primary/60"
+          style={{ height: '8rem', width: '8rem' }}
+        >
+          {initials(person.name)}
+        </span>
+      )}
+      <h3 className="mt-5 text-lg leading-snug transition-colors group-hover:text-primary">
+        {person.name}
+      </h3>
+      {person.role && <p className="mt-1 text-sm text-muted-foreground">{person.role}</p>}
+      {person.company && <p className="text-sm text-muted-foreground">{person.company}</p>}
+      {person.track && (
+        <span className="mt-3 inline-block rounded-full border border-primary/30 px-3 py-1 text-xs text-primary">
+          {person.track}
+        </span>
+      )}
+    </>
+  );
+  const props = {
+    initial: { opacity: 0, y: 14 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: '-40px' },
+    transition: { duration: 0.4, delay: (index % 4) * 0.05 },
+  };
+  return person.linkedin ? (
+    <motion.a
+      {...props}
+      href={person.linkedin}
+      target="_blank"
+      rel="noreferrer"
+      className="group flex cursor-pointer flex-col items-center text-center"
+    >
+      {inner}
+    </motion.a>
+  ) : (
+    <motion.div {...props} className="group flex flex-col items-center text-center">
+      {inner}
+    </motion.div>
+  );
+}
+
 export function JudgesPage() {
   return (
     <div className="min-h-screen px-6 pb-28 pt-36">
@@ -58,57 +129,33 @@ export function JudgesPage() {
 
         {/* Judge grid */}
         <div className="mt-16 grid grid-cols-2 gap-x-6 gap-y-14 sm:grid-cols-3 lg:grid-cols-4">
-          {judges.map((judge, index) => {
-            const inner = (
-              <>
-                <img
-                  src={judge.img}
-                  alt={judge.name}
-                  width={128}
-                  height={128}
-                  loading="lazy"
-                  className="rounded-full object-cover ring-1 ring-border transition-all duration-300 group-hover:ring-primary/60"
-                  style={{ height: '8rem', width: '8rem' }}
-                />
-                <h3 className="mt-5 text-lg leading-snug transition-colors group-hover:text-primary">
-                  {judge.name}
-                </h3>
-                {judge.role && <p className="mt-1 text-sm text-muted-foreground">{judge.role}</p>}
-                {judge.company && <p className="text-sm text-muted-foreground">{judge.company}</p>}
-                {judge.track && (
-                  <span className="mt-3 inline-block rounded-full border border-primary/30 px-3 py-1 text-xs text-primary">
-                    {judge.track}
-                  </span>
-                )}
-              </>
-            );
-            const props = {
-              initial: { opacity: 0, y: 14 },
-              whileInView: { opacity: 1, y: 0 },
-              viewport: { once: true, margin: '-40px' },
-              transition: { duration: 0.4, delay: (index % 4) * 0.05 },
-            };
-            return judge.linkedin ? (
-              <motion.a
-                key={judge.name}
-                {...props}
-                href={judge.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                className="group flex cursor-pointer flex-col items-center text-center"
-              >
-                {inner}
-              </motion.a>
-            ) : (
-              <motion.div
-                key={judge.name}
-                {...props}
-                className="group flex flex-col items-center text-center"
-              >
-                {inner}
-              </motion.div>
-            );
-          })}
+          {judges.map((judge, index) => (
+            <PersonCard key={judge.name} person={judge} index={index} />
+          ))}
+        </div>
+
+        {/* Bounty System Panel */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mt-24 border-t border-border pt-12"
+        >
+          <p className="eyebrow text-muted-foreground">Bonus points</p>
+          <h2 className="mt-4 text-3xl">
+            Bounty System <span className="text-primary">Panel</span>
+          </h2>
+          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+            This panel reviews bounty submissions — optional add-ons contestants can build for bonus
+            points — across every track, and awards points accordingly.
+          </p>
+        </motion.div>
+
+        <div className="mt-16 grid grid-cols-2 gap-x-6 gap-y-14 sm:grid-cols-3 lg:grid-cols-4">
+          {bountyPanel.map((person, index) => (
+            <PersonCard key={person.name} person={person} index={index} />
+          ))}
         </div>
 
         {/* How judging works */}
