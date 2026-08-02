@@ -7,7 +7,6 @@ interface Judge {
   company?: string;
   track?: string;
   linkedin?: string;
-  email?: string;
 }
 
 function initials(name: string) {
@@ -92,13 +91,12 @@ function PersonCard({ person, index }: { person: Judge; index: number }) {
     viewport: { once: true, margin: '-40px' },
     transition: { duration: 0.4, delay: (index % 4) * 0.05 },
   };
-  const link = person.linkedin ?? (person.email ? `mailto:${person.email}` : undefined);
-  return link ? (
+  return person.linkedin ? (
     <motion.a
       {...props}
-      href={link}
-      target={person.linkedin ? '_blank' : undefined}
-      rel={person.linkedin ? 'noreferrer' : undefined}
+      href={person.linkedin}
+      target="_blank"
+      rel="noreferrer"
       className="group flex cursor-pointer flex-col items-center text-center"
     >
       {inner}
