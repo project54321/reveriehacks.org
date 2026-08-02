@@ -179,27 +179,6 @@ export function JudgesPage() {
             <PersonCard key={person.name} person={person} index={index} />
           ))}
         </div>
-
-        {/* How judging works */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mt-24 max-w-3xl border-t border-border pt-12"
-        >
-          <h2 className="text-3xl">How judging works</h2>
-          <div className="mt-6 space-y-4 text-lg leading-relaxed text-muted-foreground">
-            <p>
-              Judges evaluate projects on creativity, technical execution, impact, and presentation.
-              They are looking for ideas that push boundaries and solve real problems.
-            </p>
-            <p>
-              Do not stress about making it perfect. Focus on making it yours. The best projects come
-              from genuine curiosity and clever problem-solving, not just polished demos.
-            </p>
-          </div>
-        </motion.div>
       </div>
     </div>
   );
