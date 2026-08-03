@@ -28,8 +28,8 @@ const companySponsors: Sponsor[] = [
     url: 'https://featherless.ai',
     description:
       'Seamless inference APIs, with $300 in credits for the ML Prompt Engineering winner plus a month of subscription for every participant.',
-    x: 15,
-    y: 20,
+    x: 23,
+    y: 23,
   },
   {
     id: 'xyz',
@@ -39,8 +39,8 @@ const companySponsors: Sponsor[] = [
     fit: 'contain',
     url: 'https://gen.xyz',
     description: 'Domains for every project, with free .xyz domains for everyone who places.',
-    x: 85,
-    y: 20,
+    x: 77,
+    y: 23,
   },
   {
     id: 'render',
@@ -51,7 +51,7 @@ const companySponsors: Sponsor[] = [
     light: true,
     url: 'https://render.com',
     description: '$50 in building credits for general attendees, plus up to $500 for Best Use of Render track winners.',
-    x: 15,
+    x: 12,
     y: 50,
   },
   {
@@ -63,7 +63,7 @@ const companySponsors: Sponsor[] = [
     light: true,
     url: 'https://tincomputer.com',
     description: '$299 in credits (one month of Growth plan) for up to 100 eligible development teams.',
-    x: 85,
+    x: 88,
     y: 50,
   },
   {
@@ -76,8 +76,8 @@ const companySponsors: Sponsor[] = [
     url: 'https://codecrafters.io',
     description:
       'Hands-on programming challenges, with VIP memberships for the Software Development podium: 2 years ($720) for 1st, 1 year ($360) for 2nd, and 6 months for 3rd.',
-    x: 30,
-    y: 82,
+    x: 23,
+    y: 77,
   },
   {
     id: 'wolfram',
@@ -87,8 +87,34 @@ const companySponsors: Sponsor[] = [
     fit: 'cover',
     url: 'https://www.wolfram.com',
     description: 'Computational access for the next generation of innovators, via Wolfram|One.',
-    x: 70,
-    y: 82,
+    x: 77,
+    y: 77,
+  },
+  {
+    id: 'devswarm',
+    name: 'DevSwarm',
+    tier: 'Agents Partner',
+    logo: '/sponsorLogos/devswarm.png',
+    fit: 'contain',
+    light: true,
+    url: 'https://devswarm.ai',
+    description:
+      'Parallel AI coding agents across isolated Git branches, with a month of DevSwarm Pro for every participant and a full year for the winners.',
+    x: 50,
+    y: 12,
+  },
+  {
+    id: 'rise-research',
+    name: 'RISE Research',
+    tier: 'Research Partner',
+    logo: '/sponsorLogos/rise.png',
+    fit: 'contain',
+    light: true,
+    url: 'https://riseglobaleducation.com',
+    description:
+      'Research mentorship with PhD mentors, offering research scholarships for winners and finalists plus judges from their mentor network.',
+    x: 50,
+    y: 88,
   },
 ];
 
@@ -114,7 +140,7 @@ const teamSponsors: TeamSponsor[] = [
   { name: 'Learner Labs', tier: 'gold', logo: '/sponsorLogos/ll.png', url: 'https://learnerlabs.app' },
   { name: 'Banana Bots', tier: 'silver', logo: '/sponsorLogos/bananabots.png', fit: 'cover', number: '30358' },
   { name: 'Cosmobotics', tier: 'silver', logo: '/sponsorLogos/cosmo.png', number: '23361' },
-  { name: 'ViperBots Recoil', tier: 'silver', logo: '/sponsorLogos/recoil.png', fit: 'contain', light: true, number: '16311' },
+  { name: 'ViperBots Recoil', tier: 'silver', logo: '/sponsorLogos/recoil.png', fit: 'cover', light: true, number: '16311' },
   { name: 'Eclipse', tier: 'bronze', logo: '/sponsorLogos/eclipse.png', fit: 'cover', number: '12670' },
   {
     name: 'Luminary',
@@ -279,7 +305,7 @@ export function SponsorsPage() {
             Companies providing the tools, credits, and prizes.
           </p>
 
-          <div className="relative mx-auto mt-8 h-[440px] w-full max-w-[900px] border border-border md:h-[520px]">
+          <div className="relative mx-auto mt-8 h-[560px] w-full max-w-[900px] border border-border md:h-[640px]">
             <svg className="pointer-events-none absolute inset-0 h-full w-full">
               {companySponsors.map((s) => (
                 <line
