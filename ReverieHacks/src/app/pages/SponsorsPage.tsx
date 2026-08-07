@@ -28,8 +28,8 @@ const companySponsors: Sponsor[] = [
     url: 'https://featherless.ai',
     description:
       'Seamless inference APIs, with $300 in credits for the ML Prompt Engineering winner plus a month of subscription for every participant.',
-    x: 23,
-    y: 23,
+    x: 17,
+    y: 31,
   },
   {
     id: 'xyz',
@@ -39,8 +39,8 @@ const companySponsors: Sponsor[] = [
     fit: 'contain',
     url: 'https://gen.xyz',
     description: 'Domains for every project, with free .xyz domains for everyone who places.',
-    x: 77,
-    y: 23,
+    x: 83,
+    y: 31,
   },
   {
     id: 'render',
@@ -51,8 +51,8 @@ const companySponsors: Sponsor[] = [
     light: true,
     url: 'https://render.com',
     description: '$50 in building credits for general attendees, plus up to $500 for Best Use of Render track winners.',
-    x: 12,
-    y: 50,
+    x: 13,
+    y: 57,
   },
   {
     id: 'tin-computer',
@@ -63,8 +63,8 @@ const companySponsors: Sponsor[] = [
     light: true,
     url: 'https://tincomputer.com',
     description: '$299 in credits (one month of Growth plan) for up to 100 eligible development teams.',
-    x: 88,
-    y: 50,
+    x: 87,
+    y: 57,
   },
   {
     id: 'codecrafters',
@@ -76,8 +76,8 @@ const companySponsors: Sponsor[] = [
     url: 'https://codecrafters.io',
     description:
       'Hands-on programming challenges, with VIP memberships for the Software Development podium: 2 years ($720) for 1st, 1 year ($360) for 2nd, and 6 months for 3rd.',
-    x: 23,
-    y: 77,
+    x: 26,
+    y: 79,
   },
   {
     id: 'wolfram',
@@ -87,8 +87,8 @@ const companySponsors: Sponsor[] = [
     fit: 'cover',
     url: 'https://www.wolfram.com',
     description: 'Computational access for the next generation of innovators, via Wolfram|One.',
-    x: 77,
-    y: 77,
+    x: 74,
+    y: 79,
   },
   {
     id: 'devswarm',
@@ -100,8 +100,8 @@ const companySponsors: Sponsor[] = [
     url: 'https://devswarm.ai',
     description:
       'Parallel AI coding agents across isolated Git branches, with a month of DevSwarm Pro for every participant and a full year for the winners.',
-    x: 50,
-    y: 12,
+    x: 37,
+    y: 14,
   },
   {
     id: 'rise-research',
@@ -112,9 +112,20 @@ const companySponsors: Sponsor[] = [
     light: true,
     url: 'https://riseglobaleducation.com',
     description:
-      'Research mentorship with PhD mentors, offering research scholarships for winners and finalists plus judges from their mentor network.',
+      'Research mentorship with PhD mentors, including 20% off the RISE Research program for the winning track.',
     x: 50,
     y: 88,
+  },
+  {
+    id: 'formaloo',
+    name: 'Formaloo',
+    tier: 'No-Code Partner',
+    logo: '/sponsorLogos/formaloo.png',
+    fit: 'cover',
+    url: 'https://formaloo.com',
+    description: 'No-code forms, surveys, and data apps for collecting and acting on submissions.',
+    x: 63,
+    y: 14,
   },
 ];
 
@@ -214,7 +225,7 @@ function NodeLogo({ s }: { s: Sponsor }) {
       <img
         src={s.logo}
         alt={`${s.name} logo`}
-        className={`h-full w-full ${s.fit === 'contain' ? 'object-contain p-3.5' : 'object-cover'}`}
+        className={`h-full w-full ${s.fit === 'contain' ? 'object-contain p-2 sm:p-2.5 md:p-3.5' : 'object-cover'}`}
       />
     );
   }
@@ -324,7 +335,7 @@ export function SponsorsPage() {
 
             {/* Center node */}
             <div className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
-              <div className="flex h-32 w-32 flex-col items-center justify-center rounded-full border border-primary/40 bg-background text-center md:h-36 md:w-36">
+              <div className="flex h-24 w-24 flex-col items-center justify-center rounded-full border border-primary/40 bg-background text-center sm:h-28 sm:w-28 md:h-36 md:w-36">
                 <span className="font-wordmark text-base uppercase leading-[0.9] tracking-[0.08em]">
                   Reverie
                   <br />
@@ -351,7 +362,7 @@ export function SponsorsPage() {
                   onMouseEnter={() => setHovered(s.id)}
                   onMouseLeave={() => setHovered(null)}
                 >
-                  <div className="relative flex h-28 w-28 items-center justify-center">
+                  <div className="relative flex h-20 w-20 items-center justify-center sm:h-24 sm:w-24 md:h-28 md:w-28">
                     <AnimatePresence initial={false} mode="popLayout">
                       {!isHovered ? (
                         <motion.a
@@ -361,7 +372,7 @@ export function SponsorsPage() {
                           target={external ? '_blank' : undefined}
                           rel={external ? 'noreferrer' : undefined}
                           transition={{ type: 'spring', stiffness: 320, damping: 30 }}
-                          className={`flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border border-border transition-colors hover:border-primary/50 ${
+                          className={`flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-border transition-colors hover:border-primary/50 sm:h-24 sm:w-24 md:h-28 md:w-28 ${
                             s.light ? 'bg-white' : 'bg-card'
                           }`}
                         >

@@ -4,13 +4,13 @@ import { ArrowRight, Banknote, Briefcase, Cpu, Crown, FlaskConical, Globe } from
 
 const stats = [
   { value: '500+', label: 'Builders' },
-  { value: '$650', label: 'In cash' },
+  { value: '$800', label: 'In cash' },
   { value: '6', label: 'Tracks' },
   { value: '16', label: 'Days' },
 ];
 
 const prizes = [
-  { icon: Banknote, title: '$650 in cash', body: 'Prize money for the standout projects.' },
+  { icon: Banknote, title: '$800 in cash', body: 'Prize money for the standout projects.' },
   { icon: Briefcase, title: '6 internships', body: 'At Learner Labs, an emerging AI startup.' },
   { icon: Cpu, title: '$300 in Featherless credits', body: 'AI inference credits from Featherless.' },
   { icon: Crown, title: '6 Code Crafters memberships', body: 'VIP access to Code Crafters.' },
