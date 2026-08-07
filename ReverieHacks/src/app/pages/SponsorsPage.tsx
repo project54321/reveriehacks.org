@@ -28,8 +28,8 @@ const companySponsors: Sponsor[] = [
     url: 'https://featherless.ai',
     description:
       'Seamless inference APIs, with $300 in credits for the ML Prompt Engineering winner plus a month of subscription for every participant.',
-    x: 17,
-    y: 31,
+    x: 16,
+    y: 34,
   },
   {
     id: 'xyz',
@@ -39,8 +39,8 @@ const companySponsors: Sponsor[] = [
     fit: 'contain',
     url: 'https://gen.xyz',
     description: 'Domains for every project, with free .xyz domains for everyone who places.',
-    x: 83,
-    y: 31,
+    x: 84,
+    y: 34,
   },
   {
     id: 'render',
@@ -52,7 +52,7 @@ const companySponsors: Sponsor[] = [
     url: 'https://render.com',
     description: '$50 in building credits for general attendees, plus up to $500 for Best Use of Render track winners.',
     x: 13,
-    y: 57,
+    y: 56,
   },
   {
     id: 'tin-computer',
@@ -64,7 +64,7 @@ const companySponsors: Sponsor[] = [
     url: 'https://tincomputer.com',
     description: '$299 in credits (one month of Growth plan) for up to 100 eligible development teams.',
     x: 87,
-    y: 57,
+    y: 56,
   },
   {
     id: 'codecrafters',
@@ -76,8 +76,8 @@ const companySponsors: Sponsor[] = [
     url: 'https://codecrafters.io',
     description:
       'Hands-on programming challenges, with VIP memberships for the Software Development podium: 2 years ($720) for 1st, 1 year ($360) for 2nd, and 6 months for 3rd.',
-    x: 26,
-    y: 79,
+    x: 40,
+    y: 87,
   },
   {
     id: 'wolfram',
@@ -87,8 +87,8 @@ const companySponsors: Sponsor[] = [
     fit: 'cover',
     url: 'https://www.wolfram.com',
     description: 'Computational access for the next generation of innovators, via Wolfram|One.',
-    x: 74,
-    y: 79,
+    x: 78,
+    y: 75,
   },
   {
     id: 'devswarm',
@@ -100,8 +100,8 @@ const companySponsors: Sponsor[] = [
     url: 'https://devswarm.ai',
     description:
       'Parallel AI coding agents across isolated Git branches, with a month of DevSwarm Pro for every participant and a full year for the winners.',
-    x: 37,
-    y: 14,
+    x: 30,
+    y: 17,
   },
   {
     id: 'rise-research',
@@ -113,8 +113,8 @@ const companySponsors: Sponsor[] = [
     url: 'https://riseglobaleducation.com',
     description:
       'Research mentorship with PhD mentors, including 20% off the RISE Research program for the winning track.',
-    x: 50,
-    y: 88,
+    x: 60,
+    y: 87,
   },
   {
     id: 'formaloo',
@@ -124,8 +124,32 @@ const companySponsors: Sponsor[] = [
     fit: 'cover',
     url: 'https://formaloo.com',
     description: 'No-code forms, surveys, and data apps for collecting and acting on submissions.',
-    x: 63,
-    y: 14,
+    x: 70,
+    y: 17,
+  },
+  {
+    id: 'protoflow',
+    name: 'Protoflow',
+    tier: 'Prototyping Partner',
+    logo: '/sponsorLogos/protoflow.svg',
+    fit: 'contain',
+    url: 'https://protoflow.ai',
+    description:
+      'Hardware prototyping for makers, with a year of Protoflow Pro for the top three projects overall and 500 credits for every participant.',
+    x: 50,
+    y: 11,
+  },
+  {
+    id: 'perfect-corp',
+    name: 'Perfect Corp',
+    tier: 'Beauty AI Partner',
+    logo: '/sponsorLogos/youcam.png',
+    fit: 'cover',
+    url: 'https://www.perfectcorp.com/business',
+    description:
+      'The YouCam Pro API for AI skin analysis and virtual try-on, with 500 free API credits for the first 700 participants to redeem.',
+    x: 22,
+    y: 75,
   },
 ];
 

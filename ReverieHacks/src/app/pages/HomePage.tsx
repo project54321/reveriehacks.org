@@ -38,7 +38,7 @@ const perks = [
   { name: 'Render', detail: '1 month of build credits' },
   { name: 'Protoflow', detail: '500 credits' },
   { name: 'Devswarm Pro', detail: '1 month — a full year for first-place teams' },
-  { name: 'PerfCorp', detail: '500 API credits, first 700 to redeem' },
+  { name: 'YouCam Pro API', detail: '500 API credits, first 700 to redeem' },
   { name: 'Tin Computer', detail: '$299 in growth credits, first 100 teams' },
   { name: 'Certificate', detail: 'Proof you shipped something' },
 ];
@@ -98,8 +98,10 @@ export function HomePage() {
           transition={{ duration: 0.6, delay: 0.16 }}
           className="mt-8 max-w-xl text-lg text-muted-foreground md:text-xl"
         >
-          A two-week hackathon for young builders. Pick a track, form a team, and ship something
-          real.
+          <span className="text-foreground">
+            Currently the largest virtual high school hackathon.
+          </span>{' '}
+          Two weeks, six tracks. Pick one, form a team, and ship something real.
         </motion.p>
 
         <motion.div
