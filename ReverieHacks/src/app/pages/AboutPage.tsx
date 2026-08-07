@@ -83,7 +83,7 @@ const reasons = [
     description: 'Beginner or expert, there is a place for your creativity here.',
   },
 ];
-//Hi.
+
 function Matrix({ items }: { items: { icon: typeof Code2; title: string; description: string }[] }) {
   return (
     <div className="grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
