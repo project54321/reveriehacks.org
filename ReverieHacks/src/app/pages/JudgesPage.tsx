@@ -55,7 +55,6 @@ const trackOrder = [
   'App Development',
 ];
 
-// Bounty System Panel: assess cross-track bounty submissions for bonus points.
 const bountyPanel: Judge[] = [
   { name: 'Michael Chinaloy', role: 'Engineering Manager', company: 'Coinbase', img: '/judges/micheal.png', linkedin: 'https://www.linkedin.com/in/michael-chinaloy/' },
   { name: 'Sanket Rege', role: 'Software Engineering Manager', company: 'EchoStar', img: '/judges/sanket.png', linkedin: 'https://www.linkedin.com/in/sanketrege' },
