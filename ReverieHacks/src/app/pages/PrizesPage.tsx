@@ -101,15 +101,22 @@ export function PrizesPage() {
           >
             <p className="eyebrow text-muted-foreground">Everyone who takes part</p>
             <dl className="mt-6 grid gap-x-12 sm:grid-cols-2">
-              {perks.map((perk) => (
-                <div
-                  key={perk.name}
-                  className="flex items-baseline justify-between gap-6 border-b border-border py-4"
-                >
-                  <dt>{perk.name}</dt>
-                  <dd className="text-right text-sm text-muted-foreground">{perk.detail}</dd>
-                </div>
-              ))}
+              {perks.map((perk, i) => {
+                const isLastOdd = i === perks.length - 1 && perks.length % 2 === 1;
+                return (
+                  <div
+                    key={perk.name}
+                    className={`flex items-baseline gap-6 border-b border-border py-4 ${
+                      isLastOdd
+                        ? 'justify-center text-center sm:col-span-2'
+                        : 'justify-between'
+                    }`}
+                  >
+                    <dt>{perk.name}</dt>
+                    <dd className="text-right text-sm text-muted-foreground">{perk.detail}</dd>
+                  </div>
+                );
+              })}
             </dl>
           </motion.div>
         </section>
