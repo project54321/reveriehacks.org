@@ -151,6 +151,17 @@ const companySponsors: Sponsor[] = [
     x: 22,
     y: 75,
   },
+  {
+    id: 'firecrawl',
+    name: 'Firecrawl',
+    tier: 'Web Scraping Partner',
+    logo: '/sponsorLogos/Firecrawl.png',
+    fit: 'cover',
+    url: 'https://www.firecrawl.dev',
+    description: 'Turn websites into LLM-ready data, with 10,000 credits for every hacker.',
+    x: 85,
+    y: 15,
+  },
 ];
 
 // Financial team sponsors, grouped by contribution tier.
