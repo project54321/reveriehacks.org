@@ -1,6 +1,7 @@
 {
   "name": "reveriehacks-root",
   "private": true,
+  "type": "module",
   "description": "Convenience wrapper: forwards commands to the app in ./ReverieHacks",
   "scripts": {
     "dev": "npm --prefix ReverieHacks run dev",

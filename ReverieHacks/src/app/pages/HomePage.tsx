@@ -1,12 +1,35 @@
 import { motion } from 'motion/react';
 import { Link } from 'react-router';
 import { ArrowRight } from 'lucide-react';
+import { CountUp } from '../components/CountUp';
+import { DEVPOST_FALLBACK, useDevpostStats, type DevpostStats } from '../hooks/useDevpostStats';
 
-const stats = [
-  { value: '500+', label: 'Builders' },
-  { value: '$800', label: 'In cash' },
-  { value: '6', label: 'Tracks' },
-  { value: '16', label: 'Days' },
+type Stat = {
+  label: string;
+  /** Live figure pulled from Devpost, or null for the one we can't source. */
+  from?: (stats: DevpostStats) => number;
+  prefix?: string;
+  suffix?: string;
+  /** Fixed value, for stats Devpost doesn't publish. */
+  value?: string;
+};
+
+/** Always live — no fixed-value variant, so no null check at the call site. */
+type HeroStat = Stat & { from: (stats: DevpostStats) => number };
+
+// The two headline figures. These sit beside the hero's calls to action rather
+// than in the strip below, so they're on screen without scrolling.
+const heroStats: HeroStat[] = [
+  { label: 'Participants', from: (s) => s.participants },
+  { label: 'In prizes', from: (s) => s.prizes, prefix: '$', suffix: '+' },
+];
+
+// The rest. Everything is scraped from Devpost except the cash figure — Devpost
+// only publishes the aggregate prize pool, with no way to tell cash from credits.
+const stats: Stat[] = [
+  { label: 'In cash', value: '$800' },
+  { label: 'Tracks', from: (s) => s.tracks },
+  { label: 'Days', from: (s) => s.days },
 ];
 
 const perks = [
@@ -48,6 +71,8 @@ const fade = {
 };
 
 export function HomePage() {
+  const devpost = useDevpostStats();
+
   return (
     <div className="min-h-screen">
       {/* Hero */}
@@ -64,7 +89,11 @@ export function HomePage() {
           {...fade}
           transition={{ duration: 0.6, delay: 0.08 }}
           className="mt-6 font-display leading-[0.98] tracking-tight"
-          style={{ fontSize: 'clamp(2.75rem, 9vw, 7rem)' }}
+          // Capped at 6rem, not 7: "Let's change the world," needs ~9.9x the
+          // font size in width, so anything above ~6.1rem overflows the 976px
+          // content box and wraps to a third line, pushing the row below off
+          // screen. The <br/> is meant to be the only break.
+          style={{ fontSize: 'clamp(2.75rem, 9vw, 6rem)' }}
         >
           Let’s change the world,
           <br />
@@ -82,28 +111,53 @@ export function HomePage() {
           Two weeks, six tracks. Pick one, form a team, and ship something real.
         </motion.p>
 
+        {/* Calls to action on the left, headline figures on the right. Sharing
+            a row keeps both on screen without scrolling while costing the hero
+            no extra vertical space. */}
         <motion.div
           {...fade}
           transition={{ duration: 0.6, delay: 0.24 }}
-          className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center"
+          className="mt-10 flex flex-col gap-10 md:flex-row md:items-end md:justify-between md:gap-8"
         >
-          <a
-            href={DISCORD_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="group inline-flex items-center gap-2 bg-primary px-7 py-3.5 text-primary-foreground transition-colors hover:bg-accent"
-          >
-            Join Discord
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-          </a>
-          <a
-            href={DEVPOST_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 px-1 py-3.5 text-muted-foreground transition-colors hover:text-foreground"
-          >
-            View Devpost
-          </a>
+          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+            <a
+              href={DISCORD_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="group inline-flex items-center gap-2 bg-primary px-7 py-3.5 text-primary-foreground transition-colors hover:bg-accent"
+            >
+              Join Discord
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </a>
+            <a
+              href={DEVPOST_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 px-1 py-3.5 text-muted-foreground transition-colors hover:text-foreground"
+            >
+              View Devpost
+            </a>
+          </div>
+
+          <div className="flex shrink-0">
+            {heroStats.map((stat, i) => (
+              <div key={stat.label} className={i === 0 ? 'pr-8' : 'border-l border-border pl-8'}>
+                <div
+                  className="font-display leading-none"
+                  // Scales with the column so "$404,748+" never wraps or clips.
+                  style={{ fontSize: 'clamp(1.5rem, 3.2vw, 2.25rem)' }}
+                >
+                  <CountUp
+                    to={devpost ? stat.from(devpost) : null}
+                    reserve={stat.from(DEVPOST_FALLBACK)}
+                    prefix={stat.prefix}
+                    suffix={stat.suffix}
+                  />
+                </div>
+                <div className="mt-2 text-sm text-muted-foreground">{stat.label}</div>
+              </div>
+            ))}
+          </div>
         </motion.div>
 
         <motion.p
@@ -111,13 +165,14 @@ export function HomePage() {
           transition={{ duration: 0.6, delay: 0.32 }}
           className="mt-14 text-sm tracking-wide text-muted-foreground"
         >
-          August 2&ndash;17, 2026&nbsp;&nbsp;/&nbsp;&nbsp;Online&nbsp;&nbsp;/&nbsp;&nbsp;Open worldwide
+          {devpost?.dateRange ?? DEVPOST_FALLBACK.dateRange}
+          &nbsp;&nbsp;/&nbsp;&nbsp;Online&nbsp;&nbsp;/&nbsp;&nbsp;Open worldwide
         </motion.p>
       </section>
 
       {/* Stat strip */}
       <section className="mx-auto max-w-5xl px-6 py-20">
-        <div className="grid grid-cols-2 border-y border-border md:grid-cols-4">
+        <div className="grid grid-cols-3 border-y border-border">
           {stats.map((stat, i) => (
             <motion.div
               key={stat.label}
@@ -125,11 +180,18 @@ export function HomePage() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.06 }}
-              className={`px-2 py-8 ${
-                i !== 0 ? 'border-l border-border' : ''
-              } ${i === 2 ? 'border-l-0 md:border-l' : ''}`}
+              className={`px-2 py-8 ${i !== 0 ? 'border-l border-border' : ''}`}
             >
-              <div className="font-display text-4xl md:text-5xl">{stat.value}</div>
+              <div className="font-display text-4xl md:text-5xl">
+                {stat.from ? (
+                  <CountUp
+                    to={devpost ? stat.from(devpost) : null}
+                    reserve={stat.from(DEVPOST_FALLBACK)}
+                  />
+                ) : (
+                  stat.value
+                )}
+              </div>
               <div className="mt-2 text-sm text-muted-foreground">{stat.label}</div>
             </motion.div>
           ))}
