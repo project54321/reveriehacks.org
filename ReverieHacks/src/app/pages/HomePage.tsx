@@ -24,8 +24,6 @@ const heroStats: HeroStat[] = [
   { label: 'In prizes', from: (s) => s.prizes, prefix: '$', suffix: '+' },
 ];
 
-// The rest. Everything is scraped from Devpost except the cash figure — Devpost
-// only publishes the aggregate prize pool, with no way to tell cash from credits.
 const stats: Stat[] = [
   { label: 'In cash', value: '$800' },
   { label: 'Tracks', from: (s) => s.tracks },
