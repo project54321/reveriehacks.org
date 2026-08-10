@@ -26,6 +26,13 @@ const teamMembers: TeamMember[] = [
     bio: 'NBA fanatic with a strong background in computer science, robotics, and engineering.',
     skills: ['Java', 'Python', 'Fusion', 'Onshape', 'Web Development'],
   },
+    {
+    name: 'Alexander Skaff',
+    img: '/team/alexander.jpg',
+    role: 'Chief Technical Officer',
+    bio: 'An aspiring medical and robotics student with the ability to code in Python and Java.',
+    skills: ['Python', 'Java', 'Robotics', 'Medicine/Bio', 'Social Media'],
+  },
   {
     name: 'Arjun Averineni',
     img: '/team/arjun.jpg',
@@ -39,13 +46,6 @@ const teamMembers: TeamMember[] = [
     role: 'Staff Member',
     bio: 'I have been coding since I was 11, working on frontend projects and teams. I have also been an avid musician for 12 years, playing instruments such as the cello.',
     skills: ['HTML/CSS', 'JavaScript', 'Frontend', 'Music', 'CAD'],
-  },
-  {
-    name: 'Alexander Skaff',
-    img: '/team/alexander.jpg',
-    role: 'Staff Member',
-    bio: 'An aspiring medical and robotics student with the ability to code in Python and Java.',
-    skills: ['Python', 'Java', 'Robotics', 'Medicine/Bio', 'Social Media'],
   },
   {
     name: 'Aarush Tulsyan',
