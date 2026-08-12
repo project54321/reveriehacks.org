@@ -28,8 +28,8 @@ const companySponsors: Sponsor[] = [
     url: 'https://featherless.ai',
     description:
       'Seamless inference APIs, with $300 in credits for the ML Prompt Engineering winner plus a month of subscription for every participant.',
-    x: 16,
-    y: 34,
+    x: 13,
+    y: 33.6,
   },
   {
     id: 'xyz',
@@ -39,8 +39,8 @@ const companySponsors: Sponsor[] = [
     fit: 'contain',
     url: 'https://gen.xyz',
     description: 'Domains for every project, with free .xyz domains for everyone who places.',
-    x: 84,
-    y: 34,
+    x: 87,
+    y: 33.6,
   },
   {
     id: 'render',
@@ -52,7 +52,7 @@ const companySponsors: Sponsor[] = [
     url: 'https://render.com',
     description: '$50 in building credits for general attendees, plus up to $500 for Best Use of Render track winners.',
     x: 13,
-    y: 56,
+    y: 55.5,
   },
   {
     id: 'tin-computer',
@@ -64,7 +64,7 @@ const companySponsors: Sponsor[] = [
     url: 'https://tincomputer.com',
     description: '$299 in credits (one month of Growth plan) for up to 100 eligible development teams.',
     x: 87,
-    y: 56,
+    y: 55.5,
   },
   {
     id: 'codecrafters',
@@ -76,8 +76,8 @@ const companySponsors: Sponsor[] = [
     url: 'https://codecrafters.io',
     description:
       'Hands-on programming challenges, with VIP memberships for the Software Development podium: 2 years ($720) for 1st, 1 year ($360) for 2nd, and 6 months for 3rd.',
-    x: 31,
-    y: 87,
+    x: 26.7,
+    y: 88,
   },
   //hi.
   {
@@ -88,8 +88,8 @@ const companySponsors: Sponsor[] = [
     fit: 'cover',
     url: 'https://www.wolfram.com',
     description: 'Computational access for the next generation of innovators, via Wolfram|One.',
-    x: 78,
-    y: 72,
+    x: 85.8,
+    y: 77.1,
   },
   {
     id: 'devswarm',
@@ -101,8 +101,8 @@ const companySponsors: Sponsor[] = [
     url: 'https://devswarm.ai',
     description:
       'Parallel AI coding agents across isolated Git branches, with a month of DevSwarm Pro for every participant and a full year for the winners.',
-    x: 30,
-    y: 17,
+    x: 34.5,
+    y: 12,
   },
   {
     id: 'rise-research',
@@ -114,8 +114,8 @@ const companySponsors: Sponsor[] = [
     url: 'https://riseglobaleducation.com',
     description:
       'Research mentorship with PhD mentors, including 20% off the RISE Research program for the winning track.',
-    x: 69,
-    y: 87,
+    x: 73.3,
+    y: 88,
   },
   {
     id: 'formaloo',
@@ -125,8 +125,8 @@ const companySponsors: Sponsor[] = [
     fit: 'cover',
     url: 'https://formaloo.com',
     description: 'No-code forms, surveys, and data apps for collecting and acting on submissions.',
-    x: 70,
-    y: 17,
+    x: 65.5,
+    y: 12,
   },
   {
     id: 'protoflow',
@@ -138,7 +138,7 @@ const companySponsors: Sponsor[] = [
     description:
       'Hardware prototyping for makers, with a year of Protoflow Pro for the top three projects overall and 500 credits for every participant.',
     x: 50,
-    y: 11,
+    y: 12,
   },
   {
     id: 'perfect-corp',
@@ -149,8 +149,8 @@ const companySponsors: Sponsor[] = [
     url: 'https://www.perfectcorp.com/business',
     description:
       'The YouCam Pro API for AI skin analysis and virtual try-on, with 500 free API credits for the first 700 participants to redeem.',
-    x: 22,
-    y: 72,
+    x: 14.2,
+    y: 77.1,
   },
   {
     id: 'firecrawl',
@@ -160,8 +160,8 @@ const companySponsors: Sponsor[] = [
     fit: 'cover',
     url: 'https://www.firecrawl.dev',
     description: 'Turn websites into LLM-ready data, with 10,000 credits for every hacker.',
-    x: 85,
-    y: 15,
+    x: 80.7,
+    y: 14.8,
   },
   {
     id: 'cleanshot',
@@ -173,8 +173,8 @@ const companySponsors: Sponsor[] = [
     url: 'https://cleanshot.com',
     description:
       'Screenshot and screen recording built for Mac, with 18 licenses for the top three of every track.',
-    x: 15,
-    y: 15,
+    x: 19.3,
+    y: 14.8,
   },
   {
     id: 'mobbin',
@@ -186,8 +186,20 @@ const companySponsors: Sponsor[] = [
     url: 'https://mobbin.com',
     description:
       'A searchable library of real mobile and web app design patterns and flows, with a 3-month Mobbin Pro subscription free for all participants and 1-year Mobbin Pro free for winners.',
-    x: 50,
-    y: 87,
+    x: 57.8,
+    y: 88,
+  },
+  {
+    id: 'momen',
+    name: 'Momen',
+    tier: 'App Building Partner',
+    logo: '/sponsorLogos/momen.png',
+    fit: 'contain',
+    url: 'https://momen.app',
+    description:
+      'A no-code platform for building full-stack web apps, with $100 in credits for every participant and $2,000 for each Software Development track winner.',
+    x: 42.2,
+    y: 88,
   },
 ];
 

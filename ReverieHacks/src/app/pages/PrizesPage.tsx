@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import {
   Banknote,
+  Blocks,
   Briefcase,
   Camera,
   Crown,
@@ -18,6 +19,7 @@ const prizes = [
   { icon: Server, title: '$900 in Render credits', body: 'Build credits for the top three of the software development track.' },
   { icon: Cpu, title: '$300 in Featherless credits', body: 'API access to every major LLM, from Featherless.AI.' },
   { icon: Crown, title: '3 Code Crafters memberships', body: 'Up to two years of VIP access for the software development track.' },
+  { icon: Blocks, title: '$2,000 in Momen credits', body: 'For each winner of the software development track.' },
   { icon: Globe, title: '36 .xyz domains', body: 'A year of free domains for the top three of every track.' },
   { icon: FlaskConical, title: '20% off RISE Research', body: 'A discount on the RISE Research program for every track winner.' },
   { icon: LineChart, title: '$500 in Formaloo credits', body: 'For the top two of the Datathon, plus a mentoring session with the CEO.' },
@@ -36,6 +38,7 @@ const perks = [
   { name: 'Protoflow', detail: '500 credits' },
   { name: 'Devswarm Pro', detail: '1 month — a full year for first-place teams' },
   { name: 'Mobbin Pro', detail: '3 months free — a full year for winners' },
+  { name: 'Momen', detail: '$100 in credits for every participant' },
   { name: 'YouCam Pro API', detail: '500 API credits, first 700 to redeem' },
   { name: 'Tin Computer', detail: '$299 in growth credits, first 100 teams' },
   { name: 'Firecrawl', detail: '10,000 credits for every hacker' },
