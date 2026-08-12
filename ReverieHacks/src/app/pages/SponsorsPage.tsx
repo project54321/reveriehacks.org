@@ -76,7 +76,7 @@ const companySponsors: Sponsor[] = [
     url: 'https://codecrafters.io',
     description:
       'Hands-on programming challenges, with VIP memberships for the Software Development podium: 2 years ($720) for 1st, 1 year ($360) for 2nd, and 6 months for 3rd.',
-    x: 34,
+    x: 31,
     y: 87,
   },
   {
@@ -88,7 +88,7 @@ const companySponsors: Sponsor[] = [
     url: 'https://www.wolfram.com',
     description: 'Computational access for the next generation of innovators, via Wolfram|One.',
     x: 78,
-    y: 75,
+    y: 72,
   },
   {
     id: 'devswarm',
@@ -113,7 +113,7 @@ const companySponsors: Sponsor[] = [
     url: 'https://riseglobaleducation.com',
     description:
       'Research mentorship with PhD mentors, including 20% off the RISE Research program for the winning track.',
-    x: 66,
+    x: 69,
     y: 87,
   },
   {
@@ -149,7 +149,7 @@ const companySponsors: Sponsor[] = [
     description:
       'The YouCam Pro API for AI skin analysis and virtual try-on, with 500 free API credits for the first 700 participants to redeem.',
     x: 22,
-    y: 75,
+    y: 72,
   },
   {
     id: 'firecrawl',
