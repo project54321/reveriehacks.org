@@ -85,7 +85,6 @@ const companySponsors: Sponsor[] = [
     description:
       'Hands-on programming challenges, with VIP memberships for the Software Development podium: 2 years ($720) for 1st, 1 year ($360) for 2nd, and 6 months for 3rd.',
   },
-  //hi.
   {
     id: 'wolfram',
     name: 'Wolfram',
