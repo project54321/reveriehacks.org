@@ -1,5 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { animate, useInView, useReducedMotion } from 'motion/react';
+
+// The prerenderer renders this component on the server, where useLayoutEffect
+// isn't run and React warns about it.
+const useIsomorphicLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
 type CountUpProps = {
   /** Target number. Pass null while the value is still loading. */
@@ -24,7 +28,25 @@ export function CountUp({ to, reserve, prefix = '', suffix = '', className }: Co
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: '-12% 0px' });
   const prefersReducedMotion = useReducedMotion();
-  const [current, setCurrent] = useState(0);
+
+  // Starts at the target rather than at zero so the prerendered HTML carries the
+  // real figure — a crawler that never runs the animation still reads "1,378"
+  // instead of "0". The layout effect below resets it to zero after hydration
+  // but before the browser paints, so nobody sees the number twice.
+  const [current, setCurrent] = useState(to ?? 0);
+
+  // The width spacer below is dead weight until the number starts moving, and
+  // on the server it would put a second copy of the figure into the markup —
+  // so a crawler reads "1,3791,379". Both flip together, in a layout effect, so
+  // the browser never paints a frame without the spacer in place.
+  const [animating, setAnimating] = useState(false);
+
+  useIsomorphicLayoutEffect(() => {
+    setAnimating(true);
+    setCurrent(0);
+    // Mount only: re-running this on every `to` change would restart the count
+    // from zero each time the live figures refresh.
+  }, []);
 
   useEffect(() => {
     if (to === null || !inView || prefersReducedMotion) return;
@@ -54,7 +76,7 @@ export function CountUp({ to, reserve, prefix = '', suffix = '', className }: Co
   return (
     <span ref={ref} className={`inline-grid ${className ?? ''}`}>
       <span className="invisible col-start-1 row-start-1" aria-hidden="true">
-        {widest === null ? null : <Digits text={format(widest, prefix, suffix)} />}
+        {!animating || widest === null ? null : <Digits text={format(widest, prefix, suffix)} />}
       </span>
       <span className="col-start-1 row-start-1">
         <Digits text={format(displayed, prefix, suffix)} />

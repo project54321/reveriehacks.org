@@ -1,6 +1,7 @@
 import { Outlet, useLocation } from 'react-router';
 import { useEffect } from 'react';
 import { Navigation } from '../components/Navigation';
+import { Seo } from '../components/Seo';
 import { SiteBackground } from '../components/SiteBackground';
 
 export function RootLayout() {
@@ -13,6 +14,7 @@ export function RootLayout() {
 
   return (
     <div className="relative min-h-screen bg-background text-foreground">
+      <Seo />
       <SiteBackground />
       <Navigation />
       <Outlet />

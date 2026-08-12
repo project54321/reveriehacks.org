@@ -71,7 +71,7 @@ const fade = {
 };
 
 export function HomePage() {
-  const devpost = useDevpostStats();
+  const { stats: devpost } = useDevpostStats();
 
   return (
     <div className="min-h-screen">

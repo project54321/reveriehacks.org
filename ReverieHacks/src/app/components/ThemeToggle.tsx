@@ -1,7 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { Sun, Moon } from 'lucide-react';
 
 type Theme = 'light' | 'dark';
+
+// The prerenderer renders this component on the server, where useLayoutEffect
+// isn't run and React warns about it.
+const useIsomorphicLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
 function currentTheme(): Theme {
   if (typeof document !== 'undefined') {
@@ -12,8 +16,13 @@ function currentTheme(): Theme {
 }
 
 export function ThemeToggle({ className = '' }: { className?: string }) {
-  // The inline script in index.html has already set data-theme before paint.
-  const [theme, setTheme] = useState<Theme>(currentTheme);
+  // Starts dark on both the server and the browser's first render so the
+  // prerendered markup hydrates cleanly, then picks up whatever the inline
+  // script in index.html already applied to <html> — before the browser paints,
+  // so the wrong icon is never on screen.
+  const [theme, setTheme] = useState<Theme>('dark');
+
+  useIsomorphicLayoutEffect(() => setTheme(currentTheme()), []);
 
   const toggle = () => {
     const next: Theme = theme === 'dark' ? 'light' : 'dark';

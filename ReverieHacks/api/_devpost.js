@@ -154,7 +154,7 @@ function countTracks(description) {
  * total length, days remaining, and the human-readable date range.
  */
 function describeSchedule(event) {
-  const blank = { days: null, daysLeft: null, dateRange: null, endDate: null };
+  const blank = { days: null, daysLeft: null, dateRange: null, startDate: null, endDate: null };
 
   const start = isoDateParts(event?.startDate);
   const end = isoDateParts(event?.endDate);
@@ -170,7 +170,15 @@ function describeSchedule(event) {
   const todayUtc = startOfUtcDay(Date.now());
   const daysLeft = Math.max(0, Math.round((endUtc - todayUtc) / MS_PER_DAY));
 
-  return { days, daysLeft, dateRange: formatRange(start, end), endDate: event.endDate };
+  return {
+    days,
+    daysLeft,
+    dateRange: formatRange(start, end),
+    // Calendar dates only, no time or zone, which is what schema.org's Event
+    // wants and what the JSON-LD on the site publishes.
+    startDate: isoDate(start),
+    endDate: isoDate(end),
+  };
 }
 
 // Read the calendar date straight off the ISO string rather than through Date,
@@ -180,6 +188,10 @@ function isoDateParts(value) {
   if (!match) return null;
 
   return { year: Number(match[1]), month: Number(match[2]), day: Number(match[3]) };
+}
+
+function isoDate({ year, month, day }) {
+  return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 }
 
 function startOfUtcDay(timestamp) {

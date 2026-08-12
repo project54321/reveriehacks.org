@@ -7,6 +7,7 @@ import { ThemeToggle } from './ThemeToggle';
 const navItems = [
   { name: 'Home', path: '/' },
   { name: 'About', path: '/about' },
+  { name: 'Impact', path: '/impact' },
   { name: 'Prizes', path: '/prizes' },
   { name: 'Sponsors', path: '/sponsors' },
   { name: 'Judges', path: '/judges' },
@@ -58,8 +59,9 @@ export function Navigation() {
         <div className="flex h-20 items-center justify-between">
           <Wordmark />
 
-          {/* Desktop links */}
-          <div className="hidden items-center gap-9 md:flex">
+          {/* Desktop links. Tighter gap below xl: eight items, the wordmark and
+              the Discord button don't all fit at 9. */}
+          <div className="hidden items-center gap-5 md:flex lg:gap-7 xl:gap-9">
             {navItems.map((item) => {
               const active = location.pathname === item.path;
               return (
