@@ -13,6 +13,15 @@ export const SHEET_ID = '1I-HpVH0s3KwHcCibd_qOKO3Uz_MdH-9-abuwZoqaYYs';
 export const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
 export const SHEET_VIEW_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit`;
 
+/**
+ * How many shading steps the map has. Per-country registration counts are
+ * deliberately never published: this endpoint converts each one to a step on
+ * that ramp and drops the raw figure, so the map can be shaded without the
+ * exact number of people per nation leaving the sheet. Only the aggregate
+ * totals — which Devpost already publishes — come back whole.
+ */
+const STEPS = 5;
+
 /** Rows whose country is really "we couldn't tell", kept out of the map. */
 const UNKNOWN = new Set(['unknown', 'n/a', '', '-']);
 
@@ -40,9 +49,10 @@ export async function countriesResponse() {
 /**
  * Reads the country breakdown out of the published sheet.
  *
- * Returns countries sorted by registrant count, plus the totals the Impact page
- * quotes. Throws rather than returning a half-parsed sheet — the client falls
- * back to the figures baked in at build time on a non-200.
+ * Returns countries ordered by registrations — most first — each carrying only
+ * a shading step, plus the totals the Impact page quotes. Throws rather than
+ * returning a half-parsed sheet; the client falls back to the snapshot baked in
+ * at build time on a non-200.
  */
 export async function scrapeCountryStats() {
   const response = await fetch(SHEET_URL, {
@@ -94,8 +104,15 @@ export async function scrapeCountryStats() {
 
   countries.sort((a, b) => b.registrants - a.registrants || a.name.localeCompare(b.name));
 
+  const busiest = countries[0].registrants;
+
   return {
-    countries,
+    // Name and shading step only. The registrant and submitter counts stay on
+    // this side of the wire.
+    countries: countries.map(({ name }, index) => ({
+      name,
+      share: shareOf(countries[index].registrants, busiest),
+    })),
     totals: {
       countries: countries.length,
       registrants,
@@ -103,6 +120,20 @@ export async function scrapeCountryStats() {
       unknown,
     },
   };
+}
+
+/**
+ * Which shading step a country sits on, 0 to STEPS - 1.
+ *
+ * Registrations are wildly skewed — India and the United States together are
+ * most of the field — so this is a log scale. A linear one would put every
+ * country outside the top two in the same faintest step.
+ */
+function shareOf(registrants, busiest) {
+  if (registrants <= 0 || busiest <= 0) return 0;
+
+  const scaled = Math.log(registrants) / Math.log(Math.max(busiest, Math.E));
+  return Math.min(STEPS - 1, Math.max(0, Math.round(scaled * (STEPS - 1))));
 }
 
 function number(value) {

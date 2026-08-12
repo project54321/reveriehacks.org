@@ -1,4 +1,4 @@
-# ReverieHacks — everything here is meant to be read, indexed and quoted.
+# ReverieHacks: everything here is meant to be read, indexed and quoted.
 #
 # The AI crawlers are listed explicitly rather than left to the wildcard: several
 # of them treat an absent named rule as a reason to be cautious, and the whole

@@ -59,42 +59,42 @@ export function seoFor(path: string, { stats, countries }: SeoInput): PageSeo {
 
   const pages: Record<string, { title: string; description: string }> = {
     '/': {
-      title: `${SITE_NAME} — A Virtual Hackathon for Young Builders`,
+      title: `${SITE_NAME} | A Virtual Hackathon for Young Builders`,
       description:
         `${SITE_NAME} is a three-week virtual hackathon for high school builders, running ` +
         `${stats.dateRange} across ${stats.tracks} tracks. ${participants} participants and ` +
         `${prizes} in total prize valuation.`,
     },
     '/about': {
-      title: `About ${SITE_NAME} — Six Tracks, Three Weeks, Open Worldwide`,
+      title: `About ${SITE_NAME} | Six Tracks, Three Weeks, Open Worldwide`,
       description:
         `What ${SITE_NAME} is, who it is for, and the ${stats.tracks} tracks you can build in: ` +
         'ideathon, ML and prompt engineering, software, data, embedded systems, and apps.',
     },
     '/impact': {
-      title: `${SITE_NAME} Impact — ${participants} Participants, ${prizes} in Prizes`,
+      title: `${SITE_NAME} Impact | ${participants} Participants, ${prizes} in Prizes`,
       description: `${impactSummary(stats)} Registrations from ${countries.totals.countries} countries.`,
     },
     '/prizes': {
-      title: `${SITE_NAME} Prizes — ${prizes} Across ${stats.tracks} Tracks`,
+      title: `${SITE_NAME} Prizes | ${prizes} Across ${stats.tracks} Tracks`,
       description:
         `The full ${SITE_NAME} 2026 prize pool: $${CASH_PRIZES.toLocaleString('en-US')} in cash, ` +
         'six internships, and credits, subscriptions and hardware from every sponsor.',
     },
     '/sponsors': {
-      title: `${SITE_NAME} Sponsors — ${SPONSOR_COUNT} Partners Backing 2026`,
+      title: `${SITE_NAME} Sponsors | ${SPONSOR_COUNT} Partners Backing 2026`,
       description:
         `The companies and robotics teams funding ${SITE_NAME} 2026, and what each of them puts ` +
         'into the prize pool.',
     },
     '/judges': {
-      title: `${SITE_NAME} Judges — ${JUDGE_COUNT} Engineers and Founders`,
+      title: `${SITE_NAME} Judges | ${JUDGE_COUNT} Engineers and Founders`,
       description:
         `The ${JUDGE_COUNT} judges scoring ${SITE_NAME} 2026, from Meta, Amazon, Microsoft, ` +
         'Adobe, Coinbase, Disney Streaming and more, listed by track.',
     },
     '/team': {
-      title: `${SITE_NAME} Team — The ${ORGANIZER_COUNT} Students Behind It`,
+      title: `${SITE_NAME} Team | The Students Behind It`,
       description: `The high school students who organize ${SITE_NAME}, and what each of them does.`,
     },
     '/contact': {
@@ -202,18 +202,13 @@ function impactGraph({ stats, countries }: SeoInput) {
       '@context': 'https://schema.org',
       '@type': 'Dataset',
       '@id': `${SITE_URL}/impact#countries`,
-      name: 'ReverieHacks 2026 registrations by country',
+      name: 'ReverieHacks 2026 reach by country',
       description:
         `${countries.totals.registrants.toLocaleString('en-US')} registrations and ` +
         `${countries.totals.submitters.toLocaleString('en-US')} submitted projects across ` +
         `${countries.totals.countries} countries.`,
       creator: { '@id': ORGANIZATION_ID },
       isAccessibleForFree: true,
-      distribution: {
-        '@type': 'DataDownload',
-        encodingFormat: 'application/json',
-        contentUrl: `${SITE_URL}/api/countries`,
-      },
       variableMeasured: [
         property('Countries represented', countries.totals.countries),
         property('Registrations', countries.totals.registrants),
@@ -230,14 +225,15 @@ function impactGraph({ stats, countries }: SeoInput) {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
       '@id': `${SITE_URL}/impact#country-list`,
-      name: 'ReverieHacks 2026 registrations by country',
+      name: 'Countries represented at ReverieHacks 2026',
       numberOfItems: countries.countries.length,
+      // Names only, ordered by volume. The per-country registration counts are
+      // deliberately unpublished, so there is no value to attach here.
       itemListOrder: 'https://schema.org/ItemListOrderDescending',
       itemListElement: countries.countries.map((country, index) => ({
         '@type': 'ListItem',
         position: index + 1,
         name: country.name,
-        value: country.registrants,
       })),
     },
   ];

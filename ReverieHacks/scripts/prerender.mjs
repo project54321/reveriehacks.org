@@ -86,7 +86,7 @@ console.log(`  ${'404'.padEnd(11)} 404.html`);
 
 function notFound() {
   const head = [
-    '<title>Page not found — ReverieHacks</title>',
+    '<title>Page not found | ReverieHacks</title>',
     meta('name', 'robots', 'noindex, follow'),
     meta('name', 'description', 'That page does not exist on reveriehacks.org.'),
   ].join('\n    ');

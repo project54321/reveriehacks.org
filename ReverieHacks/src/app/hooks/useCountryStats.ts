@@ -62,32 +62,24 @@ function readCountries(value: unknown): CountryRow[] {
   if (!Array.isArray(value)) return [];
 
   return value.flatMap((row) => {
-    if (typeof row?.name !== 'string' || !Number.isInteger(row?.registrants)) return [];
+    if (typeof row?.name !== 'string' || !Number.isInteger(row?.share)) return [];
 
-    return [
-      {
-        name: row.name,
-        registrants: row.registrants as number,
-        submitters: Number.isInteger(row?.submitters) ? (row.submitters as number) : 0,
-      },
-    ];
+    return [{ name: row.name, share: row.share as number }];
   });
 }
 
 function readTotals(value: unknown, countries: CountryRow[]): CountryStats['totals'] {
   const totals = (value ?? {}) as Record<string, unknown>;
-  const sum = (key: 'registrants' | 'submitters') =>
-    countries.reduce((run, row) => run + row[key], 0);
 
-  // Recomputed from the rows if the endpoint's own totals are missing or junk,
-  // so the map's caption can't disagree with the list beneath it.
+  // Only the aggregates cross the wire, so a missing one can't be recomputed
+  // from the rows — it falls back to zero and the page leaves it out.
   const int = (key: string, fallback: number) =>
     Number.isInteger(totals[key]) ? (totals[key] as number) : fallback;
 
   return {
     countries: int('countries', countries.length),
-    registrants: int('registrants', sum('registrants')),
-    submitters: int('submitters', sum('submitters')),
+    registrants: int('registrants', 0),
+    submitters: int('submitters', 0),
     unknown: int('unknown', 0),
   };
 }

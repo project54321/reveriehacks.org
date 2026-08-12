@@ -6,7 +6,7 @@ import {
   WORLD_LAT_MAX,
   WORLD_ROWS,
 } from '../data/world-dots';
-import { intensityOf, placeCountry, type CountryRow } from '../data/countries';
+import { SHARE_STEPS, placeCountry, type CountryRow } from '../data/countries';
 
 /** SVG units per grid cell. Only the ratio to DOT_R matters. */
 const CELL = 10;
@@ -15,10 +15,10 @@ const DOT_R = 3.4;
 const ANCHOR_R = 4.2;
 
 /**
- * Opacity ramp for the five intensity steps from intensityOf(). Countries with
- * no registrants use LAND instead, faint enough to read as a backdrop.
+ * Opacity per shading step, as bucketed by /api/countries. Countries nobody
+ * registered from use LAND instead, faint enough to read as a backdrop.
  */
-const RAMP = [0.34, 0.48, 0.64, 0.82, 1];
+const RAMP = [0.34, 0.48, 0.64, 0.82, 1].slice(0, SHARE_STEPS);
 const LAND = 0.15;
 
 type Placed = {
@@ -27,7 +27,6 @@ type Placed = {
   cells: [number, number][];
   /** Set for island states with no cells at this resolution. */
   anchor?: { x: number; y: number };
-  intensity: number;
 };
 
 export function WorldMap({ countries }: { countries: CountryRow[] }) {
@@ -36,8 +35,6 @@ export function WorldMap({ countries }: { countries: CountryRow[] }) {
   const { placed, quiet, missing } = useMemo(() => build(countries), [countries]);
 
   const active = placed.find((p) => p.row.name === hovered) ?? null;
-  const leader = placed[0] ?? null;
-  const readout = active ?? leader;
 
   return (
     <div>
@@ -61,12 +58,10 @@ export function WorldMap({ countries }: { countries: CountryRow[] }) {
               key={entry.row.name}
               fill="currentColor"
               className="cursor-default text-primary transition-opacity"
-              opacity={hovered && hovered !== entry.row.name ? 0.35 : RAMP[entry.intensity]}
+              opacity={hovered && hovered !== entry.row.name ? 0.35 : shade(entry.row.share)}
               onMouseEnter={() => setHovered(entry.row.name)}
             >
-              <title>
-                {`${entry.row.name}: ${entry.row.registrants.toLocaleString('en-US')} registrants`}
-              </title>
+              <title>{entry.row.name}</title>
               {entry.cells.map(([col, row]) => (
                 <circle
                   key={`${col}-${row}`}
@@ -83,23 +78,16 @@ export function WorldMap({ countries }: { countries: CountryRow[] }) {
         </svg>
       </div>
 
-      {/* Hover readout. Falls back to the leading country so the row is never
-          empty, including on touch devices where nothing is ever hovered. */}
+      {/* Names the country under the cursor. Shading is relative only; how many
+          people registered from any one country is not published. */}
       <div className="flex flex-col gap-3 border-x border-b border-border px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm">
-          {readout ? (
-            <>
-              <span className="text-foreground">{readout.row.name}</span>
-              <span className="text-muted-foreground">
-                {' — '}
-                {readout.row.registrants.toLocaleString('en-US')} registrant
-                {readout.row.registrants === 1 ? '' : 's'}
-                {readout.row.submitters > 0 &&
-                  `, ${readout.row.submitters.toLocaleString('en-US')} submitted`}
-              </span>
-            </>
+          {active ? (
+            <span className="text-foreground">{active.row.name}</span>
           ) : (
-            <span className="text-muted-foreground">No country data yet.</span>
+            <span className="text-muted-foreground">
+              {placed.length} countries. Hover the map to name one
+            </span>
           )}
         </p>
 
@@ -118,17 +106,23 @@ export function WorldMap({ countries }: { countries: CountryRow[] }) {
 
       {missing > 0 && (
         <p className="mt-3 text-xs text-muted-foreground">
-          {missing} {missing === 1 ? 'country is' : 'countries are'} listed below but not drawn — the
-          map&apos;s source borders don&apos;t include them.
+          {missing} {missing === 1 ? 'country is' : 'countries are'} listed below but not
+          drawn, because the map&apos;s source borders don&apos;t include them.
         </p>
       )}
     </div>
   );
 }
 
+/** Clamped so a step the endpoint grows later can't index off the ramp. */
+function shade(share: number): number {
+  return RAMP[Math.min(RAMP.length - 1, Math.max(0, share))];
+}
+
 /**
- * Turns the sheet rows into drawable geometry: one pass over the grid to bucket
- * every land cell by country, then a join against the registration counts.
+ * Turns the endpoint's rows into drawable geometry: one pass over the grid to
+ * bucket every land cell by country, then a join against the countries that
+ * anyone registered from.
  */
 function build(countries: CountryRow[]) {
   const cellsByIndex = new Map<number, [number, number][]>();
@@ -149,14 +143,12 @@ function build(countries: CountryRow[]) {
     }
   }
 
-  const max = countries.reduce((run, row) => Math.max(run, row.registrants), 0);
   const placed: Placed[] = [];
   const claimed = new Set<number>();
   let missing = 0;
 
   for (const row of countries) {
     const placement = placeCountry(row.name);
-    const intensity = intensityOf(row.registrants, max);
 
     if (placement.kind === 'shape') {
       const cells = cellsByIndex.get(placement.index);
@@ -166,22 +158,17 @@ function build(countries: CountryRow[]) {
       // They get a single mark at their centroid instead of being dropped.
       if (!cells) {
         const [lat, lon] = WORLD_CENTROIDS[placement.index];
-        placed.push({ row, cells: [], anchor: project(lat, lon), intensity });
+        placed.push({ row, cells: [], anchor: project(lat, lon) });
         continue;
       }
 
       claimed.add(placement.index);
-      placed.push({ row, cells, intensity });
+      placed.push({ row, cells });
       continue;
     }
 
     if (placement.kind === 'anchor') {
-      placed.push({
-        row,
-        cells: [],
-        anchor: project(placement.lat, placement.lon),
-        intensity,
-      });
+      placed.push({ row, cells: [], anchor: project(placement.lat, placement.lon) });
       continue;
     }
 
@@ -191,8 +178,6 @@ function build(countries: CountryRow[]) {
   for (const [index, cells] of cellsByIndex) {
     if (!claimed.has(index)) quiet.push(...cells);
   }
-
-  placed.sort((a, b) => b.row.registrants - a.row.registrants);
 
   return { placed, quiet, missing };
 }

@@ -4,7 +4,6 @@ import { CountUp } from '../components/CountUp';
 import { WorldMap } from '../components/WorldMap';
 import { DEVPOST_FALLBACK, useDevpostStats } from '../hooks/useDevpostStats';
 import { useCountryStats } from '../hooks/useCountryStats';
-import { SHEET_VIEW_URL } from '../data/countries';
 import {
   DEVPOST_URL,
   PARTICIPANT_RECORD,
@@ -46,7 +45,7 @@ export function ImpactPage() {
             The numbers, <span className="text-primary">on the record</span>
           </h1>
           <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-            Every figure on this page is published somewhere anyone can check — the Devpost listing,
+            Every figure on this page is published somewhere anyone can check: the Devpost listing,
             our sponsor roster, or the country export below. Nothing here is a flyer number.
           </p>
         </motion.div>
@@ -134,7 +133,42 @@ export function ImpactPage() {
           ))}
         </motion.section>
 
-        {/* Everything else */}
+        {/* Reach */}
+        <section className="mt-24">
+          <motion.div {...rise} transition={{ duration: 0.5 }} className="mb-10">
+            <p className="eyebrow text-primary">Reach</p>
+            <h2 className="mt-4" style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
+              {totals.countries} countries, one hackathon
+            </h2>
+            <p className="mt-4 max-w-2xl leading-relaxed text-muted-foreground">
+              {totals.registrants.toLocaleString('en-US')} registrations and{' '}
+              {totals.submitters.toLocaleString('en-US')} submitted projects across them, shaded by
+              relative volume.{' '}
+              {totals.unknown > 0 &&
+                `A further ${totals.unknown.toLocaleString('en-US')} registrations came in without a country recorded.`}
+            </p>
+          </motion.div>
+
+          <motion.div {...rise} transition={{ duration: 0.5, delay: 0.06 }}>
+            <WorldMap countries={countries} />
+          </motion.div>
+
+          {/* The same countries as text, readable without the map, and the form
+              anything crawling this page can actually parse. Names only: the
+              per-country registration counts are not published. */}
+          <motion.div {...rise} transition={{ duration: 0.5, delay: 0.1 }} className="mt-12">
+            <h3 className="eyebrow text-muted-foreground">Every country represented</h3>
+            <ul className="mt-6 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
+              {countries.map((country) => (
+                <li key={country.name} className="border-b border-border py-2.5">
+                  {country.name}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        </section>
+
+        {/* By the numbers */}
         <section className="mt-24">
           <motion.div {...rise} transition={{ duration: 0.5 }} className="mb-10">
             <p className="eyebrow text-primary">By the numbers</p>
@@ -166,46 +200,6 @@ export function ImpactPage() {
           </div>
         </section>
 
-        {/* Reach */}
-        <section className="mt-24">
-          <motion.div {...rise} transition={{ duration: 0.5 }} className="mb-10">
-            <p className="eyebrow text-primary">Reach</p>
-            <h2 className="mt-4" style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
-              {totals.countries} countries, one hackathon
-            </h2>
-            <p className="mt-4 max-w-2xl leading-relaxed text-muted-foreground">
-              {totals.registrants.toLocaleString('en-US')} registrations and{' '}
-              {totals.submitters.toLocaleString('en-US')} submitted projects, broken down by the
-              country each participant registered from.{' '}
-              {totals.unknown > 0 &&
-                `A further ${totals.unknown.toLocaleString('en-US')} registrations came in without a country recorded.`}
-            </p>
-          </motion.div>
-
-          <motion.div {...rise} transition={{ duration: 0.5, delay: 0.06 }}>
-            <WorldMap countries={countries} />
-          </motion.div>
-
-          {/* The same data as text, ranked — readable without the map, and the
-              form anything crawling this page can actually parse. */}
-          <motion.div {...rise} transition={{ duration: 0.5, delay: 0.1 }} className="mt-12">
-            <h3 className="eyebrow text-muted-foreground">Every country, by registrations</h3>
-            <ul className="mt-6 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
-              {countries.map((country) => (
-                <li
-                  key={country.name}
-                  className="flex items-baseline justify-between gap-4 border-b border-border py-2.5"
-                >
-                  <span className="truncate">{country.name}</span>
-                  <span className="shrink-0 text-sm text-muted-foreground">
-                    {country.registrants.toLocaleString('en-US')}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        </section>
-
         {/* Sources */}
         <section className="mt-24">
           <motion.div
@@ -224,10 +218,9 @@ export function ImpactPage() {
                 note={`Read live on every page load. ${stamp(statsAt)}`}
               />
               <Source
-                label="Country breakdown"
-                href={SHEET_VIEW_URL}
-                name="Published country export"
-                note={`Read live on every page load. ${stamp(countriesAt)}`}
+                label="Countries represented"
+                name="Devpost's registration export"
+                note={`Kept by the team and read live on every page load. Shaded by relative volume only; how many people registered from any one country is not published. ${stamp(countriesAt)}`}
               />
               <Source
                 label="Sponsors, judges, prizes, organizers"

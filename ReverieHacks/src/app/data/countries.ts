@@ -8,14 +8,19 @@
 
 import { WORLD_COUNTRIES } from './world-dots';
 
-/** The published sheet the country breakdown is read from, for citation. */
-export const SHEET_VIEW_URL =
-  'https://docs.google.com/spreadsheets/d/1I-HpVH0s3KwHcCibd_qOKO3Uz_MdH-9-abuwZoqaYYs/edit';
+/** Shading steps on the map, matching the ramp /api/countries buckets into. */
+export const SHARE_STEPS = 5;
 
 export type CountryRow = {
   name: string;
-  registrants: number;
-  submitters: number;
+  /**
+   * Which shading step this country sits on, 0 to SHARE_STEPS - 1.
+   *
+   * Not a headcount. The endpoint buckets each country's registrations
+   * server-side and drops the figure, so the exact number of people per nation
+   * is never published — only how one country compares with another.
+   */
+  share: number;
 };
 
 export type CountryTotals = {
@@ -155,16 +160,3 @@ export function placeCountry(name: string): CountryPlacement {
   return { kind: 'none' };
 }
 
-/**
- * The map's colour ramp: which of five intensity steps a country sits in.
- *
- * Registrations are wildly skewed — India and the United States together are
- * most of the field — so this is a log scale. A linear one would render every
- * country outside the top two in the same faintest shade.
- */
-export function intensityOf(registrants: number, max: number): number {
-  if (registrants <= 0 || max <= 0) return 0;
-
-  const scaled = Math.log(registrants) / Math.log(Math.max(max, Math.E));
-  return Math.min(4, Math.max(0, Math.round(scaled * 4)));
-}

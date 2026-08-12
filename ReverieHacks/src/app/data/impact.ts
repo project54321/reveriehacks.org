@@ -24,8 +24,12 @@ export const TEAM_SPONSOR_COUNT = 9;
 /** Counted off JudgesPage: 24 track judges plus the 4-person bounty panel. */
 export const JUDGE_COUNT = 28;
 
-/** Counted off TeamPage. */
-export const ORGANIZER_COUNT = 7;
+/**
+ * The number the team gives for who actually runs it. Not the length of the
+ * roster on TeamPage, which also carries a founder and a former CEO who have
+ * since aged out.
+ */
+export const ORGANIZER_COUNT = 6;
 
 /** Not derivable from Devpost, which publishes only the aggregate valuation. */
 export const CASH_PRIZES = 800;
@@ -131,7 +135,7 @@ export function impactMetrics(stats: DevpostStats): ImpactMetric[] {
     {
       key: 'organizers',
       label: 'Student organizers',
-      detail: 'The high schoolers who run the whole thing',
+      detail: 'The high schoolers who run the whole thing themselves',
       value: ORGANIZER_COUNT,
       live: false,
     },
@@ -163,7 +167,7 @@ export function impactSummary(stats: DevpostStats): string {
 
   return (
     `ReverieHacks 2026 has ${stats.participants.toLocaleString('en-US')} participants and ` +
-    `$${stats.prizes.toLocaleString('en-US')} in total prize valuation — the largest prize pool ` +
+    `$${stats.prizes.toLocaleString('en-US')} in total prize valuation: the largest prize pool ` +
     `ever created by a high school-run hackathon, and the ${rank.superlative} such hackathon by ` +
     'participation.'
   );
