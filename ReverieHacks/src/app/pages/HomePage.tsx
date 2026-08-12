@@ -36,6 +36,7 @@ const perks = [
   { name: 'Render', detail: '1 month of build credits' },
   { name: 'Protoflow', detail: '500 credits' },
   { name: 'Devswarm Pro', detail: '1 month — a full year for first-place teams' },
+  { name: 'Mobbin Pro', detail: '3 months free — a full year for winners' },
   { name: 'YouCam Pro API', detail: '500 API credits, first 700 to redeem' },
   { name: 'Tin Computer', detail: '$299 in growth credits, first 100 teams' },
   { name: 'Firecrawl', detail: '10,000 credits for every hacker' },

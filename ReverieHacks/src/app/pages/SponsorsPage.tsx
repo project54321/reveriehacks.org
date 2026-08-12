@@ -76,7 +76,7 @@ const companySponsors: Sponsor[] = [
     url: 'https://codecrafters.io',
     description:
       'Hands-on programming challenges, with VIP memberships for the Software Development podium: 2 years ($720) for 1st, 1 year ($360) for 2nd, and 6 months for 3rd.',
-    x: 40,
+    x: 34,
     y: 87,
   },
   {
@@ -113,7 +113,7 @@ const companySponsors: Sponsor[] = [
     url: 'https://riseglobaleducation.com',
     description:
       'Research mentorship with PhD mentors, including 20% off the RISE Research program for the winning track.',
-    x: 60,
+    x: 66,
     y: 87,
   },
   {
@@ -174,6 +174,19 @@ const companySponsors: Sponsor[] = [
       'Screenshot and screen recording built for Mac, with 18 licenses for the top three of every track.',
     x: 15,
     y: 15,
+  },
+  {
+    id: 'mobbin',
+    name: 'Mobbin',
+    tier: 'Design Partner',
+    logo: '/sponsorLogos/mobbin.png',
+    fit: 'contain',
+    light: true,
+    url: 'https://mobbin.com',
+    description:
+      'A searchable library of real mobile and web app design patterns and flows, with a 3-month Mobbin Pro subscription free for all participants and 1-year Mobbin Pro free for winners.',
+    x: 50,
+    y: 87,
   },
 ];
 
