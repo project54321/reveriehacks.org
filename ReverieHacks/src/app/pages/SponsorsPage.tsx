@@ -162,6 +162,19 @@ const companySponsors: Sponsor[] = [
     x: 85,
     y: 15,
   },
+  {
+    id: 'cleanshot',
+    name: 'CleanShot X',
+    tier: 'Screen Capture Partner',
+    logo: '/sponsorLogos/cleanshot.png',
+    fit: 'contain',
+    light: true,
+    url: 'https://cleanshot.com',
+    description:
+      'Screenshot and screen recording built for Mac, with 18 licenses for the top three of every track.',
+    x: 15,
+    y: 15,
+  },
 ];
 
 // Financial team sponsors, grouped by contribution tier.

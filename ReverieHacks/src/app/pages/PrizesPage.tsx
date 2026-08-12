@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import {
   Banknote,
   Briefcase,
+  Camera,
   Crown,
   Cpu,
   FlaskConical,
@@ -21,6 +22,11 @@ const prizes = [
   { icon: FlaskConical, title: '20% off RISE Research', body: 'A discount on the RISE Research program for every track winner.' },
   { icon: LineChart, title: '$500 in Formaloo credits', body: 'For the top two of the Datathon, plus a mentoring session with the CEO.' },
   { icon: Layers, title: 'A year of Protoflow Pro', body: 'For the top three projects overall.' },
+  {
+    icon: Camera,
+    title: '18 CleanShot X licenses',
+    body: 'Mac screen capture for first, second, and third place in all six tracks.',
+  },
 ];
 
 const perks = [
@@ -86,6 +92,10 @@ export function PrizesPage() {
                 <h3 className="mt-6 text-xl">{prize.title}</h3>
                 <p className="mt-2 leading-relaxed text-muted-foreground">{prize.body}</p>
               </motion.div>
+            ))}
+            {/* Fill the last row so it doesn't end in bare border-coloured cells. */}
+            {Array.from({ length: (3 - (prizes.length % 3)) % 3 }).map((_, i) => (
+              <div key={`filler-${i}`} className="hidden bg-background lg:block" />
             ))}
           </div>
         </section>
