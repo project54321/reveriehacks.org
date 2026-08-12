@@ -79,6 +79,7 @@ const companySponsors: Sponsor[] = [
     x: 31,
     y: 87,
   },
+  //hi.
   {
     id: 'wolfram',
     name: 'Wolfram',
