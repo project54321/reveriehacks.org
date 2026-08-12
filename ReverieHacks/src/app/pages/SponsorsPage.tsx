@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface Sponsor {
@@ -7,17 +8,21 @@ interface Sponsor {
   tier: string;
   url: string;
   description: string;
-  x: number;
-  y: number;
   logo?: string;
   fit?: 'cover' | 'contain';
   short?: string;
   monogram?: string;
   /** Put the logo on a white chip (for dark/gradient logos). */
   light?: boolean;
+  /**
+   * Flip the logo to its negative in light mode. For single-colour white marks,
+   * which would otherwise vanish against the light theme's white card.
+   */
+  invertOnLight?: boolean;
 }
 
-// Company sponsors: the constellation (in-kind partners).
+// Company sponsors: the honeycomb (in-kind partners). Order is the reading
+// order of the grid, so moving a logo is a matter of moving it in this list.
 const companySponsors: Sponsor[] = [
 {
     id: 'featherless',
@@ -28,8 +33,6 @@ const companySponsors: Sponsor[] = [
     url: 'https://featherless.ai',
     description:
       'Seamless inference APIs, with $300 in credits for the ML Prompt Engineering winner plus a month of subscription for every participant.',
-    x: 13,
-    y: 33.6,
   },
   {
     id: 'xyz',
@@ -39,8 +42,17 @@ const companySponsors: Sponsor[] = [
     fit: 'contain',
     url: 'https://gen.xyz',
     description: 'Domains for every project, with free .xyz domains for everyone who places.',
-    x: 87,
-    y: 33.6,
+  },
+  {
+    id: 'protoflow',
+    name: 'Protoflow',
+    tier: 'Prototyping Partner',
+    logo: '/sponsorLogos/protoflow.svg',
+    fit: 'contain',
+    invertOnLight: true,
+    url: 'https://protoflow.ai',
+    description:
+      'Hardware prototyping for makers, with a year of Protoflow Pro for the top three projects overall and 500 credits for every participant.',
   },
   {
     id: 'render',
@@ -51,8 +63,6 @@ const companySponsors: Sponsor[] = [
     light: true,
     url: 'https://render.com',
     description: '$50 in building credits for general attendees, plus up to $500 for Best Use of Render track winners.',
-    x: 13,
-    y: 55.5,
   },
   {
     id: 'tin-computer',
@@ -63,8 +73,6 @@ const companySponsors: Sponsor[] = [
     light: true,
     url: 'https://tincomputer.com',
     description: '$299 in credits (one month of Growth plan) for up to 100 eligible development teams.',
-    x: 87,
-    y: 55.5,
   },
   {
     id: 'codecrafters',
@@ -76,8 +84,6 @@ const companySponsors: Sponsor[] = [
     url: 'https://codecrafters.io',
     description:
       'Hands-on programming challenges, with VIP memberships for the Software Development podium: 2 years ($720) for 1st, 1 year ($360) for 2nd, and 6 months for 3rd.',
-    x: 26.7,
-    y: 88,
   },
   //hi.
   {
@@ -88,8 +94,6 @@ const companySponsors: Sponsor[] = [
     fit: 'cover',
     url: 'https://www.wolfram.com',
     description: 'Computational access for the next generation of innovators, via Wolfram|One.',
-    x: 85.8,
-    y: 77.1,
   },
   {
     id: 'devswarm',
@@ -101,8 +105,6 @@ const companySponsors: Sponsor[] = [
     url: 'https://devswarm.ai',
     description:
       'Parallel AI coding agents across isolated Git branches, with a month of DevSwarm Pro for every participant and a full year for the winners.',
-    x: 34.5,
-    y: 12,
   },
   {
     id: 'rise-research',
@@ -114,8 +116,6 @@ const companySponsors: Sponsor[] = [
     url: 'https://riseglobaleducation.com',
     description:
       'Research mentorship with PhD mentors, including 20% off the RISE Research program for the winning track.',
-    x: 73.3,
-    y: 88,
   },
   {
     id: 'formaloo',
@@ -125,20 +125,6 @@ const companySponsors: Sponsor[] = [
     fit: 'cover',
     url: 'https://formaloo.com',
     description: 'No-code forms, surveys, and data apps for collecting and acting on submissions.',
-    x: 65.5,
-    y: 12,
-  },
-  {
-    id: 'protoflow',
-    name: 'Protoflow',
-    tier: 'Prototyping Partner',
-    logo: '/sponsorLogos/protoflow.svg',
-    fit: 'contain',
-    url: 'https://protoflow.ai',
-    description:
-      'Hardware prototyping for makers, with a year of Protoflow Pro for the top three projects overall and 500 credits for every participant.',
-    x: 50,
-    y: 12,
   },
   {
     id: 'perfect-corp',
@@ -149,8 +135,6 @@ const companySponsors: Sponsor[] = [
     url: 'https://www.perfectcorp.com/business',
     description:
       'The YouCam Pro API for AI skin analysis and virtual try-on, with 500 free API credits for the first 700 participants to redeem.',
-    x: 14.2,
-    y: 77.1,
   },
   {
     id: 'firecrawl',
@@ -160,8 +144,6 @@ const companySponsors: Sponsor[] = [
     fit: 'cover',
     url: 'https://www.firecrawl.dev',
     description: 'Turn websites into LLM-ready data, with 10,000 credits for every hacker.',
-    x: 80.7,
-    y: 14.8,
   },
   {
     id: 'cleanshot',
@@ -173,8 +155,6 @@ const companySponsors: Sponsor[] = [
     url: 'https://cleanshot.com',
     description:
       'Screenshot and screen recording built for Mac, with 18 licenses for the top three of every track.',
-    x: 19.3,
-    y: 14.8,
   },
   {
     id: 'mobbin',
@@ -186,8 +166,16 @@ const companySponsors: Sponsor[] = [
     url: 'https://mobbin.com',
     description:
       'A searchable library of real mobile and web app design patterns and flows, with a 3-month Mobbin Pro subscription free for all participants and 1-year Mobbin Pro free for winners.',
-    x: 57.8,
-    y: 88,
+  },
+  {
+    id: 'learner-labs',
+    name: 'Learner Labs',
+    tier: 'Internship Partner',
+    logo: '/sponsorLogos/ll.png',
+    fit: 'cover',
+    url: 'https://learnerlabs.app',
+    description:
+      'An emerging AI startup, offering six internships across the ML Prompt Engineering and Ideathon tracks.',
   },
   {
     id: 'momen',
@@ -198,8 +186,6 @@ const companySponsors: Sponsor[] = [
     url: 'https://momen.app',
     description:
       'A no-code platform for building full-stack web apps, with $100 in credits for every participant and $2,000 for each Software Development track winner.',
-    x: 42.2,
-    y: 88,
   },
 ];
 
@@ -293,25 +279,233 @@ function TeamTile({ team, size }: { team: TeamSponsor; size: string }) {
   );
 }
 
-function NodeLogo({ s }: { s: Sponsor }) {
+/**
+ * A pointy-top hexagon: flat left and right edges so cells sit flush in a row,
+ * points top and bottom so the next row nests into the notches. Height is
+ * 2/√3 of the width, and rows overlap by a quarter of that height.
+ */
+const HEX_RATIO = 1.1547;
+const HEX_CLIP = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)';
+const HEX_POINTS = '50,0 100,28.87 100,86.6 50,115.47 0,86.6 0,28.87';
+
+// Widest a row may get: 3 on phones, 6 from md up. The row builder balances
+// the actual counts against the list length.
+function useHexPerRow() {
+  const [perRow, setPerRow] = useState(6);
+
+  useEffect(() => {
+    const wide = window.matchMedia('(min-width: 768px)');
+    const sync = () => setPerRow(wide.matches ? 6 : 3);
+    sync();
+    wide.addEventListener('change', sync);
+    return () => wide.removeEventListener('change', sync);
+  }, []);
+
+  return perRow;
+}
+
+/**
+ * Split into the fewest rows that respect `max`, then even them out rather than
+ * filling each to the brim — 16 with a max of 6 is 5/6/5, not 6/6/4. Spare
+ * cells go to the middle rows first, so the block bulges at the waist like a
+ * hexagon instead of trailing off, and the top row keeps a true centre.
+ */
+function honeycombRows<T>(items: T[], max: number): T[][] {
+  const rowCount = Math.max(1, Math.ceil(items.length / max));
+  const sizes = Array.from({ length: rowCount }, () => Math.floor(items.length / rowCount));
+
+  const middleOut = [...sizes.keys()].sort((a, b) => {
+    const mid = (rowCount - 1) / 2;
+    return Math.abs(a - mid) - Math.abs(b - mid) || a - b;
+  });
+  for (let i = 0; i < items.length % rowCount; i++) sizes[middleOut[i]] += 1;
+
+  const rows: T[][] = [];
+  let cut = 0;
+  for (const size of sizes) {
+    rows.push(items.slice(cut, cut + size));
+    cut += size;
+  }
+  return rows;
+}
+
+/**
+ * How far each row slides sideways, in cell-pitches, so every row nests into
+ * the one above. A centred row already sits half a cell off from its neighbour
+ * when their lengths differ by one, so a shift is only needed where two rows
+ * share a parity. The whole set is then recentred on the block.
+ */
+function rowOffsets(rows: unknown[][]): number[] {
+  // A row of odd length centres a cell on the axis; an even one straddles it.
+  const shifts = rows.map((row, r) => ((r % 2) - (row.length % 2 === 0 ? 1 : 0) + 2) % 2 / 2);
+  const middle = (Math.min(...shifts) + Math.max(...shifts)) / 2;
+  return shifts.map((shift) => shift - middle);
+}
+
+function HexLogo({ s }: { s: Sponsor }) {
   if (s.logo) {
+    // 'cover' fills the cell edge to edge; 'contain' is inset far enough to
+    // clear the sloping walls, which cut in hard at the top and bottom.
     return (
       <img
         src={s.logo}
         alt={`${s.name} logo`}
-        className={`h-full w-full ${s.fit === 'contain' ? 'object-contain p-2 sm:p-2.5 md:p-3.5' : 'object-cover'}`}
+        className={`${
+          s.fit === 'contain' ? 'h-3/5 w-3/5 object-contain' : 'h-full w-full object-cover'
+        } ${s.invertOnLight ? '[[data-theme=light]_&]:invert' : ''}`}
       />
     );
   }
   return (
-    <span className="px-2 text-center font-display text-sm uppercase leading-tight tracking-wide text-foreground">
+    <span className="px-3 text-center font-display text-sm uppercase leading-tight tracking-wide text-foreground">
       {s.short ?? s.name}
     </span>
   );
 }
 
+function HexCell({
+  s,
+  open,
+  dimmed,
+  onOpen,
+  onClose,
+}: {
+  s: Sponsor;
+  open: boolean;
+  dimmed: boolean;
+  onOpen: (anchor: HTMLElement) => void;
+  onClose: () => void;
+}) {
+  return (
+    <div className="relative shrink-0" style={{ width: 'var(--hex-w)', height: 'var(--hex-h)' }}>
+      <a
+        href={s.url}
+        target="_blank"
+        rel="noreferrer"
+        title={s.name}
+        onMouseEnter={(e) => onOpen(e.currentTarget)}
+        onMouseLeave={onClose}
+        onFocus={(e) => onOpen(e.currentTarget)}
+        onBlur={onClose}
+        className="block h-full w-full transition-[transform,opacity] duration-300 focus:outline-none"
+        style={{ transform: open ? 'scale(1.07)' : undefined, opacity: dimmed ? 0.4 : 1 }}
+      >
+        <span
+          className={`flex h-full w-full items-center justify-center ${s.light ? 'bg-white' : 'bg-card'}`}
+          style={{ clipPath: HEX_CLIP }}
+        >
+          <HexLogo s={s} />
+        </span>
+        {/* The outline rides on top: clip-path crops a border away. */}
+        <svg
+          viewBox="0 0 100 115.47"
+          preserveAspectRatio="none"
+          className="pointer-events-none absolute inset-0 h-full w-full"
+        >
+          <polygon
+            points={HEX_POINTS}
+            fill="none"
+            vectorEffect="non-scaling-stroke"
+            stroke={open ? 'var(--primary)' : 'var(--border-strong)'}
+            strokeWidth={open ? 1.5 : 1}
+            className="transition-all duration-300"
+          />
+        </svg>
+      </a>
+    </div>
+  );
+}
+
+const CARD_W = 'min(20rem, calc(100vw - 1.5rem))';
+/** Room the card needs below a cell before it flips above it. */
+const CARD_ROOM = 240;
+
+/**
+ * The card is portalled to <body> and positioned against the viewport, for two
+ * reasons: the animated rows each carry a transform, which creates a stacking
+ * context that would paint a card from an upper row underneath the rows below
+ * it; and anchoring to the viewport keeps the card wholly on screen from any
+ * scroll position rather than hanging off the top or bottom edge.
+ *
+ * Horizontal placement is a CSS clamp so it never needs the card's own width,
+ * and the vertical side is anchored by whichever edge faces the cell, so it
+ * never needs the height either — no measure-then-reposition frame.
+ */
+function SponsorCard({ s, anchor }: { s: Sponsor; anchor: HTMLElement }) {
+  const [, reposition] = useReducer((n: number) => n + 1, 0);
+
+  useEffect(() => {
+    // Capture phase: an ancestor may be the scroll container, not the window.
+    window.addEventListener('scroll', reposition, true);
+    window.addEventListener('resize', reposition);
+    return () => {
+      window.removeEventListener('scroll', reposition, true);
+      window.removeEventListener('resize', reposition);
+    };
+  }, []);
+
+  const cell = anchor.getBoundingClientRect();
+  const edge = 12;
+  const gap = 10;
+  const below = window.innerHeight - cell.bottom - gap - edge;
+  const above = cell.top - gap - edge;
+  const flip = below < CARD_ROOM && above > below;
+  const centre = cell.left + cell.width / 2;
+
+  return createPortal(
+    <motion.div
+      initial={{ opacity: 0, y: flip ? 6 : -6 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: flip ? 6 : -6 }}
+      transition={{ duration: 0.16, ease: 'easeOut' }}
+      // Inert: the cell underneath owns the hover, so the card can never steal
+      // it back and flicker.
+      className="pointer-events-none fixed z-[70] overflow-y-auto border border-primary/50 bg-popover p-5 text-left shadow-2xl"
+      style={{
+        width: CARD_W,
+        left: `clamp(${edge}px, calc(${centre}px - ${CARD_W} / 2), calc(100vw - ${CARD_W} - ${edge}px))`,
+        top: flip ? undefined : cell.bottom + gap,
+        bottom: flip ? window.innerHeight - cell.top + gap : undefined,
+        maxHeight: flip ? above : below,
+      }}
+    >
+      <div className="flex items-center gap-3">
+        <span
+          className={`flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border ${
+            s.light ? 'bg-white' : 'bg-card'
+          }`}
+        >
+          {s.logo ? (
+            <img
+              src={s.logo}
+              alt=""
+              className={`h-full w-full ${s.fit === 'contain' ? 'object-contain' : 'object-cover'} ${
+                s.invertOnLight ? '[[data-theme=light]_&]:invert' : ''
+              }`}
+            />
+          ) : (
+            <span className="font-display text-[0.65rem] uppercase text-muted-foreground">
+              {s.monogram ?? s.name.slice(0, 2)}
+            </span>
+          )}
+        </span>
+        <span>
+          <span className="eyebrow block text-primary/80">{s.tier}</span>
+          <span className="font-display text-lg">{s.name}</span>
+        </span>
+      </div>
+      <p className="mt-3 border-t border-border pt-3 text-sm leading-relaxed text-muted-foreground">
+        {s.description}
+      </p>
+    </motion.div>,
+    document.body,
+  );
+}
+
 export function SponsorsPage() {
-  const [hovered, setHovered] = useState<string | null>(null);
+  const [active, setActive] = useState<{ s: Sponsor; anchor: HTMLElement } | null>(null);
+  const rows = honeycombRows(companySponsors, useHexPerRow());
+  const offsets = rowOffsets(rows);
 
   return (
     <div className="min-h-screen px-6 pb-24 pt-36">
@@ -380,129 +574,65 @@ export function SponsorsPage() {
           </div>
         </section>
 
-        {/* Company partners: the constellation */}
+        {/* Company partners: the honeycomb */}
         <section className="mt-20">
           <div className="flex items-baseline justify-between border-b border-border pb-3">
             <h2 className="text-2xl">Partners</h2>
             <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">In-kind</span>
           </div>
-          <p className="mt-4 max-w-xl text-sm text-muted-foreground">
-            Companies providing the tools, credits, and prizes.
-          </p>
-
-          <div className="relative mx-auto mt-8 h-[560px] w-full max-w-[900px] border border-border md:h-[640px]">
-            <svg className="pointer-events-none absolute inset-0 h-full w-full">
-              {companySponsors.map((s) => (
-                <line
-                  key={`line-${s.id}`}
-                  x1="50%"
-                  y1="50%"
-                  x2={`${s.x}%`}
-                  y2={`${s.y}%`}
-                  stroke={hovered === s.id ? 'var(--primary)' : 'var(--border-strong)'}
-                  strokeWidth={1}
-                  strokeDasharray="3 5"
-                  className="transition-all duration-300"
-                />
-              ))}
-            </svg>
-
-            {/* Center node */}
-            <div className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
-              <div className="flex h-24 w-24 flex-col items-center justify-center rounded-full border border-primary/40 bg-background text-center sm:h-28 sm:w-28 md:h-36 md:w-36">
-                <span className="font-wordmark text-base uppercase leading-[0.9] tracking-[0.08em]">
-                  Reverie
-                  <br />
-                  <span className="text-primary">Hacks</span>
-                </span>
-              </div>
-            </div>
-
-            {/* Sponsor nodes */}
-            {companySponsors.map((s, i) => {
-              const isHovered = hovered === s.id;
-              const external = s.url !== '#';
-              return (
-                <motion.div
-                  key={s.id}
-                  animate={isHovered ? { y: 0 } : { y: [0, i % 2 === 0 ? -6 : 6, 0] }}
-                  transition={
-                    isHovered
-                      ? { duration: 0 }
-                      : { duration: 5 + i, repeat: Infinity, ease: 'easeInOut' }
-                  }
-                  className="absolute -translate-x-1/2 -translate-y-1/2"
-                  style={{ left: `${s.x}%`, top: `${s.y}%`, zIndex: isHovered ? 40 : 30 }}
-                  onMouseEnter={() => setHovered(s.id)}
-                  onMouseLeave={() => setHovered(null)}
-                >
-                  <div className="relative flex h-20 w-20 items-center justify-center sm:h-24 sm:w-24 md:h-28 md:w-28">
-                    <AnimatePresence initial={false} mode="popLayout">
-                      {!isHovered ? (
-                        <motion.a
-                          key="node"
-                          layoutId={`node-${s.id}`}
-                          href={external ? s.url : undefined}
-                          target={external ? '_blank' : undefined}
-                          rel={external ? 'noreferrer' : undefined}
-                          transition={{ type: 'spring', stiffness: 320, damping: 30 }}
-                          className={`flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-border transition-colors hover:border-primary/50 sm:h-24 sm:w-24 md:h-28 md:w-28 ${
-                            s.light ? 'bg-white' : 'bg-card'
-                          }`}
-                        >
-                          <NodeLogo s={s} />
-                        </motion.a>
-                      ) : (
-                        <motion.a
-                          key="card"
-                          layoutId={`node-${s.id}`}
-                          href={external ? s.url : undefined}
-                          target={external ? '_blank' : undefined}
-                          rel={external ? 'noreferrer' : undefined}
-                          transition={{ type: 'spring', stiffness: 320, damping: 30 }}
-                          className="absolute flex w-72 flex-col border border-primary/50 bg-popover p-5 text-left"
-                        >
-                          <div className="flex items-center gap-3">
-                            <span
-                              className={`flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border ${
-                                s.light ? 'bg-white' : 'bg-card'
-                              }`}
-                            >
-                              {s.logo ? (
-                                <img
-                                  src={s.logo}
-                                  alt={`${s.name} logo`}
-                                  className={`h-full w-full ${
-                                    s.fit === 'contain' ? 'object-contain' : 'object-cover'
-                                  }`}
-                                />
-                              ) : (
-                                <span className="font-display text-[0.65rem] uppercase text-muted-foreground">
-                                  {s.monogram ?? s.name.slice(0, 2)}
-                                </span>
-                              )}
-                            </span>
-                            <span>
-                              <span className="eyebrow block text-primary/80">{s.tier}</span>
-                              <span className="font-display text-lg">{s.name}</span>
-                            </span>
-                          </div>
-                          <motion.p
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.1 }}
-                            className="mt-3 border-t border-border pt-3 text-sm leading-relaxed text-muted-foreground"
-                          >
-                            {s.description}
-                          </motion.p>
-                        </motion.a>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                </motion.div>
-              );
-            })}
+          <div className="mt-4 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+            <p className="max-w-xl text-sm text-muted-foreground">
+              Companies providing the tools, credits, and prizes.
+            </p>
+            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground/70">
+              Hover a cell
+            </p>
           </div>
+
+          <div
+            className="mt-12 flex flex-col items-center pb-8"
+            style={
+              {
+                '--hex-w': 'clamp(4.5rem, 14vw, 8rem)',
+                '--hex-h': `calc(var(--hex-w) * ${HEX_RATIO})`,
+                '--hex-gap': '0.5rem',
+              } as React.CSSProperties
+            }
+          >
+            {rows.map((row, r) => (
+              <div
+                key={r}
+                style={{
+                  marginTop: r === 0 ? undefined : 'calc(var(--hex-h) * -0.25 + var(--hex-gap) * 0.6)',
+                  transform: `translateX(calc((var(--hex-w) + var(--hex-gap)) * ${offsets[r]}))`,
+                }}
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-60px' }}
+                  transition={{ duration: 0.45, delay: r * 0.08 }}
+                  className="flex justify-center"
+                  style={{ gap: 'var(--hex-gap)' }}
+                >
+                  {row.map((s) => (
+                    <HexCell
+                      key={s.id}
+                      s={s}
+                      open={active?.s.id === s.id}
+                      dimmed={active !== null && active.s.id !== s.id}
+                      onOpen={(anchor) => setActive({ s, anchor })}
+                      onClose={() => setActive(null)}
+                    />
+                  ))}
+                </motion.div>
+              </div>
+            ))}
+          </div>
+
+          <AnimatePresence>
+            {active && <SponsorCard key={active.s.id} s={active.s} anchor={active.anchor} />}
+          </AnimatePresence>
         </section>
 
         {/* Become a sponsor */}
