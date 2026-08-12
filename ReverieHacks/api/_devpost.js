@@ -164,7 +164,7 @@ function describeSchedule(event) {
   const endUtc = Date.UTC(end.year, end.month - 1, end.day);
   if (endUtc < startUtc) return blank;
 
-  // Inclusive: an Aug 2 – Aug 17 event runs for 16 days, not 15.
+  // Inclusive: an Aug 2 – Aug 24 event runs for 23 days, not 22.
   const days = Math.round((endUtc - startUtc) / MS_PER_DAY) + 1;
 
   const todayUtc = startOfUtcDay(Date.now());

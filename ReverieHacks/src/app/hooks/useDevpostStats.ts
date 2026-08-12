@@ -18,9 +18,9 @@ export const DEVPOST_FALLBACK: DevpostStats = {
   participants: 1010,
   prizes: 404748,
   tracks: 6,
-  days: 16,
-  daysLeft: 8,
-  dateRange: 'August 2–17, 2026',
+  days: 23,
+  daysLeft: 13,
+  dateRange: 'August 2–24, 2026',
 };
 
 /**

@@ -107,7 +107,7 @@ export function HomePage() {
           <span className="text-foreground">
             Currently the largest virtual high school hackathon.
           </span>{' '}
-          Two weeks, six tracks. Pick one, form a team, and ship something real.
+          Three weeks, six tracks. Pick one, form a team, and ship something real.
         </motion.p>
 
         {/* Calls to action on the left, headline figures on the right. Sharing

@@ -137,7 +137,7 @@ export function AboutPage() {
           className="mt-16 max-w-3xl border-l-2 border-primary/50 pl-6 text-lg leading-relaxed text-muted-foreground"
         >
           ReverieHacks started with a simple question: what if a hackathon felt more like a creative
-          playground than a competition? For two weeks, builders from around the world come together
+          playground than a competition? For three weeks, builders from around the world come together
           to create things they actually care about. We welcome developers, designers, engineers, and
           beginners alike, because the best work happens when different minds build together.
         </motion.div>
