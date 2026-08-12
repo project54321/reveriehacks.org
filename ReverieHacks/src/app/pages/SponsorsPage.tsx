@@ -654,5 +654,5 @@ export function SponsorsPage() {
         </motion.div>
       </div>
     </div>
-  );
+  ); //hi
 }
