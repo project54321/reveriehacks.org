@@ -636,7 +636,7 @@ export function SponsorsPage() {
 
         {/* Become a sponsor */}
         <motion.div
-          initial={{ opacity: 0 }} //hi
+          initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
