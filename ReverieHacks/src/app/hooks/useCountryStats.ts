@@ -64,7 +64,11 @@ function readCountries(value: unknown): CountryRow[] {
   return value.flatMap((row) => {
     if (typeof row?.name !== 'string' || !Number.isInteger(row?.share)) return [];
 
-    return [{ name: row.name, share: row.share as number }];
+    // A row that somehow arrives without its count still belongs on the map;
+    // it just reads as an unknown headcount rather than dropping the country.
+    const registrants = Number.isInteger(row?.registrants) ? (row.registrants as number) : 0;
+
+    return [{ name: row.name, registrants, share: row.share as number }];
   });
 }
 

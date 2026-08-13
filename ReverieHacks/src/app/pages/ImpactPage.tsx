@@ -154,14 +154,20 @@ export function ImpactPage() {
           </motion.div>
 
           {/* The same countries as text, readable without the map, and the form
-              anything crawling this page can actually parse. Names only: the
-              per-country registration counts are not published. */}
+              anything crawling this page can actually parse. Carries the counts
+              the map only shows on hover, which no touch screen ever does. */}
           <motion.div {...rise} transition={{ duration: 0.5, delay: 0.1 }} className="mt-12">
             <h3 className="eyebrow text-muted-foreground">Every country represented</h3>
             <ul className="mt-6 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
               {countries.map((country) => (
-                <li key={country.name} className="border-b border-border py-2.5">
-                  {country.name}
+                <li
+                  key={country.name}
+                  className="flex items-baseline justify-between gap-4 border-b border-border py-2.5"
+                >
+                  <span>{country.name}</span>
+                  <span className="tabular-nums text-muted-foreground">
+                    {country.registrants.toLocaleString('en-US')}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -220,7 +226,7 @@ export function ImpactPage() {
               <Source
                 label="Countries represented"
                 name="Devpost's registration export"
-                note={`Kept by the team and read live on every page load. Shaded by relative volume only; how many people registered from any one country is not published. ${stamp(countriesAt)}`}
+                note={`Kept by the team and read live on every page load. Hover any country on the map for its registration count. ${stamp(countriesAt)}`}
               />
               <Source
                 label="Sponsors, judges, prizes, organizers"

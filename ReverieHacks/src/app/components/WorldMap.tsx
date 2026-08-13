@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import {
   WORLD_CENTROIDS,
   WORLD_COLS,
@@ -29,64 +29,111 @@ type Placed = {
   anchor?: { x: number; y: number };
 };
 
+/** Half the widest the tooltip gets, used to keep it off the map's edges. */
+const TIP_REACH = 110;
+
 export function WorldMap({ countries }: { countries: CountryRow[] }) {
   const [hovered, setHovered] = useState<string | null>(null);
+  const [point, setPoint] = useState<{ x: number; y: number } | null>(null);
+  const frame = useRef<HTMLDivElement>(null);
 
   const { placed, quiet, missing } = useMemo(() => build(countries), [countries]);
 
   const active = placed.find((p) => p.row.name === hovered) ?? null;
 
+  /**
+   * Cursor position in the frame's own pixels, so the tooltip can follow it
+   * without caring how the viewBox is currently being scaled.
+   */
+  function track(event: React.PointerEvent<SVGSVGElement>) {
+    const box = frame.current?.getBoundingClientRect();
+    if (!box) return;
+
+    const x = event.clientX - box.left;
+
+    setPoint({
+      x:
+        box.width > TIP_REACH * 2
+          ? Math.min(Math.max(x, TIP_REACH), box.width - TIP_REACH)
+          : box.width / 2,
+      y: event.clientY - box.top,
+    });
+  }
+
+  function clear() {
+    setHovered(null);
+    setPoint(null);
+  }
+
   return (
     <div>
-      <div className="overflow-hidden border border-border bg-background">
-        <svg
-          viewBox={`0 0 ${WORLD_COLS * CELL} ${WORLD_ROWS * CELL}`}
-          className="block w-full"
-          role="img"
-          aria-label={`World map of ReverieHacks registrations across ${placed.length} countries`}
-          onMouseLeave={() => setHovered(null)}
-        >
-          {/* Countries nobody registered from: the land the map is drawn on. */}
-          <g fill="currentColor" className="text-muted-foreground" opacity={LAND}>
-            {quiet.map(([col, row]) => (
-              <circle key={`${col}-${row}`} cx={col * CELL + CELL / 2} cy={row * CELL + CELL / 2} r={DOT_R} />
-            ))}
-          </g>
-
-          {placed.map((entry) => (
-            <g
-              key={entry.row.name}
-              fill="currentColor"
-              className="cursor-default text-primary transition-opacity"
-              opacity={hovered && hovered !== entry.row.name ? 0.35 : shade(entry.row.share)}
-              onMouseEnter={() => setHovered(entry.row.name)}
-            >
-              <title>{entry.row.name}</title>
-              {entry.cells.map(([col, row]) => (
-                <circle
-                  key={`${col}-${row}`}
-                  cx={col * CELL + CELL / 2}
-                  cy={row * CELL + CELL / 2}
-                  r={DOT_R}
-                />
+      <div ref={frame} className="relative">
+        <div className="overflow-hidden border border-border bg-background">
+          <svg
+            viewBox={`0 0 ${WORLD_COLS * CELL} ${WORLD_ROWS * CELL}`}
+            className="block w-full"
+            role="img"
+            aria-label={`World map of ReverieHacks registrations across ${placed.length} countries`}
+            onPointerMove={track}
+            onPointerLeave={clear}
+          >
+            {/* Countries nobody registered from: the land the map is drawn on. */}
+            <g fill="currentColor" className="text-muted-foreground" opacity={LAND}>
+              {quiet.map(([col, row]) => (
+                <circle key={`${col}-${row}`} cx={col * CELL + CELL / 2} cy={row * CELL + CELL / 2} r={DOT_R} />
               ))}
-              {entry.anchor && (
-                <circle cx={entry.anchor.x} cy={entry.anchor.y} r={ANCHOR_R} />
-              )}
             </g>
-          ))}
-        </svg>
+
+            {placed.map((entry) => (
+              <g
+                key={entry.row.name}
+                fill="currentColor"
+                className="cursor-default text-primary transition-opacity"
+                opacity={hovered && hovered !== entry.row.name ? 0.35 : shade(entry.row.share)}
+                onPointerEnter={() => setHovered(entry.row.name)}
+              >
+                {/* The native tooltip, for anyone the floating one never
+                    reaches — a screen reader, or a browser without pointers. */}
+                <title>{label(entry.row)}</title>
+                {entry.cells.map(([col, row]) => (
+                  <circle
+                    key={`${col}-${row}`}
+                    cx={col * CELL + CELL / 2}
+                    cy={row * CELL + CELL / 2}
+                    r={DOT_R}
+                  />
+                ))}
+                {entry.anchor && (
+                  <circle cx={entry.anchor.x} cy={entry.anchor.y} r={ANCHOR_R} />
+                )}
+              </g>
+            ))}
+          </svg>
+        </div>
+
+        {/* Sits above the cursor, outside the clipped map so it can overhang the
+            border. Never takes the pointer — it would flicker as the country
+            under the cursor changed to nothing. */}
+        {active && point && (
+          <div
+            className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full whitespace-nowrap border border-border bg-background px-3 py-2 text-sm shadow-lg"
+            style={{ left: point.x, top: point.y - 10 }}
+          >
+            <span className="text-foreground">{active.row.name}</span>
+            <span className="ml-2 text-primary">{count(active.row.registrants)}</span>
+          </div>
+        )}
       </div>
 
-      {/* Names the country under the cursor. Shading is relative only; how many
-          people registered from any one country is not published. */}
+      {/* Names the country under the cursor and how many people registered from
+          it — the same readout as the tooltip, for a cursor that never hovers. */}
       <div className="flex flex-col gap-3 border-x border-b border-border px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm">
           {active ? (
-            <span className="text-foreground">{active.row.name}</span>
+            <span className="text-foreground">{label(active.row)}</span>
           ) : (
             <span className="text-muted-foreground">
-              {placed.length} countries. Hover the map to name one
+              {placed.length} countries. Hover the map for a count
             </span>
           )}
         </p>
@@ -112,6 +159,19 @@ export function WorldMap({ countries }: { countries: CountryRow[] }) {
       )}
     </div>
   );
+}
+
+/** "India — 570 participants", the readout in both tooltips. */
+function label(row: CountryRow): string {
+  return `${row.name} — ${count(row.registrants)}`;
+}
+
+/**
+ * Locale pinned to en-US: this renders during the prerender too, and a figure
+ * grouped one way on the server and another in the browser breaks hydration.
+ */
+function count(registrants: number): string {
+  return `${registrants.toLocaleString('en-US')} ${registrants === 1 ? 'participant' : 'participants'}`;
 }
 
 /** Clamped so a step the endpoint grows later can't index off the ramp. */

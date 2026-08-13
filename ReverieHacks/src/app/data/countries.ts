@@ -13,12 +13,14 @@ export const SHARE_STEPS = 5;
 
 export type CountryRow = {
   name: string;
+  /** How many people registered from here. */
+  registrants: number;
   /**
    * Which shading step this country sits on, 0 to SHARE_STEPS - 1.
    *
-   * Not a headcount. The endpoint buckets each country's registrations
-   * server-side and drops the figure, so the exact number of people per nation
-   * is never published — only how one country compares with another.
+   * Bucketed off `registrants` by /api/countries on a log scale, because the
+   * field is skewed enough that a linear ramp would flatten everything outside
+   * the top two countries into one step.
    */
   share: number;
 };

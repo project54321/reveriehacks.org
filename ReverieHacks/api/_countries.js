@@ -14,11 +14,10 @@ export const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/exp
 export const SHEET_VIEW_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit`;
 
 /**
- * How many shading steps the map has. Per-country registration counts are
- * deliberately never published: this endpoint converts each one to a step on
- * that ramp and drops the raw figure, so the map can be shaded without the
- * exact number of people per nation leaving the sheet. Only the aggregate
- * totals — which Devpost already publishes — come back whole.
+ * How many shading steps the map has. Each country's registration count is
+ * bucketed onto that ramp here rather than on the client, so the log scale the
+ * shading depends on lives in one place; the count itself travels alongside it
+ * for the map's hover readout.
  */
 const STEPS = 5;
 
@@ -49,10 +48,10 @@ export async function countriesResponse() {
 /**
  * Reads the country breakdown out of the published sheet.
  *
- * Returns countries ordered by registrations — most first — each carrying only
- * a shading step, plus the totals the Impact page quotes. Throws rather than
- * returning a half-parsed sheet; the client falls back to the snapshot baked in
- * at build time on a non-200.
+ * Returns countries ordered by registrations — most first — each carrying its
+ * registration count and a shading step, plus the totals the Impact page
+ * quotes. Throws rather than returning a half-parsed sheet; the client falls
+ * back to the snapshot baked in at build time on a non-200.
  */
 export async function scrapeCountryStats() {
   const response = await fetch(SHEET_URL, {
@@ -107,11 +106,12 @@ export async function scrapeCountryStats() {
   const busiest = countries[0].registrants;
 
   return {
-    // Name and shading step only. The registrant and submitter counts stay on
-    // this side of the wire.
-    countries: countries.map(({ name }, index) => ({
+    // Name, headcount, and shading step. The submitter column stays on this
+    // side of the wire — only its total is quoted.
+    countries: countries.map(({ name, registrants: count }) => ({
       name,
-      share: shareOf(countries[index].registrants, busiest),
+      registrants: count,
+      share: shareOf(count, busiest),
     })),
     totals: {
       countries: countries.length,
