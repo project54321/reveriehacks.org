@@ -14,7 +14,7 @@ import type { DevpostStats } from '../hooks/useDevpostStats';
  * is what moves ReverieHacks from second place to first, so the ranking below
  * is a comparison against this single number rather than a hardcoded claim.
  */
-export const PARTICIPANT_RECORD = 1501;
+export const PARTICIPANT_RECORD = 1502;
 
 /** Counted off SponsorsPage: 16 companies plus 9 robotics teams. */
 export const SPONSOR_COUNT = 25;

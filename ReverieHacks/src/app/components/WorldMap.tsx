@@ -32,31 +32,90 @@ type Placed = {
 /** Half the widest the tooltip gets, used to keep it off the map's edges. */
 const TIP_REACH = 110;
 
+/**
+ * How close, in grid cells, the cursor has to get to claim an island state.
+ * Wider than the mark itself, which is under half a cell across — a target that
+ * small is unhittable. The cost is that Singapore takes a cell of Malaysia's
+ * coast with it, which is the right way round: Malaysia has a hundred others.
+ */
+const ANCHOR_REACH = 1.2;
+
 export function WorldMap({ countries }: { countries: CountryRow[] }) {
   const [hovered, setHovered] = useState<string | null>(null);
   const [point, setPoint] = useState<{ x: number; y: number } | null>(null);
   const frame = useRef<HTMLDivElement>(null);
 
-  const { placed, quiet, missing } = useMemo(() => build(countries), [countries]);
+  const { placed, quiet, owner, missing } = useMemo(() => build(countries), [countries]);
 
   const active = placed.find((p) => p.row.name === hovered) ?? null;
 
   /**
-   * Cursor position in the frame's own pixels, so the tooltip can follow it
-   * without caring how the viewBox is currently being scaled.
+   * The dots, held still across cursor moves. Every pointermove sets the
+   * tooltip's position, and re-diffing a few thousand circles at that rate is
+   * what would make the map feel heavy; this only rebuilds when the country
+   * under the cursor actually changes.
+   */
+  const dots = useMemo(
+    () => (
+      <>
+        {/* Countries nobody registered from: the land the map is drawn on. */}
+        <g fill="currentColor" className="text-muted-foreground" opacity={LAND}>
+          {quiet.map(([col, row]) => (
+            <circle key={`${col}-${row}`} cx={col * CELL + CELL / 2} cy={row * CELL + CELL / 2} r={DOT_R} />
+          ))}
+        </g>
+
+        {placed.map((entry) => (
+          <g
+            key={entry.row.name}
+            fill="currentColor"
+            className="text-primary transition-opacity"
+            opacity={hovered && hovered !== entry.row.name ? 0.35 : shade(entry.row.share)}
+          >
+            {/* The native tooltip, for anyone the floating one never reaches —
+                a screen reader, or a browser without pointers. */}
+            <title>{label(entry.row)}</title>
+            {entry.cells.map(([col, row]) => (
+              <circle
+                key={`${col}-${row}`}
+                cx={col * CELL + CELL / 2}
+                cy={row * CELL + CELL / 2}
+                r={DOT_R}
+              />
+            ))}
+            {entry.anchor && <circle cx={entry.anchor.x} cy={entry.anchor.y} r={ANCHOR_R} />}
+          </g>
+        ))}
+      </>
+    ),
+    [placed, quiet, hovered],
+  );
+
+  /**
+   * Hit tests against the grid rather than the dots themselves. Testing the
+   * circles would drop the hover in the gap between two of India's dots, and
+   * would never let go of it out over the Indian Ocean.
    */
   function track(event: React.PointerEvent<SVGSVGElement>) {
     const box = frame.current?.getBoundingClientRect();
-    if (!box) return;
+    if (!box || !box.width || !box.height) return;
 
     const x = event.clientX - box.left;
+    const y = event.clientY - box.top;
 
+    // Cursor in grid cells, the units both the dot grid and the anchors use.
+    const col = (x / box.width) * WORLD_COLS;
+    const row = (y / box.height) * WORLD_ROWS;
+
+    setHovered(nearestAnchor(placed, col, row) ?? owner.get(cell(col, row)) ?? null);
     setPoint({
+      // Clamped so a country against either edge doesn't push its tooltip off
+      // the side of the frame.
       x:
         box.width > TIP_REACH * 2
           ? Math.min(Math.max(x, TIP_REACH), box.width - TIP_REACH)
           : box.width / 2,
-      y: event.clientY - box.top,
+      y,
     });
   }
 
@@ -75,39 +134,10 @@ export function WorldMap({ countries }: { countries: CountryRow[] }) {
             role="img"
             aria-label={`World map of ReverieHacks registrations across ${placed.length} countries`}
             onPointerMove={track}
+            onPointerDown={track}
             onPointerLeave={clear}
           >
-            {/* Countries nobody registered from: the land the map is drawn on. */}
-            <g fill="currentColor" className="text-muted-foreground" opacity={LAND}>
-              {quiet.map(([col, row]) => (
-                <circle key={`${col}-${row}`} cx={col * CELL + CELL / 2} cy={row * CELL + CELL / 2} r={DOT_R} />
-              ))}
-            </g>
-
-            {placed.map((entry) => (
-              <g
-                key={entry.row.name}
-                fill="currentColor"
-                className="cursor-default text-primary transition-opacity"
-                opacity={hovered && hovered !== entry.row.name ? 0.35 : shade(entry.row.share)}
-                onPointerEnter={() => setHovered(entry.row.name)}
-              >
-                {/* The native tooltip, for anyone the floating one never
-                    reaches — a screen reader, or a browser without pointers. */}
-                <title>{label(entry.row)}</title>
-                {entry.cells.map(([col, row]) => (
-                  <circle
-                    key={`${col}-${row}`}
-                    cx={col * CELL + CELL / 2}
-                    cy={row * CELL + CELL / 2}
-                    r={DOT_R}
-                  />
-                ))}
-                {entry.anchor && (
-                  <circle cx={entry.anchor.x} cy={entry.anchor.y} r={ANCHOR_R} />
-                )}
-              </g>
-            ))}
+            {dots}
           </svg>
         </div>
 
@@ -133,7 +163,7 @@ export function WorldMap({ countries }: { countries: CountryRow[] }) {
             <span className="text-foreground">{label(active.row)}</span>
           ) : (
             <span className="text-muted-foreground">
-              {placed.length} countries. Hover the map for a count
+              {placed.length} countries. Hover or tap the map for a count
             </span>
           )}
         </p>
@@ -161,6 +191,38 @@ export function WorldMap({ countries }: { countries: CountryRow[] }) {
   );
 }
 
+/** Key into the owner lookup, or -1 for a point outside the grid. */
+function cell(col: number, row: number): number {
+  if (col < 0 || col >= WORLD_COLS || row < 0 || row >= WORLD_ROWS) return -1;
+
+  return Math.floor(row) * WORLD_COLS + Math.floor(col);
+}
+
+/**
+ * The island state under the cursor, if one is. Checked ahead of the grid
+ * because several anchors — Hong Kong, Singapore — sit on a cell their larger
+ * neighbour owns, and the smaller mark is the one being aimed at.
+ */
+function nearestAnchor(placed: Placed[], col: number, row: number): string | null {
+  let found: string | null = null;
+  let best = ANCHOR_REACH;
+
+  for (const entry of placed) {
+    if (!entry.anchor) continue;
+
+    const dx = entry.anchor.x / CELL - col;
+    const dy = entry.anchor.y / CELL - row;
+    const distance = Math.hypot(dx, dy);
+
+    if (distance <= best) {
+      best = distance;
+      found = entry.row.name;
+    }
+  }
+
+  return found;
+}
+
 /** "India — 570 participants", the readout in both tooltips. */
 function label(row: CountryRow): string {
   return `${row.name} — ${count(row.registrants)}`;
@@ -182,7 +244,8 @@ function shade(share: number): number {
 /**
  * Turns the endpoint's rows into drawable geometry: one pass over the grid to
  * bucket every land cell by country, then a join against the countries that
- * anyone registered from.
+ * anyone registered from. Also returns the reverse lookup — cell to country
+ * name — that the cursor is hit tested against.
  */
 function build(countries: CountryRow[]) {
   const cellsByIndex = new Map<number, [number, number][]>();
@@ -239,7 +302,13 @@ function build(countries: CountryRow[]) {
     if (!claimed.has(index)) quiet.push(...cells);
   }
 
-  return { placed, quiet, missing };
+  const owner = new Map<number, string>();
+
+  for (const entry of placed) {
+    for (const [col, row] of entry.cells) owner.set(cell(col, row), entry.row.name);
+  }
+
+  return { placed, quiet, owner, missing };
 }
 
 /** Equirectangular, matching the projection the grid was rasterised with. */
