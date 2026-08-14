@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router';
-import { ArrowRight, AtSign, Download, Mail, MessageSquare } from 'lucide-react';
+import { ArrowRight, AtSign, FileText, Mail, MessageSquare } from 'lucide-react';
 
 const CONTACT_EMAIL = 'info@reveriehacks.org';
 
@@ -34,9 +34,11 @@ const channels: Channel[] = [
 ];
 
 /**
- * The two sponsorship packets, one per kind of sponsor we take. Files live in
- * public/packets and are served from the paths below; a missing file 404s
- * rather than failing the build, so both must be in place before a deploy.
+ * The two sponsorship packets, one per kind of sponsor we take. Both are the
+ * same prospectus with different financial tiers — the company one starts at
+ * $1,000, the team one at $200. Files live in public/packets, and open in the
+ * browser's own viewer rather than downloading: nobody commits to a 7 MB file
+ * before they have seen a page of it.
  */
 interface Packet {
   audience: string;
@@ -47,12 +49,12 @@ interface Packet {
 const packets: Packet[] = [
   {
     audience: 'Companies',
-    blurb: 'Tiers, reach, and what a sponsorship puts in front of participants.',
+    blurb: 'Tiers from $1,000, workshop slots, and what a sponsorship puts in front of participants.',
     file: '/packets/reveriehacks-company-packet.pdf',
   },
   {
     audience: 'FTC teams & orgs',
-    blurb: 'Built for robotics teams and student organizations sponsoring at team scale.',
+    blurb: 'The same prospectus at team scale, with tiers from $200.',
     file: '/packets/reveriehacks-team-packet.pdf',
   },
 ];
@@ -131,11 +133,12 @@ export function ContactPage() {
                   <a
                     key={packet.file}
                     href={packet.file}
-                    download
+                    target="_blank"
+                    rel="noreferrer"
                     className="group flex items-start gap-3 bg-background p-4 transition-colors hover:bg-muted"
                   >
-                    <Download
-                      className="mt-0.5 h-4 w-4 shrink-0 text-primary transition-transform group-hover:translate-y-0.5"
+                    <FileText
+                      className="mt-0.5 h-4 w-4 shrink-0 text-primary"
                       strokeWidth={1.5}
                     />
                     <div>
