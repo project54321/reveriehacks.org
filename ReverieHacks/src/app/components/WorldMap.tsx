@@ -67,6 +67,7 @@ export function WorldMap({ countries }: { countries: CountryRow[] }) {
 
   return (
     <div>
+<<<<<<< HEAD
       <div ref={frame} className="relative">
         <div className="overflow-hidden border border-border bg-background">
           <svg
@@ -95,6 +96,43 @@ export function WorldMap({ countries }: { countries: CountryRow[] }) {
                 {/* The native tooltip, for anyone the floating one never
                     reaches — a screen reader, or a browser without pointers. */}
                 <title>{label(entry.row)}</title>
+=======
+      <div className="overflow-hidden border border-border bg-background">
+        <svg
+          viewBox={`0 0 ${WORLD_COLS * CELL} ${WORLD_ROWS * CELL}`}
+          className="block w-full"
+          role="img"
+          aria-label={`World map of ReverieHacks registrations across ${placed.length} countries`}
+          onMouseLeave={() => setHovered(null)}
+        >
+          {/* Countries nobody registered from: the land the map is drawn on. */}
+          <g fill="currentColor" className="text-muted-foreground" opacity={LAND}>
+            {quiet.map(([col, row]) => (
+              <circle key={`${col}-${row}`} cx={col * CELL + CELL / 2} cy={row * CELL + CELL / 2} r={DOT_R} />
+            ))}
+          </g>
+
+          {placed.map((entry) => {
+            const isHovered = hovered === entry.row.name;
+
+            return (
+              <g
+                key={entry.row.name}
+                fill="currentColor"
+                className={`cursor-pointer transition-colors duration-150 ${
+                  isHovered ? 'text-white' : 'text-primary'
+                }`}
+                opacity={
+                  isHovered
+                    ? 1
+                    : hovered
+                    ? 0.35
+                    : shade(entry.row.share)
+                }
+                onMouseEnter={() => setHovered(entry.row.name)}
+              >
+                <title>{entry.row.name}</title>
+>>>>>>> 02468d8 (Make world map glow white when hovered.)
                 {entry.cells.map(([col, row]) => (
                   <circle
                     key={`${col}-${row}`}
@@ -107,6 +145,7 @@ export function WorldMap({ countries }: { countries: CountryRow[] }) {
                   <circle cx={entry.anchor.x} cy={entry.anchor.y} r={ANCHOR_R} />
                 )}
               </g>
+<<<<<<< HEAD
             ))}
           </svg>
         </div>
@@ -123,6 +162,11 @@ export function WorldMap({ countries }: { countries: CountryRow[] }) {
             <span className="ml-2 text-primary">{count(active.row.registrants)}</span>
           </div>
         )}
+=======
+            );
+          })}
+        </svg>
+>>>>>>> 02468d8 (Make world map glow white when hovered.)
       </div>
 
       {/* Names the country under the cursor and how many people registered from
@@ -251,4 +295,3 @@ function project(lat: number, lon: number) {
     y: ((WORLD_LAT_MAX - lat) / cellDegrees) * CELL,
   };
 }
-
