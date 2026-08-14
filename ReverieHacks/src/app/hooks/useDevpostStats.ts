@@ -28,8 +28,8 @@ export type DevpostFeed = {
  * markup. Run `npm run stats` to print the current values and bump these.
  */
 export const DEVPOST_FALLBACK: DevpostStats = {
-  participants: 1378,
-  prizes: 891300,
+  participants: 1522,
+  prizes: 979950,
   tracks: 6,
   days: 23,
   daysLeft: 12,
@@ -55,10 +55,11 @@ declare global {
 const resource = createLiveResource<DevpostFeed>({
   initial() {
     const baked = globalThis.__DEVPOST_STATS__;
-    if (!baked) return { stats: null, updatedAt: null };
+    const fallback = { stats: DEVPOST_FALLBACK, updatedAt: null };
+    if (!baked) return fallback;
 
     const { generatedAt, ...stats } = baked;
-    return { stats, updatedAt: generatedAt ?? null };
+    return { stats: stats as DevpostStats, updatedAt: generatedAt ?? null };
   },
 
   // Annotated because the body reads back through `resource`, which would

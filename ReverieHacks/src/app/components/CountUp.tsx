@@ -29,11 +29,13 @@ export function CountUp({ to, reserve, prefix = '', suffix = '', className }: Co
   const inView = useInView(ref, { once: true, margin: '-12% 0px' });
   const prefersReducedMotion = useReducedMotion();
 
+  const target = to ?? reserve ?? 0;
+
   // Starts at the target rather than at zero so the prerendered HTML carries the
   // real figure — a crawler that never runs the animation still reads "1,378"
   // instead of "0". The layout effect below resets it to zero after hydration
   // but before the browser paints, so nobody sees the number twice.
-  const [current, setCurrent] = useState(to ?? 0);
+  const [current, setCurrent] = useState(target);
 
   // The width spacer below is dead weight until the number starts moving, and
   // on the server it would put a second copy of the figure into the markup —
@@ -42,11 +44,17 @@ export function CountUp({ to, reserve, prefix = '', suffix = '', className }: Co
   const [animating, setAnimating] = useState(false);
 
   useIsomorphicLayoutEffect(() => {
+    if (to === null) {
+      setAnimating(false);
+      setCurrent(target);
+      return;
+    }
+
     setAnimating(true);
     setCurrent(0);
     // Mount only: re-running this on every `to` change would restart the count
     // from zero each time the live figures refresh.
-  }, []);
+  }, [to, target]);
 
   useEffect(() => {
     if (to === null || !inView || prefersReducedMotion) return;
@@ -65,8 +73,10 @@ export function CountUp({ to, reserve, prefix = '', suffix = '', className }: Co
   }, [to, inView, prefersReducedMotion]);
 
   // Skipping the animation means there is nothing to drive state, so read the
-  // target straight through rather than mirroring it into `current`.
-  const displayed = prefersReducedMotion ? (to ?? 0) : current;
+  // target straight through rather than mirroring it into `current`. If there is
+  // no fresh live value yet, keep the reserve value on-screen instead of blanking
+  // to zero.
+  const displayed = prefersReducedMotion ? target : current;
 
   // The final string is wider than every frame leading up to it, so reserving
   // its width stops a growing number ("7" -> "84" -> "1,010") from reflowing
