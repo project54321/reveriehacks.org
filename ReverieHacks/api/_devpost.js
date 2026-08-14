@@ -43,13 +43,15 @@ export async function statsResponse() {
 const REQUIRED = [
   {
     key: 'participants',
-    // <a href=".../participants">Participants (1010)</a>
-    pattern: /Participants\s*\((\d[\d,]*)\)/i,
+    // Devpost has used both "Participants (1010)" and "<strong>1010</strong> participants".
+    pattern:
+      /Participants\s*\((\d[\d,]*)\)|<strong>\s*(\d[\d,]*)\s*<\/strong>\s*participants/i,
   },
   {
     key: 'prizes',
-    // <span data-currency="true">$<span data-currency-value>404,748</span></span>+ in prizes
-    pattern: /<span data-currency-value>([\d,]+)<\/span>[\s\S]{0,60}?in prizes/i,
+    // The prize total has been rendered as both "... in prizes" and "... in cash".
+    pattern:
+      /(?:<span data-currency-value>([\d,]+)<\/span>[\s\S]{0,80}?(?:in prizes|in cash)|\$?<span data-currency-value>([\d,]+)<\/span>[\s\S]{0,80}?(?:in prizes|in cash))/i,
   },
 ];
 
@@ -66,19 +68,7 @@ const MS_PER_DAY = 86_400_000;
  * back null, letting the client fall back per field.
  */
 export async function scrapeDevpostStats() {
-  const response = await fetch(HACKATHON_URL, {
-    headers: {
-      // Devpost serves a stripped page to unrecognised clients.
-      'user-agent': 'Mozilla/5.0 (compatible; ReverieHacksBot/1.0; +https://reveriehacks.org)',
-      accept: 'text/html',
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error(`Devpost returned ${response.status} ${response.statusText}`);
-  }
-
-  const html = await response.text();
+  const html = await fetchDevpostHtml(HACKATHON_URL);
   const stats = {};
 
   for (const { key, pattern } of REQUIRED) {
@@ -90,7 +80,8 @@ export async function scrapeDevpostStats() {
       );
     }
 
-    const value = Number(match[1].replace(/,/g, ''));
+    const token = match.slice(1).find((value) => typeof value === 'string' && value.trim() !== '') ?? match[0];
+    const value = Number(String(token).replace(/,/g, ''));
 
     if (!Number.isInteger(value) || value <= 0) {
       throw new Error(`Parsed a nonsensical value for "${key}": ${match[1]}`);
@@ -106,6 +97,41 @@ export async function scrapeDevpostStats() {
     tracks: event ? countTracks(event.description) : null,
     ...describeSchedule(event),
   };
+}
+
+async function fetchDevpostHtml(url, retries = 3) {
+  const urls = [url, 'https://reverie-hacks.devpost.com/', 'https://reveriehacks.devpost.com/'];
+
+  for (let attempt = 0; attempt < urls.length; attempt++) {
+    const candidate = urls[attempt];
+    for (let retry = 0; retry <= retries; retry++) {
+      try {
+        const response = await fetch(candidate, {
+          headers: {
+            // Devpost serves a stripped page to unrecognised clients.
+            'user-agent': 'Mozilla/5.0 (compatible; ReverieHacksBot/1.0; +https://reveriehacks.org)',
+            accept: 'text/html',
+          },
+        });
+
+        if (!response.ok) {
+          if (response.status === 403 || response.status === 429) {
+            if (retry < retries) continue;
+          }
+          throw new Error(`Devpost returned ${response.status} ${response.statusText}`);
+        }
+
+        return await response.text();
+      } catch (error) {
+        if (retry === retries) {
+          if (attempt === urls.length - 1) throw error;
+          break;
+        }
+      }
+    }
+  }
+
+  throw new Error(`Devpost scrape failed for ${url}`);
 }
 
 function parseEventJsonLd(html) {

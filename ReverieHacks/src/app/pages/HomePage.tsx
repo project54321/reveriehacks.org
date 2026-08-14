@@ -72,6 +72,7 @@ const fade = {
 
 export function HomePage() {
   const { stats: devpost } = useDevpostStats();
+  const liveStats = devpost ?? DEVPOST_FALLBACK;
 
   return (
     <div className="min-h-screen">
@@ -148,7 +149,7 @@ export function HomePage() {
                   style={{ fontSize: 'clamp(1.5rem, 3.2vw, 2.25rem)' }}
                 >
                   <CountUp
-                    to={devpost ? stat.from(devpost) : null}
+                    to={stat.from(liveStats)}
                     reserve={stat.from(DEVPOST_FALLBACK)}
                     prefix={stat.prefix}
                     suffix={stat.suffix}
@@ -185,7 +186,7 @@ export function HomePage() {
               <div className="font-display text-4xl md:text-5xl">
                 {stat.from ? (
                   <CountUp
-                    to={devpost ? stat.from(devpost) : null}
+                    to={stat.from(liveStats)}
                     reserve={stat.from(DEVPOST_FALLBACK)}
                   />
                 ) : (

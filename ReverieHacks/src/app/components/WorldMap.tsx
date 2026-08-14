@@ -65,27 +65,31 @@ export function WorldMap({ countries }: { countries: CountryRow[] }) {
           ))}
         </g>
 
-        {placed.map((entry) => (
-          <g
-            key={entry.row.name}
-            fill="currentColor"
-            className="text-primary transition-opacity"
-            opacity={hovered && hovered !== entry.row.name ? 0.35 : shade(entry.row.share)}
-          >
-            {/* The native tooltip, for anyone the floating one never reaches —
-                a screen reader, or a browser without pointers. */}
-            <title>{label(entry.row)}</title>
-            {entry.cells.map(([col, row]) => (
-              <circle
-                key={`${col}-${row}`}
-                cx={col * CELL + CELL / 2}
-                cy={row * CELL + CELL / 2}
-                r={DOT_R}
-              />
-            ))}
-            {entry.anchor && <circle cx={entry.anchor.x} cy={entry.anchor.y} r={ANCHOR_R} />}
-          </g>
-        ))}
+        {placed.map((entry) => {
+          const lit = hovered === entry.row.name;
+
+          return (
+            <g
+              key={entry.row.name}
+              fill="currentColor"
+              className={`transition-[color,opacity] duration-150 ${lit ? 'text-white' : 'text-primary'}`}
+              opacity={lit ? 1 : hovered ? 0.35 : shade(entry.row.share)}
+            >
+              {/* The native tooltip, for anyone the floating one never reaches —
+                  a screen reader, or a browser without pointers. */}
+              <title>{label(entry.row)}</title>
+              {entry.cells.map(([col, row]) => (
+                <circle
+                  key={`${col}-${row}`}
+                  cx={col * CELL + CELL / 2}
+                  cy={row * CELL + CELL / 2}
+                  r={DOT_R}
+                />
+              ))}
+              {entry.anchor && <circle cx={entry.anchor.x} cy={entry.anchor.y} r={ANCHOR_R} />}
+            </g>
+          );
+        })}
       </>
     ),
     [placed, quiet, hovered],
@@ -320,4 +324,3 @@ function project(lat: number, lon: number) {
     y: ((WORLD_LAT_MAX - lat) / cellDegrees) * CELL,
   };
 }
-
