@@ -60,13 +60,6 @@ const JSON_LD = /<script type="application\/ld\+json" id="challenge-json-ld">([\
 
 const MS_PER_DAY = 86_400_000;
 
-/**
- * Fetches the public hackathon page and pulls out every figure Devpost exposes.
- *
- * Throws if the participant count or prize total can't be read — a partial or
- * zeroed result is worse than none. Everything else is best-effort and comes
- * back null, letting the client fall back per field.
- */
 export async function scrapeDevpostStats() {
   const html = await fetchDevpostHtml(HACKATHON_URL);
   const stats = {};
