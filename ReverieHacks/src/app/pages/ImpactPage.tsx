@@ -42,7 +42,7 @@ export function ImpactPage() {
         {/* Statement */}
         <motion.div {...rise} transition={{ duration: 0.6 }} className="text-center">
           <p className="eyebrow text-muted-foreground">Impact</p>
-          <div className="mt-2 h-[190px] w-full sm:h-[250px]">
+          <div className="mt-2 h-[210px] w-full sm:h-[280px]">
             <ParticleText text="The numbers, on the record" particleSize={1.5} density={2} color="#ffffff" highlightColor="#8b5cf6" scatter={14} gatherDuration={1000} stagger={30} pointerRepel={20} repelRadius={80} idleDrift={0.15} trigger="mount" fontSize="clamp(3rem, 10vw, 7rem)" fontWeight={800} glow />
           </div>
           <p className="mx-auto mt-2 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">

@@ -158,8 +158,8 @@ export function SponsorsPage() {
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-primary/10 via-transparent to-transparent" />
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(139,92,246,0.15),transparent_60%)]" />
         <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-          <div className="mx-auto max-w-3xl text-center">
-            <div className="h-[190px] w-full sm:h-[250px]">
+          <div className="mx-auto max-w-6xl text-center">
+            <div className="h-[210px] w-full sm:h-[280px]">
               <ParticleText text="Meet the builders behind the builders" particleSize={1.5} density={2} color="#ffffff" highlightColor="#8b5cf6" scatter={14} gatherDuration={1000} stagger={30} pointerRepel={20} repelRadius={80} idleDrift={0.15} trigger="mount" fontSize="clamp(3rem, 10vw, 7rem)" fontWeight={800} glow />
             </div>
             <p className="mx-auto mt-2 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
