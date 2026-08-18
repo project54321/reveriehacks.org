@@ -24,7 +24,7 @@ interface Sponsor {
 // Company sponsors: the honeycomb (in-kind partners). Order is the reading
 // order of the grid, so moving a logo is a matter of moving it in this list.
 const companySponsors: Sponsor[] = [
-{
+  {
     id: 'featherless',
     name: 'Featherless',
     tier: 'Compute Partner',
@@ -186,6 +186,16 @@ const companySponsors: Sponsor[] = [
     description:
       'A no-code platform for building full-stack web apps, with $100 in credits for every participant and $2,000 for each Software Development track winner.',
   },
+  {
+    id: 'somba',
+    name: 'Somba',
+    tier: 'Dev Partner',
+    logo: '/sponsorLogos/somba.png',
+    fit: 'contain',
+    light: true,
+    url: 'https://somba.dev',
+    description: 'A private network for ambitious teenagers to find collaborators and build together in private, goal-driven working rooms called Nets.',
+  },
 ];
 
 // Financial team sponsors, grouped by contribution tier.
@@ -263,9 +273,8 @@ function TeamTile({ team, size }: { team: TeamSponsor; size: string }) {
     <span className="font-display text-lg text-muted-foreground">{team.monogram}</span>
   );
 
-  const cls = `flex shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border ${size} ${
-    team.light ? 'bg-white' : 'bg-card'
-  } ${team.url ? 'transition-colors hover:border-primary/50' : ''}`;
+  const cls = `flex shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border ${size} ${team.light ? 'bg-white' : 'bg-card'
+    } ${team.url ? 'transition-colors hover:border-primary/50' : ''}`;
 
   return team.url ? (
     <a href={team.url} target="_blank" rel="noreferrer" className={cls} title={team.name}>
@@ -349,9 +358,8 @@ function HexLogo({ s }: { s: Sponsor }) {
       <img
         src={s.logo}
         alt={`${s.name} logo`}
-        className={`${
-          s.fit === 'contain' ? 'h-3/5 w-3/5 object-contain' : 'h-full w-full object-cover'
-        } ${s.invertOnLight ? '[[data-theme=light]_&]:invert' : ''}`}
+        className={`${s.fit === 'contain' ? 'h-3/5 w-3/5 object-contain' : 'h-full w-full object-cover'
+          } ${s.invertOnLight ? '[[data-theme=light]_&]:invert' : ''}`}
       />
     );
   }
@@ -470,17 +478,15 @@ function SponsorCard({ s, anchor }: { s: Sponsor; anchor: HTMLElement }) {
     >
       <div className="flex items-center gap-3">
         <span
-          className={`flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border ${
-            s.light ? 'bg-white' : 'bg-card'
-          }`}
+          className={`flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border ${s.light ? 'bg-white' : 'bg-card'
+            }`}
         >
           {s.logo ? (
             <img
               src={s.logo}
               alt=""
-              className={`h-full w-full ${s.fit === 'contain' ? 'object-contain' : 'object-cover'} ${
-                s.invertOnLight ? '[[data-theme=light]_&]:invert' : ''
-              }`}
+              className={`h-full w-full ${s.fit === 'contain' ? 'object-contain' : 'object-cover'} ${s.invertOnLight ? '[[data-theme=light]_&]:invert' : ''
+                }`}
             />
           ) : (
             <span className="font-display text-[0.65rem] uppercase text-muted-foreground">

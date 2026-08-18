@@ -40,9 +40,15 @@ const judges: Judge[] = [
   { name: 'Frank Chu', role: 'ML Engineering Manager', company: 'Meta', img: '/judges/frank.png', track: 'ML Prompt Engineering' },
   { name: 'Sai Kishan Naraparaju', role: 'Founder and CEO', company: 'TreeThirty', img: '/judges/sai.png', track: 'App Development', linkedin: 'https://www.linkedin.com/in/sai-kishannaraparaju' },
   { name: 'Volodymyr Lopukhovych', role: 'Lead Software Engineer', company: 'Disney Streaming', img: '/judges/volodymyr.png', track: 'Embedded Systems', linkedin: 'https://www.linkedin.com/in/lopukhovych/' },
-  { name: 'Vasuki Vudathala', role:'Staff Performance Engineer', company: 'ServiceNow', img: '/judges/vasuki.png', track: 'Embedded Systems' },
-  { name: 'Gayathri Chilukala', role: 'Software Engineer', company: 'Microsoft', img: '/judges/gayathri.png', track: 'App Development', linkedin: 'https://www.linkedin.com/in/gayathrichilukala/'},
+  { name: 'Vasuki Vudathala', role: 'Staff Performance Engineer', company: 'ServiceNow', img: '/judges/vasuki.png', track: 'Embedded Systems' },
+  { name: 'Gayathri Chilukala', role: 'Software Engineer', company: 'Microsoft', img: '/judges/gayathri.png', track: 'App Development', linkedin: 'https://www.linkedin.com/in/gayathrichilukala/' },
   { name: 'Rishik Boddeti', role: 'CEO and Co-founder at Protoflow', company: 'Protoflow', img: '/judges/rishik.png', track: 'Embedded Systems', linkedin: 'https://www.linkedin.com/in/rishik-boddeti/' },
+  { name: 'Keyao An', role: 'Senior Software Engineer', company: 'OpenAI', img: '/judges/keyao.png', track: 'ML Prompt Engineering', },
+  { name: 'Gaurav Shah', role: 'Director Staff Engineer', company: 'Fidelity Investments', img: '/judges/gaurav.png', track: 'Datathon', },
+  { name: 'Ian Ku', role: 'Founding Engineer', company: 'Archiboost AI', img: '/judges/ian.png', track: 'App Development', },
+  { name: 'Aditya Shrivastava', role: 'Software Engineer', company: 'Barclays', img: '/judges/aditya.png', track: 'Software Development', },
+  { name: 'Akhil Sharma', role: 'Senior Software Developer', company: 'Meta', img: '/judges/akhil.png', track: 'Ideathon', },
+  { name: 'Sanjuksha Nirgude', role: 'Autonomy Technical Lead', company: 'Nightingale Security', img: '/judges/sanjuksha.png', track: 'Embedded Systems', }
 ];
 
 // Order the track sections follow on the page (mirrors the tracks on the About page).
