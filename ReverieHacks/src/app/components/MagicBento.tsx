@@ -286,7 +286,7 @@ const MagicBento: React.FC<BentoProps> = ({ textAutoHide = true, enableStars = t
             --purple-glow: rgba(132, 0, 255, 0.2);
             --purple-border: rgba(132, 0, 255, 0.8);
           }
-          .card-responsive { grid-template-columns: 1fr; width: 90%; margin: 0 auto; padding: 0.5rem; }
+          .card-responsive { grid-template-columns: 1fr; width: 100%; margin: 0 auto; padding: 0; }
           @media (min-width: 600px) { .card-responsive { grid-template-columns: repeat(2, 1fr); } }
           @media (min-width: 1024px) {
             .card-responsive { grid-template-columns: repeat(4, 1fr); }

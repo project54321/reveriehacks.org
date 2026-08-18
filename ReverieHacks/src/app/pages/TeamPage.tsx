@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import ChromaGrid, { type ChromaItem } from '../components/ChromaGrid';
-import ParticleText from '../components/ParticleText';
+import { ParticleHero } from '../components/ParticleHero';
 
 interface TeamMember {
   name: string;
@@ -21,7 +21,6 @@ const teamMembers: TeamMember[] = [
   { name: 'Arnav Deshmukh', img: '/team/arnav.jpg', role: 'Staff Member', bio: 'I have been coding since I was 11, working on frontend projects and teams. I have also been an avid musician for 12 years, playing instruments such as the cello.', skills: ['HTML/CSS','JavaScript','Frontend','Music','CAD'] },
   { name: 'Aarush Tulsyan', img: '/team/aarush.jpg', role: 'Founder / Alumnus', bio: 'An undergraduate at UT Austin majoring in Electrical and Computer Engineering. I am passionate about hardware design, semiconductor research, embedded systems, and PCB design.', skills: ['Research','Semiconductors','Embedded Systems','PCBs'] },
   { name: 'Aditya Rayapedi', img: '/team/aditya.jpg', role: 'Former CEO', bio: 'A robotics and ML researcher, and a beloved fan of Tottenham Hotspur.', skills: ['Web Development','App Development','Machine Learning','CAD','Cloud','Databases'] },
-  { name: 'Krishiv Gupta', img: '/team/krishiv.jpg', role: 'Staff Member', bio: 'Passionate builder who loves bridging hardware and software to create impactful tools for students.', skills: ['Hardware','Software','Outreach','Design'] },
 ];
 
 export function TeamPage() {
@@ -40,20 +39,18 @@ export function TeamPage() {
     <div className="min-h-screen">
       <section className="relative overflow-hidden border-b border-border">
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-primary/10 via-transparent to-transparent" />
-        <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
+        <div className="mx-auto max-w-6xl px-4 pb-10 pt-24 sm:px-6 sm:pb-14 sm:pt-28">
           <div className="mx-auto max-w-6xl text-center">
-            <div className="h-[210px] w-full sm:h-[280px]">
-              <ParticleText text="The crew that ships it" particleSize={1.5} density={2} color="#ffffff" highlightColor="#8b5cf6" scatter={14} gatherDuration={1000} stagger={30} pointerRepel={20} repelRadius={80} idleDrift={0.15} trigger="mount" fontSize="clamp(3rem, 10vw, 7rem)" fontWeight={800} glow />
-            </div>
-            <p className="mx-auto mt-2 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Eight students who run ReverieHacks end-to-end — partnerships, platform, judging, and community.
+            <ParticleHero text="The crew that ships it" />
+            <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-muted-foreground sm:mt-4 sm:text-lg">
+              Seven students who run ReverieHacks end-to-end — partnerships, platform, judging, and community.
             </p>
           </div>
         </div>
       </section>
 
       <div className="mx-auto max-w-6xl px-4 pb-16 pt-8 sm:px-6 sm:pb-20">
-        <ChromaGrid items={chromaItems} radius={360} damping={0.45} fadeOut={0.6} ease="power3.out" onCardClick={handleCardClick} className="min-h-[640px] sm:min-h-[680px]" />
+        <ChromaGrid items={chromaItems} radius={360} damping={0.45} fadeOut={0.6} ease="power3.out" onCardClick={handleCardClick} className="min-h-0" />
         <p className="mx-auto mt-6 max-w-2xl text-center text-sm leading-relaxed text-muted-foreground">
           Want to help next year? <a href="mailto:info@reveriehacks.org" className="font-medium text-primary hover:underline">Reach out</a> — we’re always looking for builders who care.
         </p>
@@ -64,21 +61,21 @@ export function TeamPage() {
               <Dialog.Portal forceMount>
                 <Dialog.Overlay asChild><motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md" /></Dialog.Overlay>
                 <Dialog.Content asChild>
-                  <motion.div initial={{ opacity: 0, scale: 0.96, y: 16 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.96, y: 16 }} transition={{ duration: 0.24, ease: [0.22,1,0.36,1] }} className="fixed left-1/2 top-1/2 z-50 max-h-[90vh] w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-y-auto p-4">
+                  <motion.div initial={{ opacity: 0, scale: 0.96, y: 16 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.96, y: 16 }} transition={{ duration: 0.24, ease: [0.22,1,0.36,1] }} className="fixed left-1/2 top-1/2 z-50 max-h-[90svh] w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-y-auto p-3 sm:p-4">
                     <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-xl">
                       <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-primary/15 blur-3xl" />
-                      <Dialog.Close className="absolute right-4 top-4 z-10 grid h-9 w-9 place-items-center rounded-full border border-border bg-muted text-muted-foreground hover:bg-muted/80">
+                      <Dialog.Close className="absolute right-3 top-3 z-10 grid h-9 w-9 place-items-center rounded-full border border-border bg-muted text-muted-foreground hover:bg-muted/80 sm:right-4 sm:top-4">
                         <X className="h-4 w-4" />
                       </Dialog.Close>
-                      <div className="relative flex flex-col gap-8 p-8 md:flex-row">
+                      <div className="relative flex flex-col gap-6 p-5 sm:gap-8 sm:p-8 md:flex-row">
                         <div className="shrink-0">
-                          <div className="relative h-48 w-48 overflow-hidden rounded-2xl border border-border bg-muted">
+                          <div className="relative mx-auto h-36 w-36 overflow-hidden rounded-2xl border border-border bg-muted sm:mx-0 sm:h-48 sm:w-48">
                             <img src={selectedMember.img} alt={selectedMember.name} className="h-full w-full object-cover" />
                           </div>
                           <div className="mt-3 inline-flex rounded-full bg-primary px-3 py-1 text-xs font-semibold text-white">{selectedMember.role}</div>
                         </div>
                         <div className="flex-1">
-                          <Dialog.Title className="font-display text-3xl tracking-tight text-foreground">{selectedMember.name}</Dialog.Title>
+                          <Dialog.Title className="font-display text-2xl tracking-tight text-foreground sm:text-3xl">{selectedMember.name}</Dialog.Title>
                           <Dialog.Description className="mt-3 leading-relaxed text-muted-foreground">{selectedMember.bio}</Dialog.Description>
                           <div className="mt-6">
                             <h4 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Skills</h4>

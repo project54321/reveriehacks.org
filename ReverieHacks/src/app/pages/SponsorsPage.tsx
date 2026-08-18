@@ -1,7 +1,7 @@
 import { useEffect, useReducer, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import ParticleText from '../components/ParticleText';
+import { ParticleHero } from '../components/ParticleHero';
 
 interface Sponsor {
   id: string;
@@ -157,12 +157,10 @@ export function SponsorsPage() {
       <section className="relative overflow-hidden border-b border-border">
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-primary/10 via-transparent to-transparent" />
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(139,92,246,0.15),transparent_60%)]" />
-        <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
+        <div className="mx-auto max-w-6xl px-4 pb-10 pt-24 sm:px-6 sm:pb-14 sm:pt-28">
           <div className="mx-auto max-w-6xl text-center">
-            <div className="h-[210px] w-full sm:h-[280px]">
-              <ParticleText text="Meet the builders behind the builders" particleSize={1.5} density={2} color="#ffffff" highlightColor="#8b5cf6" scatter={14} gatherDuration={1000} stagger={30} pointerRepel={20} repelRadius={80} idleDrift={0.15} trigger="mount" fontSize="clamp(3rem, 10vw, 7rem)" fontWeight={800} glow />
-            </div>
-            <p className="mx-auto mt-2 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            <ParticleHero text="Meet the builders behind the builders" />
+            <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-muted-foreground sm:mt-4 sm:text-lg">
               Cloud, AI, design, hardware — the teams and companies providing the tools, credits, and prizes for 1,749 hackers.
             </p>
           </div>
@@ -174,7 +172,7 @@ export function SponsorsPage() {
 
         {/* Team sponsors — elegant grid, not repetitive */}
         <section>
-          <div className="flex items-baseline justify-between">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
             <h2 className="font-display text-2xl tracking-tight">Robotics & community</h2>
             <span className="hidden text-xs uppercase tracking-widest text-muted-foreground sm:inline">9 teams</span>
           </div>
@@ -225,9 +223,9 @@ export function SponsorsPage() {
         <div className="mt-16 rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 via-card to-card p-6 text-center sm:p-8">
           <h3 className="font-display text-xl">Want to support 1,700+ builders?</h3>
           <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">Packets for companies ($1k+) and teams ($200+) — workshop slots, logo placement, judging.</p>
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <a href="/packets/reveriehacks-company-packet.pdf" target="_blank" rel="noreferrer" className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white hover:bg-accent">Company packet</a>
-            <a href="/packets/reveriehacks-team-packet.pdf" target="_blank" rel="noreferrer" className="rounded-full border-0 bg-transparent px-5 py-2.5 text-sm hover:bg-muted">Team packet</a>
+          <div className="mt-6 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <a href="/packets/reveriehacks-company-packet.pdf" target="_blank" rel="noreferrer" className="rounded-full bg-primary px-5 py-2.5 text-center text-sm font-semibold text-white hover:bg-accent">Company packet</a>
+            <a href="/packets/reveriehacks-team-packet.pdf" target="_blank" rel="noreferrer" className="rounded-full border border-border/60 bg-transparent px-5 py-2.5 text-center text-sm hover:bg-muted">Team packet</a>
           </div>
         </div>
       </div>

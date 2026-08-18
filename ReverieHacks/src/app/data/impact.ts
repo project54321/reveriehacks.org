@@ -29,7 +29,7 @@ export const JUDGE_COUNT = 28;
  * roster on TeamPage, which also carries a founder and a former CEO who have
  * since aged out.
  */
-export const ORGANIZER_COUNT = 6;
+export const ORGANIZER_COUNT = 5;
 
 /** Not derivable from Devpost, which publishes only the aggregate valuation. */
 export const CASH_PRIZES = 800;

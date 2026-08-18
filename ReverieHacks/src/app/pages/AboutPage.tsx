@@ -1,8 +1,8 @@
 import { motion } from 'motion/react';
-import { Cpu, Trophy, Banknote, Blocks, Briefcase, Camera, Crown, FlaskConical, Globe, Layers, LineChart, Server, ArrowRight, Zap, Target, Sparkles } from 'lucide-react';
+import { Trophy, Banknote, Briefcase, Layers, ArrowRight, Zap, Target } from 'lucide-react';
 import MagicBento from '../components/MagicBento';
 import AccordionGallery from '../components/AccordionGallery';
-import ParticleText from '../components/ParticleText';
+import { ParticleHero } from '../components/ParticleHero';
 import { Link } from 'react-router';
 
 const trackCards = [
@@ -12,15 +12,6 @@ const trackCards = [
   { label: 'Datathon', title: 'Datathon', description: 'ML & data science for real insights.', color: '#0a0614' },
   { label: 'Embedded', title: 'Embedded Systems', description: 'PCB, ECAD and embedded computing.', color: '#0f0a1e' },
   { label: 'App Dev', title: 'App Development', description: 'iOS & Android accessible experiences.', color: '#12051f' },
-];
-
-const reasonCards = [
-  { label: 'Learn', title: 'Learn & Build', description: 'Pitch an idea or join a team you love.', color: '#0a0614' },
-  { label: 'Connect', title: 'Connect', description: 'Friendships that outlast the event.', color: '#0f0a1e' },
-  { label: 'Compete', title: 'Compete', description: 'Cash, internships, recognition.', color: '#12051f' },
-  { label: 'Innovate', title: 'Innovate', description: 'Push ideas further than before.', color: '#0a0614' },
-  { label: 'Community', title: 'Community First', description: 'A playground, not just a contest.', color: '#0f0a1e' },
-  { label: 'Welcome', title: 'Ideas Welcome', description: 'Beginner or expert, you belong.', color: '#12051f' },
 ];
 
 const gallery = [
@@ -38,18 +29,15 @@ export function AboutPage() {
       <section className="relative overflow-hidden border-b border-border">
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-primary/10 via-transparent to-transparent" />
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,rgba(139,92,246,0.12),transparent_60%)]" />
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
+        <div className="mx-auto max-w-6xl px-4 pb-16 pt-24 sm:px-6 sm:pb-24 sm:pt-28">
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mx-auto max-w-6xl text-center">
-
-                        <div className="h-[210px] w-full sm:h-[280px]">
-              <ParticleText text="Where every builder belongs" particleSize={1.5} density={2} color="#ffffff" highlightColor="#8b5cf6" scatter={14} gatherDuration={1000} stagger={30} pointerRepel={20} repelRadius={80} idleDrift={0.15} trigger="mount" fontSize="clamp(3rem, 10vw, 7rem)" fontWeight={800} glow />
-            </div>
-            <p className="mx-auto mt-2 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            <ParticleHero text="Where every builder belongs" />
+            <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-muted-foreground sm:mt-4 sm:text-lg">
               Virtual, three weeks, worldwide — whether you ship hardware, AI, apps, or ideas, you have a place to build. Not a pressure cooker — a creative playground.
             </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Link to="/contact" className="inline-flex items-center gap-1.5 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-md hover:bg-accent">Contact us <ArrowRight className="h-4 w-4" /></Link>
-              <a href="https://reverie-hacks-2026.devpost.com/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 rounded-full border-0 bg-transparent px-6 py-3 text-sm hover:bg-muted">View Devpost <ArrowRight className="h-3.5 w-3.5" /></a>
+            <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <Link to="/contact" className="inline-flex items-center justify-center gap-1.5 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-md hover:bg-accent">Contact us <ArrowRight className="h-4 w-4" /></Link>
+              <a href="https://reverie-hacks-2026.devpost.com/" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-1.5 rounded-full border border-border/60 bg-transparent px-6 py-3 text-sm hover:bg-muted">View Devpost <ArrowRight className="h-3.5 w-3.5" /></a>
             </div>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }} className="mx-auto mt-12 max-w-2xl rounded-2xl border-0 bg-transparent/50 p-6 text-center backdrop-blur sm:p-8">
@@ -84,7 +72,7 @@ export function AboutPage() {
           <p className="mx-auto mt-3 max-w-xl text-sm text-muted-foreground">Your workshops, socials, opening ceremony — drop images in <code className="rounded bg-muted px-1.5 py-0.5 text-xs">public/gallery</code></p>
         </div>
         <div className="mt-8 overflow-hidden rounded-2xl border-0 bg-transparent p-1.5">
-          <AccordionGallery items={gallery} accentColor="#8b5cf6" height={420} />
+          <AccordionGallery items={gallery} accentColor="#8b5cf6" height={360} />
         </div>
       </section>
 

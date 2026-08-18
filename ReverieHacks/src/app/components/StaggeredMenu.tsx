@@ -569,7 +569,7 @@ const StaggeredMenu = ({
 
       <style>{`
 .sm-scope .staggered-menu-wrapper { position: relative; width: 100%; height: 100%; z-index: 40; pointer-events: none; }
-.sm-scope .staggered-menu-header { position: absolute; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 1.6em; background: transparent; pointer-events: none; z-index: 20; }
+.sm-scope .staggered-menu-header { position: absolute; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 1.6em; padding-top: max(1.6em, env(safe-area-inset-top)); background: transparent; pointer-events: none; z-index: 20; }
 .sm-scope .staggered-menu-header > * { pointer-events: auto; }
 .sm-scope .sm-logo { display: flex; align-items: center; user-select: none; }
 .sm-scope .sm-logo-img { display: block; height: 32px; width: auto; object-fit: contain; }
@@ -607,8 +607,13 @@ const StaggeredMenu = ({
 .sm-scope .sm-panel-item:hover { color: var(--sm-accent, #8b5cf6); }
 .sm-scope .sm-panel-list[data-numbering] { counter-reset: smItem; }
 .sm-scope .sm-panel-list[data-numbering] .sm-panel-item::after { counter-increment: smItem; content: counter(smItem, decimal-leading-zero); position: absolute; top: 50%; right: 0.2em; transform: translateY(-50%); font-size: 16px; font-weight: 400; color: var(--sm-accent, #8b5cf6); letter-spacing: 0; pointer-events: none; user-select: none; opacity: var(--sm-num-opacity, 0); }
-@media (max-width: 1024px) { .sm-scope .staggered-menu-panel { width: 100%; left: 0; right: 0; } }
-@media (max-width: 640px) { .sm-scope .staggered-menu-panel { width: 100%; left: 0; right: 0; } }
+@media (max-width: 1024px) { .sm-scope .staggered-menu-panel { width: 100%; left: 0; right: 0; } .sm-scope .sm-prelayers { width: 100%; } }
+@media (max-width: 640px) {
+  .sm-scope .staggered-menu-header { padding: 1.1em 1.15em; padding-top: max(1.1em, env(safe-area-inset-top)); }
+  .sm-scope .staggered-menu-panel { width: 100%; left: 0; right: 0; padding: 5.4em 1.35em 1.6em; }
+  .sm-scope .sm-panel-item { font-size: clamp(1.85rem, 9vw, 2.4rem); letter-spacing: -1px; }
+  .sm-scope .sm-socials-link { font-size: 1.05rem; }
+}
       `}</style>
     </div>
   );

@@ -2,7 +2,7 @@ import { motion } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 import { CountUp } from '../components/CountUp';
 import { WorldMap } from '../components/WorldMap';
-import ParticleText from '../components/ParticleText';
+import { ParticleHero } from '../components/ParticleHero';
 import { DEVPOST_FALLBACK, useDevpostStats } from '../hooks/useDevpostStats';
 import { useCountryStats } from '../hooks/useCountryStats';
 import {
@@ -37,15 +37,15 @@ export function ImpactPage() {
   const { countries, totals } = countryStats;
 
   return (
-    <div className="min-h-screen px-6 pb-28 pt-36">
+    <div className="min-h-screen px-4 pb-20 pt-24 sm:px-6 sm:pb-28 sm:pt-28">
       <div className="mx-auto max-w-5xl">
         {/* Statement */}
         <motion.div {...rise} transition={{ duration: 0.6 }} className="text-center">
           <p className="eyebrow text-muted-foreground">Impact</p>
-          <div className="mt-2 h-[210px] w-full sm:h-[280px]">
-            <ParticleText text="The numbers, on the record" particleSize={1.5} density={2} color="#ffffff" highlightColor="#8b5cf6" scatter={14} gatherDuration={1000} stagger={30} pointerRepel={20} repelRadius={80} idleDrift={0.15} trigger="mount" fontSize="clamp(3rem, 10vw, 7rem)" fontWeight={800} glow />
+          <div className="mt-2">
+            <ParticleHero text="The numbers, on the record" />
           </div>
-          <p className="mx-auto mt-2 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+          <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-muted-foreground sm:mt-4 sm:text-lg md:text-xl">
             Every figure on this page is published somewhere anyone can check: the Devpost listing,
             our sponsor roster, or the country export below. Nothing here is a flyer number.
           </p>
@@ -55,7 +55,7 @@ export function ImpactPage() {
         <motion.section
           {...rise}
           transition={{ duration: 0.6, delay: 0.08 }}
-          className="mt-16 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2"
+          className="mt-10 grid gap-px overflow-hidden border border-border bg-border sm:mt-16 sm:grid-cols-2"
         >
           <div className="bg-background p-8 sm:p-10">
             <div className="flex items-center gap-2">
@@ -125,7 +125,7 @@ export function ImpactPage() {
         <motion.section
           {...rise}
           transition={{ duration: 0.6, delay: 0.12 }}
-          className="mt-6 border-l-2 border-primary/50 py-2 pl-6 text-lg leading-relaxed text-muted-foreground"
+          className="mt-6 border-l-2 border-primary/50 py-2 pl-4 text-base leading-relaxed text-muted-foreground sm:pl-6 sm:text-lg"
         >
           {narrative.map((paragraph, i) => (
             <p key={paragraph.slice(0, 24)} className={i === 0 ? '' : 'mt-5'}>
@@ -135,7 +135,7 @@ export function ImpactPage() {
         </motion.section>
 
         {/* Reach */}
-        <section className="mt-24">
+        <section className="mt-16 sm:mt-24">
           <motion.div {...rise} transition={{ duration: 0.5 }} className="mb-10">
             <p className="eyebrow text-primary">Reach</p>
             <h2 className="mt-4" style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
@@ -176,7 +176,7 @@ export function ImpactPage() {
         </section>
 
         {/* By the numbers */}
-        <section className="mt-24">
+        <section className="mt-16 sm:mt-24">
           <motion.div {...rise} transition={{ duration: 0.5 }} className="mb-10">
             <p className="eyebrow text-primary">By the numbers</p>
             <h2 className="mt-4" style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
@@ -190,7 +190,7 @@ export function ImpactPage() {
                 key={metric.key}
                 {...rise}
                 transition={{ duration: 0.4, delay: 0.03 * i }}
-                className="bg-background p-8"
+                className="bg-background p-6 sm:p-8"
               >
                 <p className="font-display text-4xl leading-none md:text-5xl">
                   {formatMetric(metric)}

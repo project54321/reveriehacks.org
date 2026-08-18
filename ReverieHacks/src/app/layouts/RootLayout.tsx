@@ -13,7 +13,7 @@ export function RootLayout() {
   }, [pathname]);
 
   return (
-    <div className="relative min-h-screen text-foreground">
+    <div className="relative min-h-screen overflow-x-hidden text-foreground">
       <Seo />
       {/* Fixed full-viewport background: gradient waves on every page. */}
       <div aria-hidden className="pointer-events-none fixed inset-0 z-0">

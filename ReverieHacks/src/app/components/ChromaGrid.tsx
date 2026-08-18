@@ -117,7 +117,7 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
           key={i}
           onMouseMove={handleCardMove}
           onClick={() => handleCardClick(c, i)}
-          className="group relative flex flex-col w-[300px] rounded-[20px] overflow-hidden border-2 border-transparent transition-colors duration-300 cursor-pointer"
+          className="group relative flex w-[min(100%,300px)] flex-col overflow-hidden rounded-[20px] border-2 border-transparent transition-colors duration-300 cursor-pointer"
           style={
             {
               '--card-border': c.borderColor || '#8B5CF6',

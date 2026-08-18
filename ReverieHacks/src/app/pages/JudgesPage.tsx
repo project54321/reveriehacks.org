@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import BorderGlow from '../components/BorderGlow';
 import PixelCard from '../components/PixelCard';
-import ParticleText from '../components/ParticleText';
+import { ParticleHero } from '../components/ParticleHero';
 
 interface Judge {
   name: string;
@@ -91,7 +91,7 @@ function JudgeCard({ person, index }: { person: Judge; index: number }) {
 
   const card = (
     <BorderGlow borderRadius={16} glowColor="270 90 70" colors={['#7c3aed','#8b5cf6','#1a0a2e']} backgroundColor="var(--card)" glowRadius={20} className="h-full">
-      <PixelCard variant="default" colors="#8b5cf6,#a78bfa,#ede9fe" gap={6} speed={45} className="aspect-[3/4] w-full h-auto min-h-[220px] sm:min-h-[240px] border-0 !rounded-[15px]">
+      <PixelCard variant="default" colors="#8b5cf6,#a78bfa,#ede9fe" gap={6} speed={45} className="aspect-[3/4] h-auto min-h-[200px] w-full border-0 !rounded-[15px] sm:min-h-[240px]">
         {content}
       </PixelCard>
     </BorderGlow>
@@ -114,12 +114,10 @@ function JudgeCard({ person, index }: { person: Judge; index: number }) {
 export function JudgesPage() {
   return (
     <div className="min-h-screen">
-      <div className="mx-auto max-w-7xl px-4 pb-12 pt-20 sm:px-6 sm:pb-16 sm:pt-24">
+      <div className="mx-auto max-w-7xl px-4 pb-12 pt-24 sm:px-6 sm:pb-16 sm:pt-28">
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mx-auto max-w-6xl text-center">
-          <div className="h-[210px] w-full sm:h-[280px]">
-            <ParticleText text="Our Judges" particleSize={1.5} density={2} color="#ffffff" highlightColor="#8b5cf6" scatter={14} gatherDuration={1000} stagger={30} pointerRepel={20} repelRadius={80} idleDrift={0.15} trigger="mount" fontSize="clamp(3rem, 10vw, 7rem)" fontWeight={800} glow />
-          </div>
-          <p className="mx-auto mt-2 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+          <ParticleHero text="Our Judges" />
+          <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-muted-foreground sm:mt-4 sm:text-lg">
             Leaders from Meta, Amazon, Microsoft, OpenAI, Coinbase and more — 30 judges across 6 tracks, plus bounty panel.
           </p>
         </motion.div>

@@ -1,13 +1,13 @@
 import { motion } from 'motion/react';
 import { Link } from 'react-router';
-import { ArrowRight, Calendar, Trophy, Layers, Globe, Clock, MapPin, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, Calendar, Layers, Clock, MapPin, ArrowUpRight } from 'lucide-react';
 import { CountUp } from '../components/CountUp';
 import { WorldMap } from '../components/WorldMap';
 import BorderGlow from '../components/BorderGlow';
 import DriftWall from '../components/DriftWall';
 import AccordionGallery from '../components/AccordionGallery';
 import LogoLoop from '../components/LogoLoop';
-import ParticleText from '../components/ParticleText';
+import { ParticleHero } from '../components/ParticleHero';
 import { galleryItems } from '../data/gallery';
 import { DEVPOST_FALLBACK, useDevpostStats } from '../hooks/useDevpostStats';
 import { useCountryStats } from '../hooks/useCountryStats';
@@ -56,34 +56,31 @@ export function HomePage() {
   return (
     <div className="min-h-screen overflow-x-hidden">
       {/* HERO — DriftWall background + ParticleText title */}
-      <section className="relative flex min-h-[82vh] items-center justify-center overflow-hidden">
+      <section className="relative flex min-h-[78svh] items-end overflow-hidden">
         <div className="absolute inset-0">
           <DriftWall items={galleryItems} columns={6} tileWidth={220} tileHeight={150} gap={14} speed={28} tilt={10} turn={-8} parallax={0.4} fade={0.72} dim={0.58} grayscale={false} className="h-full w-full" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-[#060010]/50 to-background" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_85%_60%_at_50%_42%,rgba(139,92,246,0.18),transparent_70%)]" />
         </div>
 
-        <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col px-4 pt-16 sm:px-6 sm:pt-20">
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="inline-flex items-center gap-2 self-start rounded-full border border-white/15 bg-white/10 px-3 py-1.5 backdrop-blur-md">
+        <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col px-4 pb-16 pt-24 sm:px-6 sm:pb-20 sm:pt-28">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="inline-flex max-w-full items-center gap-2 self-start rounded-full border border-white/15 bg-white/10 px-3 py-1.5 backdrop-blur-md">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
             </span>
-            <span className="text-[11px] uppercase tracking-[0.18em] text-white/90">{liveStats.dateRange} · Virtual · Worldwide</span>
+            <span className="truncate text-[10px] uppercase tracking-[0.16em] text-white/90 sm:text-[11px] sm:tracking-[0.18em]">{liveStats.dateRange} · Virtual · Worldwide</span>
           </motion.div>
 
-          {/* ParticleText hero title — no explosion, hover to move */}
-          <div className="mt-2 w-full">
-            <div className="h-[210px] w-full sm:h-[280px]">
-              <ParticleText text="Let's change the world, together." align="left" particleSize={1.5} density={2} color="#ffffff" highlightColor="#8b5cf6" scatter={14} gatherDuration={1000} stagger={30} pointerRepel={20} repelRadius={80} idleDrift={0.15} trigger="mount" fontSize="clamp(3rem, 10vw, 7rem)" fontWeight={800} glow />
-            </div>
+          <div className="mt-3 w-full sm:mt-4">
+            <ParticleHero text="Let's change the world, together." align="left" />
           </div>
 
-          <motion.p initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.22 }} className="mt-1 max-w-xl text-base leading-relaxed text-white/80 md:text-lg">
+          <motion.p initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.22 }} className="mt-2 max-w-xl text-sm leading-relaxed text-white/80 sm:text-base md:text-lg">
             <span className="font-medium text-white">The largest virtual high school hackathon.</span> Three weeks, six tracks — ship something real with builders from {totals.countries}+ countries.
           </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.32 }} className="mt-8 grid w-full max-w-3xl gap-3 sm:grid-cols-3">
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.32 }} className="mt-6 grid w-full max-w-3xl gap-3 sm:mt-8 sm:grid-cols-3">
             <div className="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-xl">
               <div className="text-xs uppercase tracking-widest text-white/60">Participants</div>
               <div className="mt-2 font-display text-2xl text-white"><CountUp to={liveStats.participants} reserve={DEVPOST_FALLBACK.participants} /></div>
@@ -91,7 +88,7 @@ export function HomePage() {
             </div>
             <div className="rounded-2xl border border-primary/30 bg-primary p-4 shadow-[0_8px_30px_rgba(139,92,246,0.4)] backdrop-blur-xl">
               <div className="text-xs uppercase tracking-widest text-white/80">Prize pool</div>
-              <div className="mt-2 flex items-baseline gap-1 font-display text-2xl text-white"><CountUp to={liveStats.prizes} reserve={DEVPOST_FALLBACK.prizes} prefix="$" suffix="+" /><span className="text-sm font-sans font-medium opacity-80">valuation</span></div>
+              <div className="mt-2 flex flex-wrap items-baseline gap-1 font-display text-2xl text-white"><CountUp to={liveStats.prizes} reserve={DEVPOST_FALLBACK.prizes} prefix="$" suffix="+" /><span className="text-sm font-sans font-medium opacity-80">valuation</span></div>
               <div className="mt-1 text-xs text-white/80">$800 cash · 6 internships · credits</div>
             </div>
             <div className="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-xl">
@@ -101,26 +98,26 @@ export function HomePage() {
             </div>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.42 }} className="mt-10 flex flex-col gap-3 sm:flex-row sm:gap-4">
-            <a href={DISCORD_URL} target="_blank" rel="noreferrer" className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-white shadow-[0_8px_30px_rgba(139,92,246,0.35)] transition-all hover:bg-accent">
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.42 }} className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:gap-4">
+            <a href={DISCORD_URL} target="_blank" rel="noreferrer" className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-white shadow-[0_8px_30px_rgba(139,92,246,0.35)] transition-all hover:bg-accent sm:w-auto">
               Join Discord <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </a>
-            <a href={DEVPOST_URL} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-7 py-3.5 text-sm font-medium text-white backdrop-blur-md hover:bg-white/15">
+            <a href={DEVPOST_URL} target="_blank" rel="noreferrer" className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-7 py-3.5 text-sm font-medium text-white backdrop-blur-md hover:bg-white/15 sm:w-auto">
               View Devpost <ArrowRight className="h-4 w-4" />
             </a>
-            <Link to="/about" className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-black/20 px-6 py-3.5 text-sm text-white/80 backdrop-blur hover:bg-black/30 sm:ml-1">
+            <Link to="/about" className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/10 bg-black/20 px-6 py-3.5 text-sm text-white/80 backdrop-blur hover:bg-black/30 sm:ml-1 sm:w-auto">
               Explore tracks
             </Link>
           </motion.div>
         </div>
-        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent sm:h-20" />
       </section>
 
       {/* SPONSOR CAROUSEL — right under hero, bigger */}
-      <section className="border-y border-border bg-muted/20 py-6">
+      <section className="border-y border-border bg-muted/20 py-6 sm:py-7">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="flex items-center justify-between">
-            <span className="text-xs uppercase tracking-widest text-muted-foreground">Backed by 25 partners — and more to come</span>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <span className="text-[11px] uppercase tracking-widest text-muted-foreground sm:text-xs">Backed by 25 partners — and more to come</span>
             <Link to="/sponsors" className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline">All sponsors <ArrowRight className="h-3 w-3" /></Link>
           </div>
         </div>
@@ -134,10 +131,10 @@ export function HomePage() {
         <div className="mx-auto mb-6 max-w-2xl text-center">
           <div className="mx-auto h-px w-24 bg-gradient-to-r from-transparent via-primary to-transparent" />
           <h2 className="mt-4 font-display text-2xl tracking-tight md:text-3xl">Workshops, opening, socials</h2>
-          <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">The moments — hover to expand</p>
+          <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">The moments — hover or tap to expand</p>
         </div>
         <div className="overflow-hidden rounded-2xl border border-border bg-card p-1.5 shadow-sm">
-          <AccordionGallery items={heroAccordion} accentColor="#8b5cf6" height={420} gap={8} radius={14} expandRatio={0.5} />
+          <AccordionGallery items={heroAccordion} accentColor="#8b5cf6" height={380} gap={8} radius={14} expandRatio={0.5} />
         </div>
       </section>
 
@@ -222,8 +219,8 @@ export function HomePage() {
           <h2 className="mt-3 font-display text-3xl tracking-tight md:text-4xl">Ready to build <span className="text-primary">the future?</span></h2>
           <p className="mt-3 max-w-xl text-muted-foreground">Three weeks. Six tracks. A community that ships together.</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
-            <a href={DEVPOST_URL} target="_blank" rel="noreferrer" className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground hover:bg-accent">Register on Devpost <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" /></a>
-            <Link to="/about" className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm hover:bg-muted">Learn more <ArrowUpRight className="h-4 w-4" /></Link>
+            <a href={DEVPOST_URL} target="_blank" rel="noreferrer" className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground hover:bg-accent sm:w-auto">Register on Devpost <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" /></a>
+            <Link to="/about" className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm hover:bg-muted sm:w-auto">Learn more <ArrowUpRight className="h-4 w-4" /></Link>
           </div>
         </div>
       </section>
