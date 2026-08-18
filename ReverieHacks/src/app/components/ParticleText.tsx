@@ -247,6 +247,6 @@ const ParticleText = ({ text = 'React Bits', particleSize = 2, density = 4, colo
       if (resizeFrame !== null) window.cancelAnimationFrame(resizeFrame);
     };
   }, [text, particleSize, density, color, highlightColor, scatter, gatherDuration, stagger, pointerRepel, repelRadius, idleDrift, trigger, fontSize, fontWeight, fontFamily, glow]);
-  return (<div ref={containerRef} className={`relative block h-full min-h-[240px] w-full overflow-hidden touch-none ${className}`} style={style} aria-label={text}><canvas ref={canvasRef} className="absolute inset-0 block h-full w-full" aria-hidden="true" /><span className="sr-only">{text}</span></div>);
+  return (<div ref={containerRef} className={`relative block h-full min-h-0 w-full overflow-hidden touch-none ${className}`} style={style} aria-label={text}><canvas ref={canvasRef} className="absolute inset-0 block h-full w-full" aria-hidden="true" /><span className="sr-only">{text}</span></div>);
 };
 export default ParticleText;

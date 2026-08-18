@@ -5,7 +5,7 @@
  */
 export function SiteBackground() {
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 bg-background">
+    <div aria-hidden className="pointer-events-none absolute inset-0 bg-background">
       <div
         className="absolute inset-0"
         style={{

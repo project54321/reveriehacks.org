@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 import { CountUp } from '../components/CountUp';
 import { WorldMap } from '../components/WorldMap';
+import ParticleText from '../components/ParticleText';
 import { DEVPOST_FALLBACK, useDevpostStats } from '../hooks/useDevpostStats';
 import { useCountryStats } from '../hooks/useCountryStats';
 import {
@@ -39,12 +40,12 @@ export function ImpactPage() {
     <div className="min-h-screen px-6 pb-28 pt-36">
       <div className="mx-auto max-w-5xl">
         {/* Statement */}
-        <motion.div {...rise} transition={{ duration: 0.6 }}>
+        <motion.div {...rise} transition={{ duration: 0.6 }} className="text-center">
           <p className="eyebrow text-muted-foreground">Impact</p>
-          <h1 className="mt-6 leading-[1.0]" style={{ fontSize: 'clamp(2.5rem, 7vw, 5.5rem)' }}>
-            The numbers, <span className="text-primary">on the record</span>
-          </h1>
-          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+          <div className="mt-2 h-[190px] w-full sm:h-[250px]">
+            <ParticleText text="The numbers, on the record" particleSize={1.5} density={2} color="#ffffff" highlightColor="#8b5cf6" scatter={14} gatherDuration={1000} stagger={30} pointerRepel={20} repelRadius={80} idleDrift={0.15} trigger="mount" fontSize="clamp(3rem, 10vw, 7rem)" fontWeight={800} glow />
+          </div>
+          <p className="mx-auto mt-2 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
             Every figure on this page is published somewhere anyone can check: the Devpost listing,
             our sponsor roster, or the country export below. Nothing here is a flyer number.
           </p>

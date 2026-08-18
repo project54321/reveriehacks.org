@@ -41,10 +41,10 @@ export function AboutPage() {
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mx-auto max-w-3xl text-center">
 
-                        <div className="h-[180px] w-full sm:h-[220px]">
-              <ParticleText text="Where every builder belongs" particleSize={1.4} density={2} color="#ffffff" highlightColor="#8b5cf6" scatter={14} gatherDuration={1000} stagger={30} pointerRepel={20} repelRadius={80} idleDrift={0.15} trigger="mount" fontSize="clamp(2.2rem, 6vw, 4.2rem)" fontWeight={800} glow />
+                        <div className="h-[190px] w-full sm:h-[250px]">
+              <ParticleText text="Where every builder belongs" particleSize={1.5} density={2} color="#ffffff" highlightColor="#8b5cf6" scatter={14} gatherDuration={1000} stagger={30} pointerRepel={20} repelRadius={80} idleDrift={0.15} trigger="mount" fontSize="clamp(3rem, 10vw, 7rem)" fontWeight={800} glow />
             </div>
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            <p className="mx-auto mt-2 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               Virtual, three weeks, worldwide — whether you ship hardware, AI, apps, or ideas, you have a place to build. Not a pressure cooker — a creative playground.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">

@@ -12,6 +12,7 @@ import {
   LineChart,
   Server,
 } from 'lucide-react';
+import ParticleText from '../components/ParticleText';
 
 const prizes = [
   { icon: Banknote, title: '$800 in cash', body: 'Split across first and second place in all six tracks.' },
@@ -54,12 +55,13 @@ export function PrizesPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+          className="text-center"
         >
           <p className="eyebrow text-muted-foreground">Prizes</p>
-          <h1 className="mt-6 leading-[1.0]" style={{ fontSize: 'clamp(2.5rem, 7vw, 5.5rem)' }}>
-            What you can <span className="text-primary">win</span>
-          </h1>
-          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+          <div className="mt-2 h-[190px] w-full sm:h-[250px]">
+            <ParticleText text="What you can win" particleSize={1.5} density={2} color="#ffffff" highlightColor="#8b5cf6" scatter={14} gatherDuration={1000} stagger={30} pointerRepel={20} repelRadius={80} idleDrift={0.15} trigger="mount" fontSize="clamp(3rem, 10vw, 7rem)" fontWeight={800} glow />
+          </div>
+          <p className="mx-auto mt-2 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
             This year&apos;s pool, backed by our sponsors and partner teams.
           </p>
         </motion.div>
