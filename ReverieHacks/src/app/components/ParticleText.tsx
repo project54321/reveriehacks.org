@@ -15,6 +15,7 @@ export interface ParticleTextProps {
   fontSize?: number | string;
   fontWeight?: number | string;
   fontFamily?: string;
+  align?: 'left' | 'center';
   glow?: boolean;
   className?: string;
   style?: CSSProperties;
@@ -51,7 +52,7 @@ const waitForFonts = async (font: string): Promise<void> => {
   try { await document.fonts.load(font); } catch {}
   await document.fonts.ready;
 };
-const ParticleText = ({ text = 'React Bits', particleSize = 2, density = 4, color = '#ffffff', highlightColor = '#8b5cf6', scatter = 180, gatherDuration = 1600, stagger = 420, pointerRepel = 40, repelRadius = 120, idleDrift = 0.7, trigger = 'mount', fontSize = 'clamp(3rem, 12vw, 8rem)', fontWeight = 800, fontFamily = 'inherit', glow = true, className = '', style }: ParticleTextProps) => {
+const ParticleText = ({ text = 'React Bits', particleSize = 2, density = 4, color = '#ffffff', highlightColor = '#8b5cf6', scatter = 180, gatherDuration = 1600, stagger = 420, pointerRepel = 40, repelRadius = 120, idleDrift = 0.7, trigger = 'mount', fontSize = 'clamp(3rem, 12vw, 8rem)', fontWeight = 800, fontFamily = 'inherit', align = 'center', glow = true, className = '', style }: ParticleTextProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   useEffect(() => {
@@ -156,33 +157,46 @@ const ParticleText = ({ text = 'React Bits', particleSize = 2, density = 4, colo
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const computed = window.getComputedStyle(container);
       const resolvedFamily = fontFamily === 'inherit' ? computed.fontFamily || 'sans-serif' : fontFamily;
-      let resolvedSize = resolveFontSize(fontSize, container, fontWeight, resolvedFamily);
-      let font = `${fontWeight} ${resolvedSize}px ${resolvedFamily}`;
+      const resolvedSize = resolveFontSize(fontSize, container, fontWeight, resolvedFamily);
+      const font = `${fontWeight} ${resolvedSize}px ${resolvedFamily}`;
       await waitForFonts(font);
       if (currentBuild !== buildId) return;
       const offscreen = document.createElement('canvas');
       const offCtx = offscreen.getContext('2d', { willReadFrequently: true });
       if (!offCtx) return;
       const content = String(text || ' ');
-      const maxTextWidth = width * 0.92;
+      const maxTextWidth = Math.max(1, width * 0.92);
       offCtx.font = font;
-      let metrics = offCtx.measureText(content);
-      const measuredWidth = Math.max(1, metrics.width);
-      if (measuredWidth > maxTextWidth) {
-        resolvedSize = Math.max(18, resolvedSize * (maxTextWidth / measuredWidth));
-        font = `${fontWeight} ${resolvedSize}px ${resolvedFamily}`;
-        await waitForFonts(font);
-        if (currentBuild !== buildId) return;
-        offCtx.font = font;
-        metrics = offCtx.measureText(content);
+
+      // Wrap the text into multiple lines so every page header shares the same
+      // font size instead of shrinking longer titles down to fit one line.
+      const words = content.split(/\s+/).filter(Boolean);
+      const lines: string[] = [];
+      if (!words.length) {
+        lines.push(' ');
+      } else {
+        let current = words[0];
+        for (let i = 1; i < words.length; i++) {
+          const candidate = `${current} ${words[i]}`;
+          if (offCtx.measureText(candidate).width <= maxTextWidth) {
+            current = candidate;
+          } else {
+            lines.push(current);
+            current = words[i];
+          }
+        }
+        lines.push(current);
       }
-      const left = Math.ceil(metrics.actualBoundingBoxLeft || 0);
-      const right = Math.ceil(metrics.actualBoundingBoxRight || metrics.width);
-      const ascent = Math.ceil(metrics.actualBoundingBoxAscent || resolvedSize * 0.78);
-      const descent = Math.ceil(metrics.actualBoundingBoxDescent || resolvedSize * 0.22);
+
+      const probe = offCtx.measureText(lines[0] || 'M');
+      const ascent = Math.ceil(probe.actualBoundingBoxAscent || resolvedSize * 0.78);
+      const descent = Math.ceil(probe.actualBoundingBoxDescent || resolvedSize * 0.22);
+      const lineHeight = ascent + descent;
+      const lineMetrics = lines.map((line) => offCtx.measureText(line));
+      const lineWidths = lineMetrics.map((m) => Math.ceil((m.actualBoundingBoxLeft || 0) + (m.actualBoundingBoxRight || m.width)));
+      const textWidth = Math.max(1, ...lineWidths);
+      const textHeight = Math.max(1, lineHeight * lines.length);
       const padding = Math.max(12, Math.ceil(resolvedSize * 0.08));
-      const textWidth = Math.max(1, left + right);
-      const textHeight = Math.max(1, ascent + descent);
       offscreen.width = textWidth + padding * 2;
       offscreen.height = textHeight + padding * 2;
       offCtx.clearRect(0, 0, offscreen.width, offscreen.height);
@@ -190,14 +204,21 @@ const ParticleText = ({ text = 'React Bits', particleSize = 2, density = 4, colo
       offCtx.textAlign = 'left';
       offCtx.textBaseline = 'alphabetic';
       offCtx.fillStyle = '#ffffff';
-      offCtx.fillText(content, padding - left, padding + ascent);
+      lines.forEach((line, i) => {
+        const m = lineMetrics[i];
+        const lLeft = Math.ceil(m.actualBoundingBoxLeft || 0);
+        const lWidth = lineWidths[i];
+        const x = align === 'left' ? padding - lLeft : padding - lLeft + (textWidth - lWidth) / 2;
+        offCtx.fillText(line, x, padding + ascent + i * lineHeight);
+      });
       const imageData = offCtx.getImageData(0, 0, offscreen.width, offscreen.height);
       const targets: Target[] = [];
+      const alignOffset = align === 'left' ? -padding : (width - offscreen.width) / 2;
       const step = Math.max(2, Math.floor(density));
       for (let y = 0; y < offscreen.height; y += step) {
         for (let x = 0; x < offscreen.width; x += step) {
           const alpha = imageData.data[(y * offscreen.width + x) * 4 + 3];
-          if (alpha > 40) { targets.push({ x: width / 2 - offscreen.width / 2 + x, y: height / 2 - offscreen.height / 2 + y, alpha: alpha / 255 }); }
+          if (alpha > 40) { targets.push({ x: alignOffset + x, y: height / 2 - offscreen.height / 2 + y, alpha: alpha / 255 }); }
         }
       }
       const maxParticles = Math.max(900, Math.min(5200, Math.floor((width * height) / 90)));
@@ -246,7 +267,7 @@ const ParticleText = ({ text = 'React Bits', particleSize = 2, density = 4, colo
       if (animationFrame !== null) window.cancelAnimationFrame(animationFrame);
       if (resizeFrame !== null) window.cancelAnimationFrame(resizeFrame);
     };
-  }, [text, particleSize, density, color, highlightColor, scatter, gatherDuration, stagger, pointerRepel, repelRadius, idleDrift, trigger, fontSize, fontWeight, fontFamily, glow]);
+  }, [text, particleSize, density, color, highlightColor, scatter, gatherDuration, stagger, pointerRepel, repelRadius, idleDrift, trigger, fontSize, fontWeight, fontFamily, align, glow]);
   return (<div ref={containerRef} className={`relative block h-full min-h-0 w-full overflow-hidden touch-none ${className}`} style={style} aria-label={text}><canvas ref={canvasRef} className="absolute inset-0 block h-full w-full" aria-hidden="true" /><span className="sr-only">{text}</span></div>);
 };
 export default ParticleText;

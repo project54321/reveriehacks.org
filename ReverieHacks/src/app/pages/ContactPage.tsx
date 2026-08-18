@@ -59,7 +59,7 @@ export function ContactPage() {
     <div className="min-h-screen px-6 pb-28 pt-36">
       <div className="mx-auto max-w-6xl">
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-center">
-                      <div className="h-[190px] w-full sm:h-[250px]">
+                      <div className="h-[210px] w-full sm:h-[280px]">
               <ParticleText text="Contact us" particleSize={1.5} density={2} color="#ffffff" highlightColor="#8b5cf6" scatter={14} gatherDuration={1000} stagger={30} pointerRepel={20} repelRadius={80} idleDrift={0.15} trigger="mount" fontSize="clamp(3rem, 10vw, 7rem)" fontWeight={800} glow />
             </div>
           <p className="mx-auto mt-2 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
