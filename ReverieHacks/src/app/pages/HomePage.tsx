@@ -1,311 +1,231 @@
 import { motion } from 'motion/react';
 import { Link } from 'react-router';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Calendar, Trophy, Layers, Globe, Clock, MapPin, ArrowUpRight } from 'lucide-react';
 import { CountUp } from '../components/CountUp';
-import { DEVPOST_FALLBACK, useDevpostStats, type DevpostStats } from '../hooks/useDevpostStats';
-
-type Stat = {
-  label: string;
-  /** Live figure pulled from Devpost, or null for the one we can't source. */
-  from?: (stats: DevpostStats) => number;
-  prefix?: string;
-  suffix?: string;
-  /** Fixed value, for stats Devpost doesn't publish. */
-  value?: string;
-};
-
-/** Always live — no fixed-value variant, so no null check at the call site. */
-type HeroStat = Stat & { from: (stats: DevpostStats) => number };
-
-// The two headline figures. These sit beside the hero's calls to action rather
-// than in the strip below, so they're on screen without scrolling.
-const heroStats: HeroStat[] = [
-  { label: 'Participants', from: (s) => s.participants },
-  { label: 'In prizes', from: (s) => s.prizes, prefix: '$', suffix: '+' },
-];
-
-const stats: Stat[] = [
-  { label: 'In cash', value: '$800' },
-  { label: 'Tracks', from: (s) => s.tracks },
-  { label: 'Days', from: (s) => s.days },
-];
-
-const perks = [
-  { name: 'Wolfram|One', detail: '1 month, free' },
-  { name: 'Featherless.AI', detail: '1 month subscription' },
-  { name: 'Render', detail: '1 month of build credits' },
-  { name: 'Protoflow', detail: '500 credits' },
-  { name: 'Devswarm Pro', detail: '1 month, or a full year for first-place teams' },
-  { name: 'Mobbin Pro', detail: '3 months free, or a full year for winners' },
-  { name: 'Momen', detail: '$100 in credits for every participant' },
-  { name: 'YouCam Pro API', detail: '500 API credits, first 700 to redeem' },
-  { name: 'Tin Computer', detail: '$299 in growth credits, first 100 teams' },
-  { name: 'Firecrawl', detail: '10,000 credits for every hacker' },
-  { name: 'Certificate', detail: 'Proof you shipped something' },
-];
-
-const points = [
-  {
-    n: '01',
-    title: 'Build',
-    body: 'Bring an idea to life on your own or with a team, across six tracks spanning software, data, and hardware.',
-  },
-  {
-    n: '02',
-    title: 'Learn',
-    body: 'Get honest feedback from judges and mentors who have shipped real work in the industry.',
-  },
-  {
-    n: '03',
-    title: 'Win',
-    body: 'Compete for prizes, subscriptions, and gifts from the sponsors backing this year’s event.',
-  },
-];
+import { WorldMap } from '../components/WorldMap';
+import BorderGlow from '../components/BorderGlow';
+import DriftWall from '../components/DriftWall';
+import AccordionGallery from '../components/AccordionGallery';
+import LogoLoop from '../components/LogoLoop';
+import ParticleText from '../components/ParticleText';
+import { galleryItems } from '../data/gallery';
+import { DEVPOST_FALLBACK, useDevpostStats } from '../hooks/useDevpostStats';
+import { useCountryStats } from '../hooks/useCountryStats';
 
 const DISCORD_URL = 'https://discord.gg/gDQGYSQKrH';
 const DEVPOST_URL = 'https://reverie-hacks-2026.devpost.com/';
 
-const fade = {
-  initial: { opacity: 0, y: 16 },
-  animate: { opacity: 1, y: 0 },
-};
+const heroAccordion = [
+  { image: 'https://picsum.photos/id/1015/900/1200', label: 'Opening Ceremony' },
+  { image: 'https://picsum.photos/id/1025/900/1200', label: 'Workshop Studio' },
+  { image: 'https://picsum.photos/id/1039/900/1200', label: 'Social Night' },
+  { image: 'https://picsum.photos/id/1043/900/1200', label: 'Mentor Hours' },
+  { image: 'https://picsum.photos/id/1050/900/1200', label: 'Build Sprint' },
+  { image: 'https://picsum.photos/id/1062/900/1200', label: 'Demo Day' },
+];
+
+const sponsorLogos = [
+  { src: '/sponsorLogos/render.png', alt: 'Render', href: 'https://render.com' },
+  { src: '/sponsorLogos/Firecrawl.png', alt: 'Firecrawl', href: 'https://firecrawl.dev' },
+  { src: '/sponsorLogos/protoflow.svg', alt: 'Protoflow', href: 'https://protoflow.ai' },
+  { src: '/sponsorLogos/wolfram.png', alt: 'Wolfram', href: 'https://wolfram.com' },
+  { src: '/sponsorLogos/xyz.png', alt: 'XYZ', href: 'https://gen.xyz' },
+  { src: '/sponsorLogos/mobbin.png', alt: 'Mobbin', href: 'https://mobbin.com' },
+  { src: '/sponsorLogos/momen.png', alt: 'Momen', href: 'https://momen.app' },
+  { src: '/sponsorLogos/CleanShot.png', alt: 'CleanShot', href: 'https://cleanshot.com' },
+  { src: '/sponsorLogos/formaloo.png', alt: 'Formaloo', href: 'https://formaloo.com' },
+  { src: '/sponsorLogos/tin.png', alt: 'Tin', href: 'https://tincomputer.com' },
+  { src: '/sponsorLogos/devswarm.png', alt: 'DevSwarm', href: 'https://devswarm.ai' },
+  { src: '/sponsorLogos/somba.png', alt: 'Somba', href: 'https://somba.dev' },
+];
+
+function useDaysLeft(endDate: string): number {
+  const end = new Date(endDate + 'T23:59:59Z').getTime();
+  const now = Date.now();
+  const diff = Math.ceil((end - now) / 86400000);
+  return Math.max(0, diff);
+}
 
 export function HomePage() {
   const { stats: devpost } = useDevpostStats();
+  const { stats: countryStats } = useCountryStats();
   const liveStats = devpost ?? DEVPOST_FALLBACK;
+  const { countries, totals } = countryStats;
+  const daysLeft = useDaysLeft(liveStats.endDate);
 
   return (
-    <div className="min-h-screen">
-      {/* Hero */}
-      <section className="mx-auto flex min-h-[92vh] max-w-5xl flex-col justify-center px-6 pt-28">
-        <motion.p
-          {...fade}
-          transition={{ duration: 0.5 }}
-          className="eyebrow text-muted-foreground"
-        >
-          Virtual Hackathon
-        </motion.p>
+    <div className="min-h-screen overflow-x-hidden">
+      {/* HERO — DriftWall background + ParticleText title */}
+      <section className="relative flex min-h-[82vh] items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <DriftWall items={galleryItems} columns={6} tileWidth={220} tileHeight={150} gap={14} speed={28} tilt={10} turn={-8} parallax={0.4} fade={0.72} dim={0.58} grayscale={false} className="h-full w-full" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-[#060010]/50 to-background" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_85%_60%_at_50%_42%,rgba(139,92,246,0.18),transparent_70%)]" />
+        </div>
 
-        <motion.h1
-          {...fade}
-          transition={{ duration: 0.6, delay: 0.08 }}
-          className="mt-6 font-display leading-[0.98] tracking-tight"
-          // Capped at 6rem, not 7: "Let's change the world," needs ~9.9x the
-          // font size in width, so anything above ~6.1rem overflows the 976px
-          // content box and wraps to a third line, pushing the row below off
-          // screen. The <br/> is meant to be the only break.
-          style={{ fontSize: 'clamp(2.75rem, 9vw, 6rem)' }}
-        >
-          Let’s change the world,
-          <br />
-          <span className="text-primary">together.</span>
-        </motion.h1>
+        <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col px-4 pt-16 sm:px-6 sm:pt-20">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="inline-flex items-center gap-2 self-start rounded-full border border-white/15 bg-white/10 px-3 py-1.5 backdrop-blur-md">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+            </span>
+            <span className="text-[11px] uppercase tracking-[0.18em] text-white/90">{liveStats.dateRange} · Virtual · Worldwide</span>
+          </motion.div>
 
-        <motion.p
-          {...fade}
-          transition={{ duration: 0.6, delay: 0.16 }}
-          className="mt-8 max-w-xl text-lg text-muted-foreground md:text-xl"
-        >
-          <span className="text-foreground">
-            Currently the largest virtual high school hackathon.
-          </span>{' '}
-          Three weeks, six tracks. Pick one, form a team, and ship something real.
-        </motion.p>
-
-        {/* Calls to action on the left, headline figures on the right. Sharing
-            a row keeps both on screen without scrolling while costing the hero
-            no extra vertical space. */}
-        <motion.div
-          {...fade}
-          transition={{ duration: 0.6, delay: 0.24 }}
-          className="mt-10 flex flex-col gap-10 md:flex-row md:items-end md:justify-between md:gap-8"
-        >
-          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-            <a
-              href={DISCORD_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="group inline-flex items-center gap-2 bg-primary px-7 py-3.5 text-primary-foreground transition-colors hover:bg-accent"
-            >
-              Join Discord
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </a>
-            <a
-              href={DEVPOST_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 px-1 py-3.5 text-muted-foreground transition-colors hover:text-foreground"
-            >
-              View Devpost
-            </a>
+          {/* ParticleText hero title — no explosion, hover to move */}
+          <div className="mt-6 w-full">
+            <div className="h-[200px] w-full sm:h-[240px]">
+              <ParticleText text="Let's change the world, together." particleSize={1.4} density={2} color="#ffffff" highlightColor="#8b5cf6" scatter={14} gatherDuration={1000} stagger={30} pointerRepel={20} repelRadius={80} idleDrift={0.15} trigger="mount" fontSize="clamp(2.5rem, 8vw, 5rem)" fontWeight={800} glow />
+            </div>
           </div>
 
-          <div className="flex shrink-0">
-            {heroStats.map((stat, i) => (
-              <div key={stat.label} className={i === 0 ? 'pr-8' : 'border-l border-border pl-8'}>
-                <div
-                  className="font-display leading-none"
-                  // Scales with the column so "$404,748+" never wraps or clips.
-                  style={{ fontSize: 'clamp(1.5rem, 3.2vw, 2.25rem)' }}
-                >
-                  <CountUp
-                    to={stat.from(liveStats)}
-                    reserve={stat.from(DEVPOST_FALLBACK)}
-                    prefix={stat.prefix}
-                    suffix={stat.suffix}
-                  />
-                </div>
-                <div className="mt-2 text-sm text-muted-foreground">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
+          <motion.p initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.22 }} className="mt-3 max-w-xl text-base leading-relaxed text-white/80 md:text-lg">
+            <span className="font-medium text-white">The largest virtual high school hackathon.</span> Three weeks, six tracks — ship something real with builders from {totals.countries}+ countries.
+          </motion.p>
 
-        <motion.p
-          {...fade}
-          transition={{ duration: 0.6, delay: 0.32 }}
-          className="mt-14 text-sm tracking-wide text-muted-foreground"
-        >
-          {devpost?.dateRange ?? DEVPOST_FALLBACK.dateRange}
-          &nbsp;&nbsp;/&nbsp;&nbsp;Online&nbsp;&nbsp;/&nbsp;&nbsp;Open worldwide
-        </motion.p>
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.32 }} className="mt-8 grid w-full max-w-3xl gap-3 sm:grid-cols-3">
+            <div className="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-xl">
+              <div className="text-xs uppercase tracking-widest text-white/60">Participants</div>
+              <div className="mt-2 font-display text-2xl text-white"><CountUp to={liveStats.participants} reserve={DEVPOST_FALLBACK.participants} /></div>
+              <div className="mt-1 text-xs text-white/50">{liveStats.participants > 1502 ? 'Largest high-school hackathon' : `${(1503 - liveStats.participants).toLocaleString()} to record`}</div>
+            </div>
+            <div className="rounded-2xl border border-primary/30 bg-primary p-4 shadow-[0_8px_30px_rgba(139,92,246,0.4)] backdrop-blur-xl">
+              <div className="text-xs uppercase tracking-widest text-white/80">Prize pool</div>
+              <div className="mt-2 flex items-baseline gap-1 font-display text-2xl text-white"><CountUp to={liveStats.prizes} reserve={DEVPOST_FALLBACK.prizes} prefix="$" suffix="+" /><span className="text-sm font-sans font-medium opacity-80">valuation</span></div>
+              <div className="mt-1 text-xs text-white/80">$800 cash · 6 internships · credits</div>
+            </div>
+            <div className="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-xl">
+              <div className="text-xs uppercase tracking-widest text-white/60">{liveStats.days} days</div>
+              <div className="mt-2 font-display text-lg leading-none text-white">{liveStats.dateRange}</div>
+              <div className="mt-2 flex items-center gap-2 text-xs text-white/60"><Clock className="h-3 w-3" /> {daysLeft} days left · {liveStats.tracks} tracks</div>
+            </div>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.42 }} className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a href={DISCORD_URL} target="_blank" rel="noreferrer" className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-white shadow-[0_8px_30px_rgba(139,92,246,0.35)] transition-all hover:bg-accent">
+              Join Discord <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </a>
+            <a href={DEVPOST_URL} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-7 py-3.5 text-sm font-medium text-white backdrop-blur-md hover:bg-white/15">
+              View Devpost <ArrowRight className="h-4 w-4" />
+            </a>
+            <Link to="/about" className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-black/20 px-6 py-3.5 text-sm text-white/80 backdrop-blur hover:bg-black/30 sm:ml-1">
+              Explore tracks
+            </Link>
+          </motion.div>
+        </div>
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent" />
       </section>
 
-      {/* Stat strip */}
-      <section className="mx-auto max-w-5xl px-6 py-20">
-        <div className="grid grid-cols-3 border-y border-border">
-          {stats.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.06 }}
-              className={`px-2 py-8 ${i !== 0 ? 'border-l border-border' : ''}`}
-            >
-              <div className="font-display text-4xl md:text-5xl">
-                {stat.from ? (
-                  <CountUp
-                    to={stat.from(liveStats)}
-                    reserve={stat.from(DEVPOST_FALLBACK)}
-                  />
-                ) : (
-                  stat.value
-                )}
-              </div>
-              <div className="mt-2 text-sm text-muted-foreground">{stat.label}</div>
-            </motion.div>
-          ))}
+      {/* SPONSOR CAROUSEL — right under hero, bigger */}
+      <section className="border-y border-border bg-muted/20 py-6">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="flex items-center justify-between">
+            <span className="text-xs uppercase tracking-widest text-muted-foreground">Backed by 25 partners — and more to come</span>
+            <Link to="/sponsors" className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline">All sponsors <ArrowRight className="h-3 w-3" /></Link>
+          </div>
+        </div>
+        <div className="mt-4">
+          <LogoLoop logos={sponsorLogos as any} speed={75} gap={52} logoHeight={40} fadeOut fadeOutColor="var(--background)" hoverSpeed={0} />
         </div>
       </section>
 
-      {/* Prizes teaser */}
-      <section className="mx-auto max-w-5xl px-6 py-20">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-col items-start justify-between gap-8 sm:flex-row sm:items-end"
-        >
-          <div>
-            <p className="eyebrow text-primary">Prizes</p>
-            <h2 className="mt-4" style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
-              $800 cash, real internships, and thousands in sponsor credits
-            </h2>
-            <p className="mt-4 max-w-xl text-muted-foreground">
-              A stacked prize pool from the sponsors and partners backing this year&apos;s event, on
-              top of perks every hacker walks away with.
-            </p>
-          </div>
-          <Link
-            to="/prizes"
-            className="group inline-flex shrink-0 items-center gap-2 bg-primary px-7 py-3.5 text-primary-foreground transition-colors hover:bg-accent"
-          >
-            See all prizes
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-          </Link>
-        </motion.div>
-      </section>
-
-      {/* Everyone who takes part */}
-      <section className="mx-auto max-w-5xl px-6 py-20">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.5 }}
-        >
-          <p className="eyebrow text-muted-foreground">Everyone who takes part</p>
-          <dl className="mt-6 grid gap-x-12 sm:grid-cols-2">
-            {perks.map((perk, i) => {
-              const isLastOdd = i === perks.length - 1 && perks.length % 2 === 1;
-              return (
-                <div
-                  key={perk.name}
-                  className={`flex items-baseline gap-6 border-b border-border py-4 ${
-                    isLastOdd
-                      ? 'justify-center text-center sm:col-span-2'
-                      : 'justify-between'
-                  }`}
-                >
-                  <dt>{perk.name}</dt>
-                  <dd className="text-right text-sm text-muted-foreground">{perk.detail}</dd>
-                </div>
-              );
-            })}
-          </dl>
-        </motion.div>
-      </section>
-
-      {/* Three points */}
-      <section className="mx-auto max-w-5xl px-6 py-20">
-        <div className="grid gap-px overflow-hidden border border-border bg-border md:grid-cols-3">
-          {points.map((p, i) => (
-            <motion.div
-              key={p.n}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="bg-background p-9"
-            >
-              <div className="eyebrow text-primary">{p.n}</div>
-              <h3 className="mt-5 text-2xl">{p.title}</h3>
-              <p className="mt-3 leading-relaxed text-muted-foreground">{p.body}</p>
-            </motion.div>
-          ))}
+      {/* ACCORDION GALLERY */}
+      <section className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
+        <div className="mx-auto mb-6 max-w-2xl text-center">
+          <div className="mx-auto h-px w-24 bg-gradient-to-r from-transparent via-primary to-transparent" />
+          <h2 className="mt-4 font-display text-2xl tracking-tight md:text-3xl">Workshops, opening, socials</h2>
+          <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">The moments — hover to expand</p>
+        </div>
+        <div className="overflow-hidden rounded-2xl border border-border bg-card p-1.5 shadow-sm">
+          <AccordionGallery items={heroAccordion} accentColor="#8b5cf6" height={420} gap={8} radius={14} expandRatio={0.5} />
         </div>
       </section>
 
-      {/* Closing */}
-      <section className="mx-auto max-w-5xl px-6 py-28">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="border-t border-border pt-16"
-        >
-          <h2 className="max-w-2xl leading-[1.02]" style={{ fontSize: 'clamp(2rem, 5vw, 3.75rem)' }}>
-            Applications for 2026 are open.
-          </h2>
-          <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-            <Link
-              to="/contact"
-              className="group inline-flex items-center gap-2 bg-primary px-7 py-3.5 text-primary-foreground transition-colors hover:bg-accent"
-            >
-              Get notified
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
-            <Link
-              to="/about"
-              className="inline-flex items-center gap-2 px-1 py-3.5 text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Learn more
-            </Link>
+      {/* PRIZE SPOTLIGHT — emphasized */}
+      <section className="mx-auto max-w-6xl px-4 sm:px-6">
+        <div className="relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/15 via-card to-card p-6 shadow-sm sm:p-8">
+          <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/15 blur-3xl" />
+          <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full bg-primary px-3 py-1 text-xs font-bold uppercase tracking-widest text-white">Prize spotlight</div>
+              <h3 className="mt-4 font-display text-2xl leading-tight sm:text-3xl">Not just stickers — <span className="text-primary">real stakes</span></h3>
+              <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">$800 cash split across 6 tracks, 6 Learner Labs internships, plus Render, Wolfram, Featherless credits worth thousands.</p>
+            </div>
+            <div className="grid w-full max-w-sm grid-cols-3 gap-3">
+              <div className="rounded-2xl bg-primary p-4 text-center text-white shadow-lg">
+                <div className="font-display text-2xl">$800</div>
+                <div className="mt-1 text-xs uppercase tracking-widest opacity-80">cash</div>
+              </div>
+              <div className="rounded-2xl border border-border bg-card p-4 text-center">
+                <div className="font-display text-2xl">6</div>
+                <div className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">internships</div>
+              </div>
+              <div className="rounded-2xl border border-border bg-card p-4 text-center">
+                <div className="font-display text-xl">$979k+</div>
+                <div className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">value</div>
+              </div>
+            </div>
           </div>
-        </motion.div>
+          <Link to="/about" className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-primary">See full breakdown <ArrowRight className="h-4 w-4" /></Link>
+        </div>
+      </section>
+
+      {/* OVERVIEW — 2 cards only */}
+      <section className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+        <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
+          <BorderGlow borderRadius={20} className="h-full">
+            <div className="p-6">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary"><Calendar className="h-5 w-5" /></div>
+              <h3 className="mt-5 text-lg font-medium">Dates & Deadlines</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{liveStats.dateRange} — 23 days, fully virtual. Submissions close Aug 24, 11:59pm local.</p>
+              <div className="mt-5 space-y-2 border-t border-border pt-5 text-sm">
+                <div className="flex justify-between"><span className="flex items-center gap-1.5 text-muted-foreground"><Clock className="h-3.5 w-3.5" />Days left</span><span className="font-medium text-primary">{daysLeft}</span></div>
+                <div className="flex justify-between"><span className="flex items-center gap-1.5 text-muted-foreground"><MapPin className="h-3.5 w-3.5" />Format</span><span className="font-medium">Virtual · Global</span></div>
+              </div>
+            </div>
+          </BorderGlow>
+          <BorderGlow borderRadius={20} className="h-full">
+            <div className="p-6">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary"><Layers className="h-5 w-5" /></div>
+              <h3 className="mt-5 text-lg font-medium">Six tracks, one mission</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Ideathon, ML & Prompt, Software, Datathon, Embedded, App Dev — pick one, go deep.</p>
+              <div className="mt-5 grid grid-cols-3 gap-2 border-t border-border pt-5">
+                {['Ideathon','ML','Software','Datathon','Embedded','App'].map(t=>(
+                  <span key={t} className="rounded-full border border-border bg-muted/50 px-2 py-1.5 text-center text-xs text-muted-foreground">{t}</span>
+                ))}
+              </div>
+            </div>
+          </BorderGlow>
+        </div>
+      </section>
+
+      {/* IMPACT MAP */}
+      <section className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+        <div className="mx-auto mb-6 max-w-2xl text-center">
+          <div className="mx-auto h-px w-24 bg-gradient-to-r from-transparent via-primary to-transparent" />
+          <h2 className="mt-4 font-display text-2xl md:text-3xl">{totals.countries} countries, one hackathon</h2>
+          <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">{totals.registrants.toLocaleString('en-US')} registrations · {totals.submitters.toLocaleString('en-US')} projects</p>
+        </div>
+        <div className="overflow-hidden rounded-2xl border border-border bg-card p-1 shadow-sm">
+          <WorldMap countries={countries} />
+        </div>
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
+          <span>{totals.countries} countries · Live from Devpost</span>
+          <Link to="/about" className="inline-flex items-center gap-1 text-primary">Learn more <ArrowUpRight className="h-3 w-3" /></Link>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+        <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-6 shadow-sm sm:p-10">
+          <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(139,92,246,0.12),transparent_60%)]" />
+          <p className="eyebrow text-primary">Applications open</p>
+          <h2 className="mt-3 font-display text-3xl tracking-tight md:text-4xl">Ready to build <span className="text-primary">the future?</span></h2>
+          <p className="mt-3 max-w-xl text-muted-foreground">Three weeks. Six tracks. A community that ships together.</p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a href={DEVPOST_URL} target="_blank" rel="noreferrer" className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground hover:bg-accent">Register on Devpost <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" /></a>
+            <Link to="/about" className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm hover:bg-muted">Learn more <ArrowUpRight className="h-4 w-4" /></Link>
+          </div>
+        </div>
       </section>
     </div>
   );

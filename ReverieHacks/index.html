@@ -20,18 +20,8 @@
     <link rel="preload" href="/fonts/Apollo.otf" as="font" type="font/otf" crossorigin />
     <title>ReverieHacks - A Virtual Hackathon for Young Builders</title>
     <script>
-      // Set the theme before first paint to avoid a flash of the wrong mode.
-      (function () {
-        try {
-          var stored = localStorage.getItem('theme');
-          var prefersLight =
-            window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
-          var theme = stored || (prefersLight ? 'light' : 'dark');
-          document.documentElement.setAttribute('data-theme', theme);
-        } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'dark');
-        }
-      })();
+      document.documentElement.setAttribute('data-theme', 'dark');
+      try { localStorage.setItem('theme', 'dark'); } catch(e) {}
     </script>
   </head>
   <body>

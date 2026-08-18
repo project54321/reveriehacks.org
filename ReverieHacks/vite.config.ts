@@ -5,6 +5,13 @@ import { copyFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 export default defineConfig({
+  server: {
+    host: '0.0.0.0',
+    allowedHosts: true,
+    headers: {
+      'X-Frame-Options': 'ALLOWALL'
+    }
+  },
   plugins: [
     react(),
     tailwindcss(),

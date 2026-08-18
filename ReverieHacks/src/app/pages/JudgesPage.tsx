@@ -1,4 +1,7 @@
 import { motion } from 'motion/react';
+import BorderGlow from '../components/BorderGlow';
+import PixelCard from '../components/PixelCard';
+import ParticleText from '../components/ParticleText';
 
 interface Judge {
   name: string;
@@ -10,12 +13,7 @@ interface Judge {
 }
 
 function initials(name: string) {
-  return name
-    .split(' ')
-    .map((w) => w[0])
-    .slice(0, 2)
-    .join('')
-    .toUpperCase();
+  return name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
 }
 
 const judges: Judge[] = [
@@ -43,23 +41,15 @@ const judges: Judge[] = [
   { name: 'Vasuki Vudathala', role: 'Staff Performance Engineer', company: 'ServiceNow', img: '/judges/vasuki.png', track: 'Embedded Systems' },
   { name: 'Gayathri Chilukala', role: 'Software Engineer', company: 'Microsoft', img: '/judges/gayathri.png', track: 'App Development', linkedin: 'https://www.linkedin.com/in/gayathrichilukala/' },
   { name: 'Rishik Boddeti', role: 'CEO and Co-founder at Protoflow', company: 'Protoflow', img: '/judges/rishik.png', track: 'Embedded Systems', linkedin: 'https://www.linkedin.com/in/rishik-boddeti/' },
-  { name: 'Keyao An', role: 'Senior Software Engineer', company: 'OpenAI', img: '/judges/keyao.png', track: 'ML Prompt Engineering', },
-  { name: 'Gaurav Shah', role: 'Director Staff Engineer', company: 'Fidelity Investments', img: '/judges/gaurav.png', track: 'Datathon', },
-  { name: 'Ian Ku', role: 'Founding Engineer', company: 'Archiboost AI', img: '/judges/ian.png', track: 'App Development', },
-  { name: 'Aditya Shrivastava', role: 'Software Engineer', company: 'Barclays', img: '/judges/aditya.png', track: 'Software Development', },
-  { name: 'Akhil Sharma', role: 'Senior Software Developer', company: 'Meta', img: '/judges/akhil.png', track: 'Ideathon', },
-  { name: 'Sanjuksha Nirgude', role: 'Autonomy Technical Lead', company: 'Nightingale Security', img: '/judges/sanjuksha.png', track: 'Embedded Systems', }
+  { name: 'Keyao An', role: 'Senior Software Engineer', company: 'OpenAI', img: '/judges/keyao.png', track: 'ML Prompt Engineering' },
+  { name: 'Gaurav Shah', role: 'Director Staff Engineer', company: 'Fidelity Investments', img: '/judges/gaurav.png', track: 'Datathon' },
+  { name: 'Ian Ku', role: 'Founding Engineer', company: 'Archiboost AI', img: '/judges/ian.png', track: 'App Development' },
+  { name: 'Aditya Shrivastava', role: 'Software Engineer', company: 'Barclays', img: '/judges/aditya.png', track: 'Software Development' },
+  { name: 'Akhil Sharma', role: 'Senior Software Developer', company: 'Meta', img: '/judges/akhil.png', track: 'Ideathon' },
+  { name: 'Sanjuksha Nirgude', role: 'Autonomy Technical Lead', company: 'Nightingale Security', img: '/judges/sanjuksha.png', track: 'Embedded Systems' },
 ];
 
-// Order the track sections follow on the page (mirrors the tracks on the About page).
-const trackOrder = [
-  'Ideathon',
-  'ML Prompt Engineering',
-  'Software Development',
-  'Datathon',
-  'Embedded Systems',
-  'App Development',
-];
+const trackOrder = ['Ideathon','ML Prompt Engineering','Software Development','Datathon','Embedded Systems','App Development'];
 
 const bountyPanel: Judge[] = [
   { name: 'Michael Chinaloy', role: 'Engineering Manager', company: 'Coinbase', img: '/judges/micheal.png', linkedin: 'https://www.linkedin.com/in/michael-chinaloy/' },
@@ -68,123 +58,98 @@ const bountyPanel: Judge[] = [
   { name: 'Nilesh Dhage', role: 'Director, Product Management', company: 'Fidelity Investments', img: '/judges/nilesh.png' },
 ];
 
-function PersonCard({ person, index }: { person: Judge; index: number }) {
-  const inner = (
-    <>
+function JudgeCard({ person, index }: { person: Judge; index: number }) {
+  const content = (
+    <div className="absolute inset-0">
       {person.img ? (
-        <img
-          src={person.img}
-          alt={person.name}
-          width={128}
-          height={128}
-          loading="lazy"
-          className="rounded-full object-cover ring-1 ring-border transition-all duration-300 group-hover:ring-primary/60"
-          style={{ height: '8rem', width: '8rem' }}
-        />
+        <img src={person.img} alt={person.name} loading="lazy" className="h-full w-full object-cover object-top" />
       ) : (
-        <span
-          className="flex items-center justify-center rounded-full bg-card font-display text-2xl text-muted-foreground ring-1 ring-border transition-all duration-300 group-hover:ring-primary/60"
-          style={{ height: '8rem', width: '8rem' }}
-        >
-          {initials(person.name)}
+        <div className="flex h-full w-full items-center justify-center bg-muted font-display text-3xl text-muted-foreground">{initials(person.name)}</div>
+      )}
+      {/* gradient for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+      {/* track pill */}
+      {person.track && (
+        <span className="absolute left-2 top-2 rounded-full bg-black/45 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-md border border-white/10">
+          {person.track}
         </span>
       )}
-      <h3 className="mt-5 text-lg leading-snug transition-colors group-hover:text-primary">
-        {person.name}
-      </h3>
-      {person.role && <p className="mt-1 text-sm text-muted-foreground">{person.role}</p>}
-      {person.company && <p className="text-sm text-muted-foreground">{person.company}</p>}
-    </>
+      {/* name + role on image */}
+      <div className="absolute inset-x-0 bottom-0 p-3">
+        <h3 className="font-semibold leading-tight text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)] text-[13px] sm:text-[14px] line-clamp-1">{person.name}</h3>
+        {person.role && <p className="mt-0.5 line-clamp-1 text-[11px] leading-tight text-white/75">{person.role}</p>}
+        {person.company && <p className="text-[11px] font-medium text-primary-foreground/90 drop-shadow">{person.company}</p>}
+      </div>
+      {/* company badge bottom-right */}
+      {person.company && (
+        <span className="absolute right-2 top-2 hidden rounded-full bg-primary px-2 py-1 text-[10px] font-semibold text-white shadow-md sm:block">
+          {person.company}
+        </span>
+      )}
+    </div>
   );
-  const props = {
-    initial: { opacity: 0, y: 14 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: '-40px' },
-    transition: { duration: 0.4, delay: (index % 4) * 0.05 },
+
+  const card = (
+    <BorderGlow borderRadius={16} glowColor="270 90 70" colors={['#7c3aed','#8b5cf6','#1a0a2e']} backgroundColor="var(--card)" glowRadius={20} className="h-full">
+      <PixelCard variant="default" colors="#8b5cf6,#a78bfa,#ede9fe" gap={6} speed={45} className="aspect-[3/4] w-full h-auto min-h-[220px] sm:min-h-[240px] border-0 !rounded-[15px]">
+        {content}
+      </PixelCard>
+    </BorderGlow>
+  );
+
+  const motionProps = {
+    initial: { opacity: 0, y: 12, scale: 0.98 },
+    whileInView: { opacity: 1, y: 0, scale: 1 },
+    viewport: { once: true, margin: '-40px' as const },
+    transition: { duration: 0.45, delay: (index % 5) * 0.04, ease: [0.22,1,0.36,1] as any },
   };
+
   return person.linkedin ? (
-    <motion.a
-      {...props}
-      href={person.linkedin}
-      target="_blank"
-      rel="noreferrer"
-      className="group flex cursor-pointer flex-col items-center text-center"
-    >
-      {inner}
-    </motion.a>
+    <motion.a {...motionProps} href={person.linkedin} target="_blank" rel="noreferrer" className="group block h-full">{card}</motion.a>
   ) : (
-    <motion.div {...props} className="group flex flex-col items-center text-center">
-      {inner}
-    </motion.div>
+    <motion.div {...motionProps} className="group h-full">{card}</motion.div>
   );
 }
 
 export function JudgesPage() {
   return (
-    <div className="min-h-screen px-6 pb-28 pt-36">
-      <div className="mx-auto max-w-5xl">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <p className="eyebrow text-muted-foreground">Meet the panel</p>
-          <h1 className="mt-6" style={{ fontSize: 'clamp(2.5rem, 7vw, 5.5rem)' }}>
-            Our <span className="text-primary">Judges</span>
-          </h1>
-          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-            Industry leaders who have been where you are. They will evaluate your projects with fresh
-            eyes and real-world experience.
+    <div className="min-h-screen">
+      <div className="mx-auto max-w-7xl px-4 pb-12 pt-20 sm:px-6 sm:pb-16 sm:pt-24">
+        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mx-auto max-w-3xl text-center">
+          <div className="h-[140px] w-full sm:h-[180px]">
+            <ParticleText text="Our Judges" particleSize={1.2} density={1.8} color="#ffffff" highlightColor="#8b5cf6" scatter={12} gatherDuration={900} stagger={20} pointerRepel={18} repelRadius={70} idleDrift={0.12} trigger="mount" fontSize="clamp(2.4rem, 7vw, 4.8rem)" fontWeight={800} glow />
+          </div>
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            Leaders from Meta, Amazon, Microsoft, OpenAI, Coinbase and more — 30 judges across 6 tracks, plus bounty panel.
           </p>
         </motion.div>
 
-        {/* Judges, grouped by track */}
-        <div className="mt-16 space-y-16">
+        <div className="mt-8 space-y-10 sm:mt-16 sm:space-y-16">
           {trackOrder.map((track) => {
-            const group = judges.filter((judge) => judge.track === track);
+            const group = judges.filter(j=>j.track===track);
             if (!group.length) return null;
             return (
               <div key={track}>
-                <div className="flex items-baseline justify-between border-b border-border pb-3">
-                  <h2 className="text-2xl">{track}</h2>
-                  <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                    {group.length} {group.length === 1 ? 'judge' : 'judges'}
-                  </span>
+                <div className="mx-auto max-w-xl text-center border-b border-border/50 pb-3">
+                  <h2 className="font-display text-xl font-medium tracking-tight sm:text-2xl">{track}</h2>
+                  <span className="mt-2 inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">{group.length} judges</span>
                 </div>
-                <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-14 sm:grid-cols-3 lg:grid-cols-4">
-                  {group.map((judge, index) => (
-                    <PersonCard key={judge.name} person={judge} index={index} />
-                  ))}
+                <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5">
+                  {group.map((j,i)=><JudgeCard key={j.name} person={j} index={i}/>)}
                 </div>
               </div>
             );
           })}
         </div>
 
-        {/* Bounty System Panel */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mt-24 border-t border-border pt-12"
-        >
-          <p className="eyebrow text-muted-foreground">Bonus points</p>
-          <h2 className="mt-4 text-3xl">
-            Bounty System <span className="text-primary">Panel</span>
-          </h2>
-          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            This panel reviews bounty submissions, the optional add-ons contestants can build for
-            bonus points, across every track and awards points accordingly.
-          </p>
+        <motion.div initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="relative mt-14 overflow-hidden rounded-2xl border border-primary/20 bg-card p-4 shadow-sm sm:p-6">
+          <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
+          <p className="eyebrow text-primary">Bounty panel</p>
+          <h2 className="mt-2 font-display text-xl sm:text-2xl">Bonus points review</h2>
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+            {bountyPanel.map((p,i)=><JudgeCard key={p.name} person={p} index={i}/>)}
+          </div>
         </motion.div>
-
-        <div className="mt-16 grid grid-cols-2 gap-x-6 gap-y-14 sm:grid-cols-3 lg:grid-cols-4">
-          {bountyPanel.map((person, index) => (
-            <PersonCard key={person.name} person={person} index={index} />
-          ))}
-        </div>
       </div>
     </div>
   );
