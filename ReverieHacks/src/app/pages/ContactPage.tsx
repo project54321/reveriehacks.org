@@ -58,11 +58,11 @@ export function ContactPage() {
   return (
     <div className="min-h-screen px-6 pb-28 pt-36">
       <div className="mx-auto max-w-6xl">
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-                      <div className="h-[140px] w-full sm:h-[180px]">
-              <ParticleText text="Contact us" particleSize={1.2} density={1.8} color="#ffffff" highlightColor="#8b5cf6" scatter={12} gatherDuration={900} stagger={20} pointerRepel={18} repelRadius={70} idleDrift={0.12} trigger="mount" fontSize="clamp(2.2rem, 6vw, 4rem)" fontWeight={800} glow />
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-center">
+                      <div className="h-[190px] w-full sm:h-[250px]">
+              <ParticleText text="Contact us" particleSize={1.5} density={2} color="#ffffff" highlightColor="#8b5cf6" scatter={14} gatherDuration={1000} stagger={30} pointerRepel={20} repelRadius={80} idleDrift={0.15} trigger="mount" fontSize="clamp(3rem, 10vw, 7rem)" fontWeight={800} glow />
             </div>
-          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+          <p className="mx-auto mt-2 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
             Whether you're a potential sponsor, judge, mentor, or participant with a question — we'd love to hear from you.
           </p>
         </motion.div>

@@ -73,13 +73,13 @@ export function HomePage() {
           </motion.div>
 
           {/* ParticleText hero title — no explosion, hover to move */}
-          <div className="mt-6 w-full">
-            <div className="h-[200px] w-full sm:h-[240px]">
-              <ParticleText text="Let's change the world, together." particleSize={1.4} density={2} color="#ffffff" highlightColor="#8b5cf6" scatter={14} gatherDuration={1000} stagger={30} pointerRepel={20} repelRadius={80} idleDrift={0.15} trigger="mount" fontSize="clamp(2.5rem, 8vw, 5rem)" fontWeight={800} glow />
+          <div className="mt-4 w-full">
+            <div className="h-[190px] w-full sm:h-[250px]">
+              <ParticleText text="Let's change the world, together." particleSize={1.5} density={2} color="#ffffff" highlightColor="#8b5cf6" scatter={14} gatherDuration={1000} stagger={30} pointerRepel={20} repelRadius={80} idleDrift={0.15} trigger="mount" fontSize="clamp(3rem, 10vw, 7rem)" fontWeight={800} glow />
             </div>
           </div>
 
-          <motion.p initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.22 }} className="mt-3 max-w-xl text-base leading-relaxed text-white/80 md:text-lg">
+          <motion.p initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.22 }} className="mt-2 max-w-xl text-base leading-relaxed text-white/80 md:text-lg">
             <span className="font-medium text-white">The largest virtual high school hackathon.</span> Three weeks, six tracks — ship something real with builders from {totals.countries}+ countries.
           </motion.p>
 
@@ -101,7 +101,7 @@ export function HomePage() {
             </div>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.42 }} className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.42 }} className="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
             <a href={DISCORD_URL} target="_blank" rel="noreferrer" className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-white shadow-[0_8px_30px_rgba(139,92,246,0.35)] transition-all hover:bg-accent">
               Join Discord <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </a>
@@ -221,7 +221,7 @@ export function HomePage() {
           <p className="eyebrow text-primary">Applications open</p>
           <h2 className="mt-3 font-display text-3xl tracking-tight md:text-4xl">Ready to build <span className="text-primary">the future?</span></h2>
           <p className="mt-3 max-w-xl text-muted-foreground">Three weeks. Six tracks. A community that ships together.</p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
             <a href={DEVPOST_URL} target="_blank" rel="noreferrer" className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground hover:bg-accent">Register on Devpost <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" /></a>
             <Link to="/about" className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm hover:bg-muted">Learn more <ArrowUpRight className="h-4 w-4" /></Link>
           </div>
