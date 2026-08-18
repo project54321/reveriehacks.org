@@ -9,5 +9,8 @@
     "lint": "npm --prefix ReverieHacks run lint",
     "preview": "npm --prefix ReverieHacks run preview",
     "install:app": "npm --prefix ReverieHacks install"
+  },
+  "dependencies": {
+    "vite": "^8.2.1"
   }
 }
