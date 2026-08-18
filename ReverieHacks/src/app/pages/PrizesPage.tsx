@@ -12,7 +12,7 @@ import {
   LineChart,
   Server,
 } from 'lucide-react';
-import ParticleText from '../components/ParticleText';
+import { ParticleHero } from '../components/ParticleHero';
 
 const prizes = [
   { icon: Banknote, title: '$800 in cash', body: 'Split across first and second place in all six tracks.' },
@@ -48,7 +48,7 @@ const perks = [
 
 export function PrizesPage() {
   return (
-    <div className="min-h-screen px-6 pb-28 pt-36">
+    <div className="min-h-screen px-4 pb-20 pt-24 sm:px-6 sm:pb-28 sm:pt-28">
       <div className="mx-auto max-w-5xl">
         {/* Statement */}
         <motion.div
@@ -58,10 +58,10 @@ export function PrizesPage() {
           className="text-center"
         >
           <p className="eyebrow text-muted-foreground">Prizes</p>
-          <div className="mt-2 h-[210px] w-full sm:h-[280px]">
-            <ParticleText text="What you can win" particleSize={1.5} density={2} color="#ffffff" highlightColor="#8b5cf6" scatter={14} gatherDuration={1000} stagger={30} pointerRepel={20} repelRadius={80} idleDrift={0.15} trigger="mount" fontSize="clamp(3rem, 10vw, 7rem)" fontWeight={800} glow />
+          <div className="mt-2">
+            <ParticleHero text="What you can win" />
           </div>
-          <p className="mx-auto mt-2 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+          <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-muted-foreground sm:mt-4 sm:text-lg md:text-xl">
             This year&apos;s pool, backed by our sponsors and partner teams.
           </p>
         </motion.div>

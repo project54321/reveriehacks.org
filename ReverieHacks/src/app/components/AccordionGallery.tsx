@@ -46,8 +46,9 @@ const AccordionGallery = ({ items = DEFAULT_ITEMS, defaultIndex = 2, accentColor
   const handleEnter = (i: number) => { if (trigger === 'hover') setActive(i); };
   const handleClick = (i: number, e: MouseEvent) => { if (i !== active) { e.preventDefault(); setActive(i); } };
   const handleKeyDown = (i: number, e: KeyboardEvent) => { if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); setActive((i + 1) % count); } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); setActive((i - 1 + count) % count); } };
+  const mobileHeight = 210 + Math.max(0, count - 1) * (76 + gap);
   return (
-    <div ref={rootRef} className={`flex ${vertical ? 'flex-col' : 'flex-row'} w-full max-w-full [perspective:1400px] max-[520px]:!flex-col max-[520px]:[perspective:none] ${className}`} style={{ gap: `${gap}px`, height: vertical ? `${Math.round(height * 1.6)}px` : `${height}px` }} role="list" aria-label="Image accordion gallery">
+    <div ref={rootRef} className={`flex ${vertical ? 'flex-col' : 'flex-row'} w-full max-w-full [perspective:1400px] max-[520px]:!h-[var(--ag-mobile-h)] max-[520px]:!flex-col max-[520px]:[perspective:none] ${className}`} style={{ gap: `${gap}px`, height: vertical ? `${Math.round(height * 1.6)}px` : `${height}px`, ['--ag-mobile-h' as string]: `${mobileHeight}px` }} role="list" aria-label="Image accordion gallery">
       {items.map((item, i) => {
         const isActive = i === active; const Tag = (item.link ? 'a' : 'div') as 'a';
         return (

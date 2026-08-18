@@ -150,7 +150,7 @@ export function WorldMap({ countries }: { countries: CountryRow[] }) {
             under the cursor changed to nothing. */}
         {active && point && (
           <div
-            className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full whitespace-nowrap border border-border bg-background px-3 py-2 text-sm shadow-lg"
+            className="pointer-events-none absolute z-10 max-w-[min(16rem,calc(100%-1rem))] -translate-x-1/2 -translate-y-full border border-border bg-background px-3 py-2 text-sm shadow-lg sm:max-w-none sm:whitespace-nowrap"
             style={{ left: point.x, top: point.y - 10 }}
           >
             <span className="text-foreground">{active.row.name}</span>
