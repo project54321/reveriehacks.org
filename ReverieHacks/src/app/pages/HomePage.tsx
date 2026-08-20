@@ -16,12 +16,12 @@ const DISCORD_URL = 'https://discord.gg/gDQGYSQKrH';
 const DEVPOST_URL = 'https://reverie-hacks-2026.devpost.com/';
 
 const heroAccordion = [
-  { image: 'https://picsum.photos/id/1015/900/1200', label: 'Opening Ceremony' },
-  { image: 'https://picsum.photos/id/1025/900/1200', label: 'Workshop Studio' },
-  { image: 'https://picsum.photos/id/1039/900/1200', label: 'Social Night' },
-  { image: 'https://picsum.photos/id/1043/900/1200', label: 'Mentor Hours' },
-  { image: 'https://picsum.photos/id/1050/900/1200', label: 'Build Sprint' },
-  { image: 'https://picsum.photos/id/1062/900/1200', label: 'Demo Day' },
+  { image: '/images/opening.png', label: 'Opening Ceremony' },
+  { image: '/images/sponsor.png', label: 'Sponsor Presentations' },
+  { image: '/images/bounty.png', label: 'Bounty System' },
+  { image: '/images/agent.png', label: 'Agentic Coding' },
+  { image: '/images/momen.png', label: 'Workshops' },
+  { image: '/images/devpost.png', label: 'Submission' },
 ];
 
 const sponsorLogos = [
@@ -37,6 +37,9 @@ const sponsorLogos = [
   { src: '/sponsorLogos/tin.png', alt: 'Tin', href: 'https://tincomputer.com' },
   { src: '/sponsorLogos/devswarm.png', alt: 'DevSwarm', href: 'https://devswarm.ai' },
   { src: '/sponsorLogos/somba.png', alt: 'Somba', href: 'https://somba.dev' },
+  { src: '/sponsorLogos/fM.svg', alt: 'Featherless', href: 'https://featherless.io' },
+  { src: '/sponsorLogos/ll.png', alt: 'Learner Labs', href: 'https://learnerlabs.com' }, 
+  { src: '/sponsorLogos/neon.png', alt: 'Neon', href: 'https://neon.tech' },
 ];
 
 function useDaysLeft(endDate: string): number {
@@ -158,7 +161,7 @@ export function HomePage() {
                 <div className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">internships</div>
               </div>
               <div className="rounded-2xl border border-border bg-card p-4 text-center">
-                <div className="font-display text-xl">$979k+</div>
+                <div className="font-display text-xl">$1.3M+</div>
                 <div className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">value</div>
               </div>
             </div>

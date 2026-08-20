@@ -35,6 +35,7 @@ const companySponsors: Sponsor[] = [
   { id: 'learner-labs', name: 'Learner Labs', tier: 'Internship Partner', logo: '/sponsorLogos/ll.png', fit: 'cover', url: 'https://learnerlabs.app', description: 'An emerging AI startup, offering six internships across the ML Prompt Engineering and Ideathon tracks.' },
   { id: 'momen', name: 'Momen', tier: 'App Building Partner', logo: '/sponsorLogos/momen.png', fit: 'contain', url: 'https://momen.app', description: 'A no-code platform for building full-stack web apps, with $100 in credits for every participant and $2,000 for each Software Development track winner.' },
   { id: 'somba', name: 'Somba', tier: 'Dev Partner', logo: '/sponsorLogos/somba.png', fit: 'contain', light: true, url: 'https://somba.dev', description: 'A private network for ambitious teenagers to find collaborators and build together in private, goal-driven working rooms called Nets.' },
+  { id: 'neon', name: 'Neon', tier: 'Database Partner', logo: '/sponsorLogos/neon.png', fit: 'contain', light: true, url: 'https://neon.tech', description: 'Serverless Postgres built for modern applications, with credits to help participants build and scale their projects.' },
 ];
 
 interface TeamSponsor { name: string; tier: 'diamond' | 'main' | 'gold' | 'silver' | 'bronze'; logo?: string; fit?: 'cover' | 'contain'; light?: boolean; monogram?: string; url?: string; wide?: boolean; bare?: boolean; number?: string; }

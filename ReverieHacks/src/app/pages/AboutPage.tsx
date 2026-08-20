@@ -15,11 +15,12 @@ const trackCards = [
 ];
 
 const gallery = [
-  { image: 'https://picsum.photos/id/1015/900/1200', label: 'Ideation' },
-  { image: 'https://picsum.photos/id/1025/900/1200', label: 'Build' },
-  { image: 'https://picsum.photos/id/1039/900/1200', label: 'Mentor' },
-  { image: 'https://picsum.photos/id/1043/900/1200', label: 'Team' },
-  { image: 'https://picsum.photos/id/1062/900/1200', label: 'Ship' },
+  { image: '/images/opening.png', label: 'Opening Ceremony' },
+  { image: '/images/sponsor.png', label: 'Sponsor Presentations' },
+  { image: '/images/bounty.png', label: 'Bounty System' },
+  { image: '/images/agent.png', label: 'Agentic Coding' },
+  { image: '/images/momen.png', label: 'Workshops' },
+  { image: '/images/devpost.png', label: 'Submission' },
 ];
 
 export function AboutPage() {
@@ -69,7 +70,6 @@ export function AboutPage() {
         <div className="mx-auto max-w-3xl text-center">
           <p className="eyebrow flex items-center justify-center gap-2 text-primary"><Zap className="h-4 w-4" /> Moments</p>
           <h2 className="mt-3 font-display text-2xl sm:text-3xl">Inside the build</h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm text-muted-foreground">Your workshops, socials, opening ceremony — drop images in <code className="rounded bg-muted px-1.5 py-0.5 text-xs">public/gallery</code></p>
         </div>
         <div className="mt-8 overflow-hidden rounded-2xl border-0 bg-transparent p-1.5">
           <AccordionGallery items={gallery} accentColor="#8b5cf6" height={360} />
