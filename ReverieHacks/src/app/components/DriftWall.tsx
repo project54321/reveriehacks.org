@@ -38,14 +38,27 @@ interface ColumnMeta {
   copies: number;
 }
 
-const DEFAULT_ITEMS: DriftWallItem[] = Array.from({ length: 15 }, (_, i) => {
-  const ids = [1015, 1025, 1039, 1043, 1044, 1050, 1062, 1069, 1074, 1080, 1084, 106, 110, 133, 164];
-  return {
-    image: `https://picsum.photos/id/${ids[i % ids.length]}/600/400`,
-    title: `Tile ${i + 1}`,
-    href: undefined
-  };
-});
+const DEFAULT_ITEMS: DriftWallItem[] = [
+  'code-laptop',
+  'hackathon-team',
+  'dev-workspace',
+  'code-for-charity',
+  'typing-code',
+  'hackathon-table',
+  'rgb-setup',
+  'hackathon-workshop',
+  'dual-monitors',
+  'hackathon-collab',
+  'react-code',
+  'dev-team',
+  'focused-dev',
+  'coding-desk',
+  'headphones-code',
+].map((slug, i) => ({
+  image: `/gallery/${slug}.jpg`,
+  title: `Tile ${i + 1}`,
+  href: undefined,
+}));
 
 const cx = (...parts: (string | false | undefined)[]) => parts.filter(Boolean).join(' ');
 
